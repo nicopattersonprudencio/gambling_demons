@@ -1,0 +1,203 @@
+[gd_scene load_steps=11 format=3 uid="uid://c6aku1my1x1ql"]
+
+[ext_resource type="Script" uid="uid://bawj5i8yje4n2" path="res://scripts/items.gd" id="1_sj0ge"]
+[ext_resource type="Texture2D" uid="uid://do8jpylfblbwa" path="res://sprites/candado.png" id="2_sj0ge"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sj0ge"]
+size = Vector2(66, 92)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sj0ge"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+anti_aliasing_size = 10.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sj0ge"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_trfxy"]
+bg_color = Color(0.862745, 0.862745, 0.862745, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d17p1"]
+bg_color = Color(0.639216, 0.639216, 0.639216, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_me73k"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="Curve" id="Curve_sj0ge"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.393258), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_trfxy"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.393258), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Node2D" type="Area2D"]
+collision_layer = 2
+script = ExtResource("1_sj0ge")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -4.42025)
+scale = Vector2(0.3, 0.30159)
+texture = ExtResource("2_sj0ge")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_sj0ge")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = 118.0
+offset_top = -47.0
+offset_right = 354.0
+offset_bottom = 39.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_sj0ge")
+text = "Cambia una casilla
+aleatoria al rojo."
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="Button" type="Button" parent="."]
+offset_left = 112.0
+offset_top = -33.0
+offset_right = 280.0
+offset_bottom = 30.0
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sj0ge")
+theme_override_styles/hover = SubResource("StyleBoxFlat_trfxy")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_d17p1")
+theme_override_styles/normal = SubResource("StyleBoxFlat_me73k")
+text = "Eliminar"
+
+[node name="rosa_roja" type="CPUParticles2D" parent="."]
+z_index = -1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, -900)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_sj0ge")
+color = Color(1, 0, 0, 1)
+
+[node name="boton_reinicio" type="CPUParticles2D" parent="."]
+z_index = -1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, -900)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_sj0ge")
+color = Color(0.6, 0.6, 0.6, 1)
+
+[node name="rosa_azul" type="CPUParticles2D" parent="."]
+z_index = -1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, -900)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_sj0ge")
+color = Color(0, 0, 1, 1)
+
+[node name="rosa_roja2" type="CPUParticles2D" parent="."]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_trfxy")
+color = Color(1, 0, 0, 1)
+
+[node name="rosa_azul2" type="CPUParticles2D" parent="."]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_trfxy")
+color = Color(0, 0, 1, 1)
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Button" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

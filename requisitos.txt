@@ -1,0 +1,7 @@
+- mapa de opciones
+- combate con la ruleta
+- 4 enemigos diferentes
+- 3 niveles
+- 15 objetos pasivos
+- 3 boses
+- 4 salas distintas

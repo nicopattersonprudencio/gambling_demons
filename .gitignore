@@ -1,0 +1,25 @@
+# Godot 4
+.godot/
+.import/
+
+# Exportaciones
+.export/
+.export_presets.cfg
+
+# Android build folder
+/android/
+
+# Mono / C#
+.mono/
+data_*/
+
+# Archivos temporales
+*.translation
+
+# IDEs
+.vscode/
+.idea/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
