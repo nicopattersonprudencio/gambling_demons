@@ -873,7 +873,6 @@ scale = Vector2(0.7, 0.7)
 
 [node name="pivote2" type="Sprite2D" parent="Mosquito"]
 position = Vector2(37.1429, -57.1429)
-scale = Vector2(1, 1)
 
 [node name="alas2" type="Sprite2D" parent="Mosquito/pivote2"]
 position = Vector2(45.7142, -74.2861)
@@ -883,16 +882,13 @@ flip_h = true
 
 [node name="pivote1" type="Sprite2D" parent="Mosquito"]
 position = Vector2(51.4286, -55.7143)
-scale = Vector2(1, 1)
 
 [node name="alas" type="Sprite2D" parent="Mosquito/pivote1"]
 position = Vector2(-25.7143, -81.4287)
-scale = Vector2(1, 1)
 texture = ExtResource("12_l5wtl")
 
 [node name="pivote3" type="Sprite2D" parent="Mosquito"]
 position = Vector2(111.429, -31.4286)
-scale = Vector2(1, 1)
 
 [node name="cola" type="Sprite2D" parent="Mosquito/pivote3"]
 position = Vector2(74.4361, 39.4875)
@@ -900,35 +896,29 @@ texture = ExtResource("12_j4tab")
 
 [node name="pivote7" type="Sprite2D" parent="Mosquito"]
 position = Vector2(77.1429, -4.28577)
-scale = Vector2(1, 1)
 
 [node name="pata4" type="Sprite2D" parent="Mosquito/pivote7"]
 position = Vector2(-34.2858, 50)
 rotation = 0.350811
-scale = Vector2(1, 1)
 texture = ExtResource("14_8r4fh")
 flip_h = true
 
 [node name="pivote8" type="Sprite2D" parent="Mosquito/pivote7"]
 position = Vector2(-20, 1.42859)
-scale = Vector2(1, 1)
 
 [node name="pata5" type="Sprite2D" parent="Mosquito/pivote7/pivote8"]
 position = Vector2(-44.2857, 42.8572)
 rotation = 0.551524
-scale = Vector2(1, 1)
 texture = ExtResource("14_8r4fh")
 flip_h = true
 
 [node name="pivote9" type="Sprite2D" parent="Mosquito/pivote7"]
 position = Vector2(-47.1429, -1.42853)
 rotation = -0.23911
-scale = Vector2(1, 1)
 
 [node name="pata6" type="Sprite2D" parent="Mosquito/pivote7/pivote9"]
 position = Vector2(-51.4286, 32.8572)
 rotation = 0.762709
-scale = Vector2(1, 1)
 texture = ExtResource("14_8r4fh")
 flip_h = true
 
@@ -940,27 +930,22 @@ position = Vector2(97.1429, 0)
 
 [node name="pata" type="Sprite2D" parent="Mosquito/pivote4"]
 position = Vector2(12.8572, 60)
-scale = Vector2(1, 1)
 texture = ExtResource("14_8r4fh")
 
 [node name="pivote5" type="Sprite2D" parent="Mosquito/pivote4"]
 position = Vector2(-14.2857, 0)
-scale = Vector2(1, 1)
 
 [node name="pata2" type="Sprite2D" parent="Mosquito/pivote4/pivote5"]
 position = Vector2(7.14288, 61.4286)
 rotation = 0.120428
-scale = Vector2(1, 1)
 texture = ExtResource("14_8r4fh")
 
 [node name="pivote6" type="Sprite2D" parent="Mosquito/pivote4"]
 position = Vector2(-25.7143, 0)
-scale = Vector2(1, 1)
 
 [node name="pata3" type="Sprite2D" parent="Mosquito/pivote4/pivote6"]
 position = Vector2(-12.8572, 61.4286)
 rotation = 0.479966
-scale = Vector2(1, 1)
 texture = ExtResource("14_8r4fh")
 
 [node name="Mosquito2" type="Node2D" parent="."]
@@ -970,7 +955,6 @@ scale = Vector2(0.7, 0.7)
 
 [node name="pivote3" type="Sprite2D" parent="Mosquito2"]
 position = Vector2(111.429, -31.4286)
-scale = Vector2(1, 1)
 
 [node name="cola" type="Sprite2D" parent="Mosquito2/pivote3"]
 position = Vector2(74.4361, 39.4875)
@@ -979,24 +963,20 @@ flip_v = true
 
 [node name="pivote7" type="Sprite2D" parent="Mosquito2"]
 position = Vector2(77.1429, -4.28577)
-scale = Vector2(1, 1)
 
 [node name="pata4" type="Sprite2D" parent="Mosquito2/pivote7"]
 position = Vector2(-1.42862, -37.1428)
 rotation = 0.350811
-scale = Vector2(1, 1)
 texture = ExtResource("14_8r4fh")
 flip_h = true
 flip_v = true
 
 [node name="pivote8" type="Sprite2D" parent="Mosquito2/pivote7"]
 position = Vector2(-20, 1.42859)
-scale = Vector2(1, 1)
 
 [node name="pata5" type="Sprite2D" parent="Mosquito2/pivote7/pivote8"]
 position = Vector2(8.5715, -38.5714)
 rotation = 0.551524
-scale = Vector2(1, 1)
 texture = ExtResource("14_8r4fh")
 flip_h = true
 flip_v = true
@@ -1004,12 +984,10 @@ flip_v = true
 [node name="pivote9" type="Sprite2D" parent="Mosquito2/pivote7"]
 position = Vector2(-47.1429, -1.42853)
 rotation = -0.23911
-scale = Vector2(1, 1)
 
 [node name="pata6" type="Sprite2D" parent="Mosquito2/pivote7/pivote9"]
 position = Vector2(16.8417, -24.0206)
 rotation = 0.762709
-scale = Vector2(1, 1)
 texture = ExtResource("14_8r4fh")
 flip_h = true
 flip_v = true
@@ -1023,29 +1001,24 @@ position = Vector2(97.1429, 0)
 
 [node name="pata" type="Sprite2D" parent="Mosquito2/pivote4"]
 position = Vector2(17.1429, -50)
-scale = Vector2(1, 1)
 texture = ExtResource("14_8r4fh")
 flip_v = true
 
 [node name="pivote5" type="Sprite2D" parent="Mosquito2/pivote4"]
 position = Vector2(-14.2857, 0)
-scale = Vector2(1, 1)
 
 [node name="pata2" type="Sprite2D" parent="Mosquito2/pivote4/pivote5"]
 position = Vector2(10, -48.5714)
 rotation = 0.120428
-scale = Vector2(1, 1)
 texture = ExtResource("14_8r4fh")
 flip_v = true
 
 [node name="pivote6" type="Sprite2D" parent="Mosquito2/pivote4"]
 position = Vector2(-25.7143, 0)
-scale = Vector2(1, 1)
 
 [node name="pata3" type="Sprite2D" parent="Mosquito2/pivote4/pivote6"]
 position = Vector2(-14.2857, -51.4286)
 rotation = -0.155334
-scale = Vector2(1, 1)
 texture = ExtResource("14_8r4fh")
 flip_v = true
 
@@ -1112,7 +1085,6 @@ texture = ExtResource("18_trk37")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MarcadoEfectoEstado/Area2D"]
 position = Vector2(-0.00012207, -0.912415)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_egxlx")
 
 [node name="efecto_estado" type="Sprite2D" parent="."]

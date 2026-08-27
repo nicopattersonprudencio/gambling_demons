@@ -12,8 +12,6 @@ var escapar = false
 var posiciones_inventario = [Vector2(-778,-218),Vector2(-778,-73),Vector2(-778,71),Vector2(-778,215)]
 var objeto_inventario = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
 var mouse_area = [false,false,false,false]
-var instancia = preload("res://scenes/items.tscn")
-var item = [instancia.instantiate(),instancia.instantiate(),instancia.instantiate(),instancia.instantiate()]
 var posicion_actual = [posiciones_inventario[0],posiciones_inventario[1],posiciones_inventario[2],posiciones_inventario[3]]
 var intercambio = false
 
@@ -63,6 +61,8 @@ var orden_casillas_rojas_original = [3,0,11,8,7,4]
 var orden_casillas_rojas_modificadas = [null,null,null,null]
 var casillas_rojas_modificadas = [null,null,null,null]
 
+"""candado_cerrado"""
+var habilidad_identificada
 
 func _ready() -> void:
 	
@@ -102,37 +102,37 @@ func _ready() -> void:
 	
 	"""Items para hacer pruebas"""
 	
-	item[0].add_to_group("items")
-	item[0].position = posiciones_inventario[0]
-	item[0].get_node("Sprite2D").texture = preload("res://sprites/rosa_roja.png")
-	item[0].get_node("Sprite2D").scale = Vector2(0.15,0.15)
-	item[0].get_node("CollisionShape2D").shape.size = Vector2(117,90)
-	item[0].get_node("Label").text = "Cambia una casilla\naleatoria al rojo\nal principio del combate."
-	add_child(item[0])
+	Global.item[0].add_to_group("items")
+	Global.item[0].position = posiciones_inventario[0]
+	Global.item[0].get_node("Sprite2D").texture = preload("res://sprites/rosa_roja.png")
+	Global.item[0].get_node("Sprite2D").scale = Vector2(0.15,0.15)
+	Global.item[0].get_node("CollisionShape2D").shape.size = Vector2(117,90)
+	Global.item[0].get_node("Label").text = "Cambia una casilla\naleatoria al rojo\nal principio del combate."
+	add_child(Global.item[0])
 	
-	item[1].add_to_group("items")                                                                                                                                                                                                                 
-	item[1].position = posiciones_inventario[1]
-	item[1].get_node("Sprite2D").texture = preload("res://sprites/rosa_azul.png")
-	item[1].get_node("Sprite2D").scale = Vector2(0.15,0.15)
-	item[1].get_node("CollisionShape2D").shape.size = Vector2(117,90)
-	item[1].get_node("Label").text = "Cambia una casilla\naleatoria al azul\nal principio del combate."
-	add_child(item[1])
+	Global.item[1].add_to_group("items")                                                                                                                                                                                                                 
+	Global.item[1].position = posiciones_inventario[1]
+	Global.item[1].get_node("Sprite2D").texture = preload("res://sprites/rosa_azul.png")
+	Global.item[1].get_node("Sprite2D").scale = Vector2(0.15,0.15)
+	Global.item[1].get_node("CollisionShape2D").shape.size = Vector2(117,90)
+	Global.item[1].get_node("Label").text = "Cambia una casilla\naleatoria al azul\nal principio del combate."
+	add_child(Global.item[1])
 	
-	item[2].add_to_group("items")
-	item[2].position = posiciones_inventario[2]
-	item[2].get_node("Sprite2D").texture = preload("res://sprites/boton_reinicio.png")
-	item[2].get_node("Sprite2D").scale = Vector2(0.5,0.45)
-	item[2].get_node("CollisionShape2D").shape.size = Vector2(66,115)
-	item[2].get_node("Label").text = "Toda vez que el jugador no pueda elegir,\nla ruleta vuelve a su estado normal durante 1 turno"
-	add_child(item[2])
+	Global.item[2].add_to_group("items")
+	Global.item[2].position = posiciones_inventario[2]
+	Global.item[2].get_node("Sprite2D").texture = preload("res://sprites/boton_reinicio.png")
+	Global.item[2].get_node("Sprite2D").scale = Vector2(0.5,0.45)
+	Global.item[2].get_node("CollisionShape2D").shape.size = Vector2(66,115)
+	Global.item[2].get_node("Label").text = "Toda vez que el jugador no pueda elegir,\nla ruleta vuelve a su estado normal durante 1 turno"
+	add_child(Global.item[2])
 	
-	item[3].add_to_group("items")
-	item[3].position = posiciones_inventario[3]
-	item[3].get_node("Sprite2D").texture = preload("res://sprites/candado.png")
-	item[3].get_node("Sprite2D").scale = Vector2(0.3,0.3)
-	item[3].get_node("CollisionShape2D").shape.size = Vector2(69,92)
-	item[3].get_node("Label").text = "Tiene una probabilidad del 25%\nde anular una habilidad cualquiera\ndel oponente cada turno."
-	add_child(item[3])
+	Global.item[3].add_to_group("items")
+	Global.item[3].position = posiciones_inventario[3]
+	Global.item[3].get_node("Sprite2D").texture = preload("res://sprites/candado.png")
+	Global.item[3].get_node("Sprite2D").scale = Vector2(0.3,0.3)
+	Global.item[3].get_node("CollisionShape2D").shape.size = Vector2(69,92)
+	Global.item[3].get_node("Label").text = "Anula una habilidad cualquiera\ndel oponente cada turno."
+	add_child(Global.item[3])
 	
 	"""Dinero del jugador y del enemigo"""
 	RenderingServer.set_default_clear_color(Color(0.25, 0.25, 0.25))
@@ -177,11 +177,12 @@ func _process(delta):
 	if monedas_demonio == 0:
 		$Mosquito.visible = false
 		$Mosquito2.visible = true
+		
 	"""Efectos items"""
 	if ruleta_apuestas and timer_efectos:
 		for p in range(inicio,posiciones_inventario.size()):
-			for i in range(item.size()):
-				if item[i].position == posiciones_inventario[p] and timer_efectos:
+			for i in range(Global.item.size()):
+				if Global.item[i].position == posiciones_inventario[p] and timer_efectos:
 					if p == 0:
 						$Inventario/Marcado4.visible = true
 					elif p == 1:
@@ -191,15 +192,15 @@ func _process(delta):
 					else:
 						$Inventario/Marcado.visible = true
 					"""rosa_roja"""
-					if item[i].visible and item[i].get_node("Sprite2D").texture == preload("res://sprites/rosa_roja.png"):
+					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/rosa_roja.png"):
 						if una_vez[i]:
-							item[i].get_node("rosa_roja").emitting = true
+							Global.item[i].get_node("rosa_roja").emitting = true
 							casilla_azul_elegida = casillas_azules.pick_random()
 							while casilla_azul_elegida == null:
 								casilla_azul_elegida = casillas_azules.pick_random()
 							orden_casilla_azul = orden_casillas_azules[casillas_azules.find(casilla_azul_elegida)]
-							item[i].get_node("rosa_roja2").reparent(casilla_azul_elegida)
-							item[i].get_node("rosa_azul2").reparent(casilla_azul_elegida)
+							Global.item[i].get_node("rosa_roja2").reparent(casilla_azul_elegida)
+							Global.item[i].get_node("rosa_azul2").reparent(casilla_azul_elegida)
 							casilla_azul_elegida.get_node("rosa_roja2").position = 	Vector2(0,0)
 							casilla_azul_elegida.get_node("rosa_azul2").position = Vector2(0,0)
 							casilla_azul_elegida.get_node("rosa_roja2").emitting = true
@@ -212,15 +213,15 @@ func _process(delta):
 						
 			
 					"""rosa_azul"""
-					if item[i].visible and item[i].get_node("Sprite2D").texture == preload("res://sprites/rosa_azul.png"):
+					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/rosa_azul.png"):
 						if una_vez[i]:
-							item[i].get_node("rosa_azul").emitting = true
+							Global.item[i].get_node("rosa_azul").emitting = true
 							casilla_roja_elegida = casillas_rojas.pick_random()
 							while casilla_roja_elegida == null:
 								casilla_roja_elegida = casillas_rojas.pick_random()
 							orden_casilla_roja = orden_casillas_rojas[casillas_rojas.find(casilla_roja_elegida)]
-							item[i].get_node("rosa_azul2").reparent(casilla_roja_elegida)
-							item[i].get_node("rosa_roja2").reparent(casilla_roja_elegida)
+							Global.item[i].get_node("rosa_azul2").reparent(casilla_roja_elegida)
+							Global.item[i].get_node("rosa_roja2").reparent(casilla_roja_elegida)
 							casilla_roja_elegida.get_node("rosa_azul2").position = Vector2(0,0)
 							casilla_roja_elegida.get_node("rosa_roja2").position = Vector2(0,0)
 							casilla_roja_elegida.get_node("rosa_azul2").emitting = true
@@ -231,9 +232,14 @@ func _process(delta):
 							casillas_rojas_modificadas[i] = casilla_roja_elegida
 							orden_casillas_rojas_modificadas[i] = orden_casilla_roja
 						
-					
+					"""candado_cerrado"""
+					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png"):
+						habilidad_identificada = habilidades.pick_random()
+						Global.item[i].get_node("candado_cerrado").emitting = true
+						habilidad_identificada.get_node("candado_cerrado2").emitting = true
+						
 					"""boton_reinicio"""
-					if item[i].visible and item[i].get_node("Sprite2D").texture == preload("res://sprites/boton_reinicio.png"):
+					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/boton_reinicio.png"):
 						if not jugador_ganador:
 							for ca in range(casillas_azules.size()):
 								for cao in range(casillas_azules_original.size()):
@@ -242,30 +248,30 @@ func _process(delta):
 											casillas_azules_original[cao].get_node("rosa_azul2").emitting = true
 										else:
 											casillas_azules_original[cao].get_node("rosa_azul2_habilidades").emitting = true
-										item[i].get_node("boton_reinicio").emitting = true
+										Global.item[i].get_node("boton_reinicio").emitting = true
 							for cr in range(casillas_rojas.size()):
 								for cro in range(casillas_rojas_original.size()):
 									if cr == cro and casillas_rojas[cr] != casillas_rojas_original[cro]:
 										casillas_rojas_original[cro].get_node("rosa_roja2").emitting = true
-										item[i].get_node("boton_reinicio").emitting = true
+										Global.item[i].get_node("boton_reinicio").emitting = true
 						else:
 							for ca in range(casillas_azules.size()):
 								if casillas_azules[ca] != null:
-									for it in range(item.size()):
+									for it in range(Global.item.size()):
 										if casillas_azules_modificadas[it] == casillas_azules_original[ca]:
-											item[i].get_node("boton_reinicio").emitting = true
+											Global.item[i].get_node("boton_reinicio").emitting = true
 											casillas_azules_modificadas[it].get_node("rosa_roja2").emitting = true
 									for h in range(habilidades.size()):
 										if casillas_azules_habilidad[h] == casillas_azules_original[ca]:
-											item[i].get_node("boton_reinicio").emitting = true
+											Global.item[i].get_node("boton_reinicio").emitting = true
 											casillas_azules_habilidad[h].get_node("rosa_roja2_habilidades").emitting = true
 											
 							for cr in range(casillas_rojas.size()):
 								if casillas_rojas[cr] != null:
-									for it in range(item.size()):
+									for it in range(Global.item.size()):
 										if casillas_rojas_modificadas[it] == casillas_rojas_original[cr]:
 											casillas_rojas_modificadas[it].get_node("rosa_azul2").emitting = true
-											item[i].get_node("boton_reinicio").emitting = true
+											Global.item[i].get_node("boton_reinicio").emitting = true
 											
 										
 					$tiempo_efectos.start()
@@ -279,39 +285,54 @@ func _process(delta):
 					if habilidades[h].position == posiciones_habilidades[c] and timer_efectos:
 						"""sed_de_sangre"""
 						if habilidades[h].get_node("habilidad").texture == preload("res://sprites/sed_de_sangre.png"):
-							habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
-							activacion_estado = false
-							if color_verdadero == "rojo":
-								habilidades[h].get_node("rosa_roja_habilidades").emitting = true
+							if habilidad_identificada == habilidades[h]:
+								for i in range(Global.item.size()):
+									if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png"):
+										Global.item[i].get_node("candado_cerrado").emitting = false
+								habilidad_identificada.get_node("candado_cerrado2").emitting = false
 								$MarcadoEfectoEstado.visible = false
 								$efecto_estado.visible = false
-								Global.dinero -= 1
-								monedas_demonio += 1
-								$Label2.text = str(Global.dinero)+"$"
-								$Label5.text = str(monedas_demonio)+"$"
+								activacion_estado = false
+							else:
+								habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
+								activacion_estado = false
+								if color_verdadero == "rojo":
+									habilidades[h].get_node("rosa_roja_habilidades").emitting = true
+									$MarcadoEfectoEstado.visible = false
+									$efecto_estado.visible = false
+									Global.dinero -= 1
+									monedas_demonio += 1
+									$Label2.text = str(Global.dinero)+"$"
+									$Label5.text = str(monedas_demonio)+"$"
 						
 						"""rosa_roja"""
 						if habilidades[h].get_node("habilidad").texture == preload("res://sprites/rosa_roja.png"):
 							habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
-							if una_vez_habilidades[h]:
-								habilidades[h].get_node("rosa_roja_habilidades").emitting = true
-								activacion_estado = false
-								casilla_azul_elegida = casillas_azules.pick_random()
-								while casilla_azul_elegida == null:
+							if habilidad_identificada == habilidades[h]:
+								for i in range(Global.item.size()):
+									if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png"):
+										Global.item[i].get_node("candado_cerrado").emitting = false
+								habilidad_identificada.get_node("candado_cerrado2").emitting = false
+							else:
+								if una_vez_habilidades[h]:
+									habilidades[h].get_node("rosa_roja_habilidades").emitting = true
+									activacion_estado = false
 									casilla_azul_elegida = casillas_azules.pick_random()
-								orden_casilla_azul = orden_casillas_azules[casillas_azules.find(casilla_azul_elegida)]
-								habilidades[h].get_node("rosa_roja2_habilidades").reparent(casilla_azul_elegida)
-								habilidades[h].get_node("rosa_azul2_habilidades").reparent(casilla_azul_elegida)
-								casilla_azul_elegida.get_node("rosa_roja2_habilidades").position = 	Vector2(0,0)
-								casilla_azul_elegida.get_node("rosa_azul2_habilidades").position = 	Vector2(0,0)
-								casilla_azul_elegida.get_node("rosa_roja2_habilidades").emitting = true
+									while casilla_azul_elegida == null:
+										casilla_azul_elegida = casillas_azules.pick_random()
+									orden_casilla_azul = orden_casillas_azules[casillas_azules.find(casilla_azul_elegida)]
+									habilidades[h].get_node("rosa_roja2_habilidades").reparent(casilla_azul_elegida)
+									habilidades[h].get_node("rosa_azul2_habilidades").reparent(casilla_azul_elegida)
+									casilla_azul_elegida.get_node("rosa_roja2_habilidades").position = 	Vector2(0,0)
+									casilla_azul_elegida.get_node("rosa_azul2_habilidades").position = 	Vector2(0,0)
+									casilla_azul_elegida.get_node("rosa_roja2_habilidades").emitting = true
 					
 					
-								"""eliminar las casillas azules de las listas y agregarlas a nuevas listas"""
-								casillas_azules[casillas_azules.find(casilla_azul_elegida)] = null
-								orden_casillas_azules[orden_casillas_azules.find(orden_casilla_azul)] = null
-								casillas_azules_habilidad[h] = casilla_azul_elegida
-								orden_azules_habilidad[h] = orden_casilla_azul
+									"""eliminar las casillas azules de las listas y agregarlas a nuevas listas"""
+									casillas_azules[casillas_azules.find(casilla_azul_elegida)] = null
+									orden_casillas_azules[orden_casillas_azules.find(orden_casilla_azul)] = null
+									casillas_azules_habilidad[h] = casilla_azul_elegida
+									orden_azules_habilidad[h] = orden_casilla_azul
 								
 				
 						$tiempo_efectos.start()
@@ -349,28 +370,28 @@ func _process(delta):
 	var posicion_anterior = [posicion_actual[0],posicion_actual[1],posicion_actual[2],posicion_actual[3]]
 	
 	"""hacer invisibles las descripciones"""
-	for it in range(item.size()):
+	for it in range(Global.item.size()):
 		if Global.arrastrando[it]:
-			item[it].get_node("Label").visible = false
+			Global.item[it].get_node("Label").visible = false
 	
 	"""posiciones"""
 	for objeto_inv in range(objeto_inventario.size()):
 		for objeto in range(objeto_inventario[0].size()):
 			if objeto_inventario[objeto_inv][objeto_inventario[0].size()-objeto-1]:
 				if not Global.arrastrando[objeto_inv] and mouse_area[objeto] and not intercambio:
-					item[objeto_inv].position = posiciones_inventario[posiciones_inventario.size()-1-objeto]
-					posicion_actual[objeto_inv] = item[objeto_inv].position
+					Global.item[objeto_inv].position = posiciones_inventario[posiciones_inventario.size()-1-objeto]
+					posicion_actual[objeto_inv] = Global.item[objeto_inv].position
 		
 	"""NO salir del inventario"""
 	var dentro = [false,false,false,false]
 	for espacio in posiciones_inventario:
-		for it in range(item.size()):
-			if espacio == item[it].position:
+		for it in range(Global.item.size()):
+			if espacio == Global.item[it].position:
 				dentro[it] = true
 	
 	for den in range(dentro.size()):
 		if not dentro[den] and not Global.arrastrando[den]:
-			item[den].position = posicion_actual[den]
+			Global.item[den].position = posicion_actual[den]
 	
 	"""intercambiar posiciones de objetos"""
 	intercambio = false
@@ -386,8 +407,8 @@ func _process(delta):
 					posicion_actual[pos_act] = posicion_actual[pos_act2]
 					posicion_actual[pos_act2] = posicion_anterior[pos_act]
 
-				item[pos_act].position = posicion_actual[pos_act]
-				item[pos_act2].position = posicion_actual[pos_act2]
+				Global.item[pos_act].position = posicion_actual[pos_act]
+				Global.item[pos_act2].position = posicion_actual[pos_act2]
 		
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	$Label.text = "3"
@@ -613,83 +634,83 @@ func _on_area_2d_4_mouse_exited() -> void:
 		$Inventario/Marcado4.visible = false
 
 func item_inventario_1(area: Area2D) -> void:
-	if area.name == item[0].name:
+	if area.name == Global.item[0].name:
 		objeto_inventario[0][3] = true
-	if area.name == item[1].name:
+	if area.name == Global.item[1].name:
 		objeto_inventario[1][3] = true
-	if area.name == item[2].name:
+	if area.name == Global.item[2].name:
 		objeto_inventario[2][3] = true
-	if area.name == item[3].name:
+	if area.name == Global.item[3].name:
 		objeto_inventario[3][3] = true
 		
 func item_inventario_salida_1(area: Area2D) -> void:
-	if area.name == item[0].name:
+	if area.name == Global.item[0].name:
 		objeto_inventario[0][3] = false
-	if area.name == item[1].name:
+	if area.name == Global.item[1].name:
 		objeto_inventario[1][3] = false
-	if area.name == item[2].name:
+	if area.name == Global.item[2].name:
 		objeto_inventario[2][3] = false
-	if area.name == item[3].name:
+	if area.name == Global.item[3].name:
 		objeto_inventario[3][3] = false
 		
 func item_inventario_2(area: Area2D) -> void:
-	if area.name == item[0].name:
+	if area.name == Global.item[0].name:
 		objeto_inventario[0][2] = true
-	if area.name == item[1].name:
+	if area.name == Global.item[1].name:
 		objeto_inventario[1][2] = true
-	if area.name == item[2].name:
+	if area.name == Global.item[2].name:
 		objeto_inventario[2][2] = true
-	if area.name == item[3].name:
+	if area.name == Global.item[3].name:
 		objeto_inventario[3][2] = true
 		
 func item_inventario_salida_2(area: Area2D) -> void:
-	if area.name == item[0].name:
+	if area.name == Global.item[0].name:
 		objeto_inventario[0][2] = false
-	if area.name == item[1].name:
+	if area.name == Global.item[1].name:
 		objeto_inventario[1][2] = false
-	if area.name == item[2].name:
+	if area.name == Global.item[2].name:
 		objeto_inventario[2][2] = false
-	if area.name == item[3].name:
+	if area.name == Global.item[3].name:
 		objeto_inventario[3][2] = false
 
 func item_inventario_3(area: Area2D) -> void:
-	if area.name == item[0].name:
+	if area.name == Global.item[0].name:
 		objeto_inventario[0][1] = true
-	if area.name == item[1].name:
+	if area.name == Global.item[1].name:
 		objeto_inventario[1][1] = true
-	if area.name == item[2].name:
+	if area.name == Global.item[2].name:
 		objeto_inventario[2][1] = true
-	if area.name == item[3].name:
+	if area.name == Global.item[3].name:
 		objeto_inventario[3][1] = true
 
 func item_inventario_salida_3(area: Area2D) -> void:
-	if area.name == item[0].name:
+	if area.name == Global.item[0].name:
 		objeto_inventario[0][1] = false
-	if area.name == item[1].name:
+	if area.name == Global.item[1].name:
 		objeto_inventario[1][1] = false
-	if area.name == item[2].name:
+	if area.name == Global.item[2].name:
 		objeto_inventario[2][1] = false
-	if area.name == item[3].name:
+	if area.name == Global.item[3].name:
 		objeto_inventario[3][1] = false
 
 func item_inventario_4(area: Area2D) -> void:
-	if area.name == item[0].name:
+	if area.name == Global.item[0].name:
 		objeto_inventario[0][0] = true
-	if area.name == item[1].name:
+	if area.name == Global.item[1].name:
 		objeto_inventario[1][0] = true
-	if area.name == item[2].name:
+	if area.name == Global.item[2].name:
 		objeto_inventario[2][0] = true
-	if area.name == item[3].name:
+	if area.name == Global.item[3].name:
 		objeto_inventario[3][0] = true
 		
 func item_inventario_salida_4(area: Area2D) -> void:
-	if area.name == item[0].name:
+	if area.name == Global.item[0].name:
 		objeto_inventario[0][0] = false
-	if area.name == item[1].name:
+	if area.name == Global.item[1].name:
 		objeto_inventario[1][0] = false
-	if area.name == item[2].name:
+	if area.name == Global.item[2].name:
 		objeto_inventario[2][0] = false
-	if area.name == item[3].name:
+	if area.name == Global.item[3].name:
 		objeto_inventario[3][0] = false
 
 func _on_button_5_pressed() -> void:
@@ -781,11 +802,11 @@ func _on_tiempo_efectos_timeout() -> void:
 	var si = true
 	"""items"""
 	for p in range(inicio,posiciones_inventario.size()):
-		for i in range(item.size()):
-			if item[i].position == posiciones_inventario[p] and si:
+		for i in range(Global.item.size()):
+			if Global.item[i].position == posiciones_inventario[p] and si:
 				"""rosa_roja"""
-				if item[i].visible and item[i].get_node("Sprite2D").texture == preload("res://sprites/rosa_roja.png"):
-					item[i].get_node("rosa_roja").emitting = false
+				if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/rosa_roja.png"):
+					Global.item[i].get_node("rosa_roja").emitting = false
 					if una_vez[i]:
 						casillas_azules_modificadas[i].texture = preload("res://sprites/casilla_roja.png")
 						colores_verdaderos[orden_casillas_azules_modificadas[i]] = "rojo"
@@ -794,8 +815,8 @@ func _on_tiempo_efectos_timeout() -> void:
 						una_vez[i] = false
 					
 				"""rosa_azul"""
-				if item[i].visible and item[i].get_node("Sprite2D").texture == preload("res://sprites/rosa_azul.png"):
-					item[i].get_node("rosa_azul").emitting = false
+				if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/rosa_azul.png"):
+					Global.item[i].get_node("rosa_azul").emitting = false
 					if una_vez[i]:
 						casillas_rojas_modificadas[i].texture = preload("res://sprites/casilla_azul.png")
 						colores_verdaderos[orden_casillas_rojas_modificadas[i]] = "azul"
@@ -804,8 +825,8 @@ func _on_tiempo_efectos_timeout() -> void:
 						una_vez[i] = false
 					
 				"""boton_reinicio"""
-				if item[i].visible and item[i].get_node("Sprite2D").texture == preload("res://sprites/boton_reinicio.png"):
-					item[i].get_node("boton_reinicio").emitting = false
+				if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/boton_reinicio.png"):
+					Global.item[i].get_node("boton_reinicio").emitting = false
 					if not jugador_ganador:
 						for ca in range(casillas_azules.size()):
 							for cao in range(casillas_azules_original.size()):
@@ -829,7 +850,7 @@ func _on_tiempo_efectos_timeout() -> void:
 					else:
 							for ca in range(casillas_azules.size()):
 								if casillas_azules[ca] != null:
-									for it in range(item.size()):
+									for it in range(Global.item.size()):
 										if casillas_azules_modificadas[it] == casillas_azules_original[ca]:
 											casillas_azules_modificadas[it].get_node("rosa_roja2").emitting = false
 											casillas_azules_modificadas[it].texture =  preload("res://sprites/casilla_roja.png")
@@ -845,7 +866,7 @@ func _on_tiempo_efectos_timeout() -> void:
 											orden_casillas_azules[ca] = null
 							for cr in range(casillas_rojas.size()):
 								if casillas_rojas[cr] != null:
-									for it in range(item.size()):
+									for it in range(Global.item.size()):
 										if casillas_rojas_modificadas[it] == casillas_rojas_original[cr]:
 											casillas_rojas_modificadas[it].get_node("rosa_azul2").emitting = false
 											casillas_rojas_modificadas[it].texture =  preload("res://sprites/casilla_azul.png")
@@ -862,12 +883,16 @@ func _on_tiempo_efectos_timeout() -> void:
 			
 				"""rosa_roja"""
 				if habilidades[h].get_node("habilidad").texture == preload("res://sprites/rosa_roja.png"):
-					if una_vez_habilidades[h]:
-						casillas_azules_habilidad[h].texture = preload("res://sprites/casilla_roja.png")
-						colores_verdaderos[orden_azules_habilidad[h]] = "rojo"
-						casillas_azules_habilidad[h].get_node("rosa_roja2_habilidades").emitting = false
+					if habilidad_identificada == habilidades[h]:
+						una_vez_habilidades[h] = false
+						pass
+					else:
+						if una_vez_habilidades[h]:
+							casillas_azules_habilidad[h].texture = preload("res://sprites/casilla_roja.png")
+							colores_verdaderos[orden_azules_habilidad[h]] = "rojo"
+							casillas_azules_habilidad[h].get_node("rosa_roja2_habilidades").emitting = false
 					
-					una_vez_habilidades[h] = false
+							una_vez_habilidades[h] = false
 							
 				si = false
 				inicio_habilidades += 1
