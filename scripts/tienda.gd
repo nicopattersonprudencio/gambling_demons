@@ -1,5 +1,11 @@
 extends Node2D
 
+# Indica si cada objeto de la tienda ha sido comprado
+var vendido = [false, false, false]
+
+# Precio de cada objeto de la tienda
+var precios = [3, 3, 3]
+
 var posiciones_inventario = [
 	Vector2(-778,-218),
 	Vector2(-778,-73),
@@ -74,6 +80,48 @@ var datos_items = {
 	}
 }
 
+func comprar_item(indice: int) -> void:
+
+	# Evitar comprar dos veces el mismo objeto
+	if vendido[indice]:
+		return
+
+	var precio = precios[indice]
+
+	# Comprobar que tenemos suficiente dinero
+	if Global.dinero < precio:
+		print("No tienes suficiente dinero.")
+		return
+
+	# Restar dinero
+	Global.dinero -= precio
+
+	# Marcar como vendido
+	vendido[indice] = true
+
+	# Actualizar el dinero mostrado
+	$Label2.text = str(Global.dinero) + "$"
+
+	# Mostrar X en el precio correspondiente
+	if indice == 0:
+		$Label.text = "X"
+
+	elif indice == 1:
+		$Label3.text = "X"
+
+	elif indice == 2:
+		$Label4.text = "X"
+
+	# Quitar el brillo
+	Global.brillo[indice] = false
+
+	print(
+		"Objeto de tienda ",
+		indice,
+		" comprado por ",
+		precio,
+		"$"
+	)
 
 # ============================================================
 # APLICAR LAS PROPIEDADES DE UN ITEM
@@ -117,6 +165,24 @@ func intercambiar_item_tienda_con_inventario(
 	item_inventario: Area2D
 ) -> void:
 
+	# ========================================================
+	# COMPROBAR QUE EL OBJETO HA SIDO COMPRADO
+	# ========================================================
+
+	if not item_tienda_obj.has_meta("indice_tienda"):
+		return
+
+	var indice_tienda = item_tienda_obj.get_meta("indice_tienda")
+
+	if not vendido[indice_tienda]:
+		print("Este objeto todavía no ha sido comprado.")
+		return
+
+
+	# ========================================================
+	# OBTENER LOS TIPOS
+	# ========================================================
+
 	var tipo_tienda = obtener_tipo_item(item_tienda_obj)
 	var tipo_inventario = obtener_tipo_item(item_inventario)
 
@@ -128,59 +194,52 @@ func intercambiar_item_tienda_con_inventario(
 	print("Tienda: ", tipo_tienda)
 	print("Inventario: ", tipo_inventario)
 
-	# --------------------------------------------------------
-	# INTERCAMBIAMOS LOS DATOS
-	# --------------------------------------------------------
 
-	# El objeto del inventario pasa a ser el objeto que
-	# estaba en la tienda.
-	aplicar_datos_item(item_inventario, tipo_tienda)
+	# ========================================================
+	# GUARDAR VISIBILIDAD
+	# ========================================================
 
-	# El objeto de la tienda pasa a ser el objeto que
-	# estaba en el inventario.
-	aplicar_datos_item(item_tienda_obj, tipo_inventario)
+	var visible_tienda = item_tienda_obj.visible
+	var visible_inventario = item_inventario.visible
 
-	# --------------------------------------------------------
-	# ACTUALIZAMOS EL INVENTARIO
-	# --------------------------------------------------------
 
-	var indice_inventario = -1
+	# ========================================================
+	# INTERCAMBIAR PROPIEDADES
+	# ========================================================
 
-	for i in range(Global.item.size()):
-		if Global.item[i] == item_inventario:
-			indice_inventario = i
-			break
+	aplicar_datos_item(
+		item_inventario,
+		tipo_tienda
+	)
 
-	if indice_inventario != -1:
-		# El inventario ahora contiene el objeto de la tienda.
-		print(
-			"El inventario[",
-			indice_inventario,
-			"] ahora es: ",
-			tipo_tienda
-		)
+	aplicar_datos_item(
+		item_tienda_obj,
+		tipo_inventario
+	)
 
-	# --------------------------------------------------------
+
+	# ========================================================
+	# INTERCAMBIAR ESTADO DE VISIBILIDAD
+	# ========================================================
+
+	item_inventario.visible = visible_tienda
+	item_tienda_obj.visible = visible_inventario
+
+
+	# ========================================================
 	# EL ITEM DE LA TIENDA VUELVE A SU POSICIÓN
-	# --------------------------------------------------------
+	# ========================================================
 
 	item_tienda_obj.position = item_tienda_obj.get_meta(
 		"posicion_tienda"
 	)
 
-	# --------------------------------------------------------
-	# QUITAMOS EL BRILLO
-	# --------------------------------------------------------
 
-	for i in range(item_tienda.size()):
-		if item_tienda[i] == item_tienda_obj:
-			Global.brillo[i] = false
-			break
+	# ========================================================
+	# QUITAR BRILLO
+	# ========================================================
 
-
-# ============================================================
-# READY
-# ============================================================
+	Global.brillo[indice_tienda] = false
 
 func _ready() -> void:
 

@@ -1,6 +1,6 @@
 extends Node
  
-var dinero = 10
+var dinero = 7
 
 #items
 var arrastrando = [false,false,false,false]

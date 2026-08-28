@@ -7,13 +7,14 @@ var moverse = false
 # Posición original del objeto
 var posicion_original = Vector2.ZERO
 
-# Una vez que se agarra, queda bloqueado para siempre
+# Una vez agarrado, el brillo queda bloqueado
 var brillo_bloqueado = false
 
 
 func _ready() -> void:
 
 	posicion_original = position
+
 	set_meta("posicion_tienda", position)
 
 
@@ -21,12 +22,16 @@ func _on_mouse_entered() -> void:
 
 	mouse_encima = true
 
-	# SOLO puede iluminarse si nunca ha sido agarrado
-	if not brillo_bloqueado:
+	# Si ya está vendido, nunca vuelve a iluminarse
+	if brillo_bloqueado:
+		return
 
-		if has_meta("indice_tienda"):
+	# Si todavía no está vendido, puede iluminarse
+	if has_meta("indice_tienda"):
 
-			var indice = get_meta("indice_tienda")
+		var indice = get_meta("indice_tienda")
+
+		if not get_parent().vendido[indice]:
 
 			Global.brillo[indice] = true
 
@@ -35,14 +40,11 @@ func _on_mouse_exited() -> void:
 
 	mouse_encima = false
 
-	# Si nunca ha sido agarrado, quitamos el brillo
-	if not brillo_bloqueado:
+	if has_meta("indice_tienda"):
 
-		if has_meta("indice_tienda"):
+		var indice = get_meta("indice_tienda")
 
-			var indice = get_meta("indice_tienda")
-
-			Global.brillo[indice] = false
+		Global.brillo[indice] = false
 
 
 func _input(event):
@@ -51,86 +53,118 @@ func _input(event):
 
 		if event.button_index == MOUSE_BUTTON_LEFT:
 
-			if mouse_encima:
+			if not mouse_encima:
+				return
 
-				if event.pressed:
 
-					# =========================================
-					# AGARRAR ITEM
-					# =========================================
+			# =================================================
+			# CLICK
+			# =================================================
 
-					# SE BLOQUEA PARA SIEMPRE
+			if event.pressed:
+
+				var indice = get_meta("indice_tienda")
+
+
+				# =============================================
+				# TODAVÍA NO ESTÁ VENDIDO
+				# =============================================
+
+				if not get_parent().vendido[indice]:
+
+					# Comprar el objeto
+					get_parent().comprar_item(indice)
+
+					# Si no se pudo comprar porque no había
+					# suficiente dinero, no hacemos nada más.
+					if not get_parent().vendido[indice]:
+						return
+
+					# Ya ha sido comprado.
+					# No empezamos a arrastrarlo en este click.
 					brillo_bloqueado = true
+					Global.brillo[indice] = false
 
-					if has_meta("indice_tienda"):
+					return
 
-						var indice = get_meta("indice_tienda")
 
-						Global.brillo[indice] = false
+				# =============================================
+				# YA ESTÁ VENDIDO
+				# =============================================
 
-					$Label.visible = false
+				brillo_bloqueado = true
 
-					moverse = true
+				Global.brillo[indice] = false
 
-					offset = global_position - get_global_mouse_position()
+				$Label.visible = false
+
+				moverse = true
+
+				offset = global_position - get_global_mouse_position()
+
+
+			# =================================================
+			# SOLTAR
+			# =================================================
+
+			else:
+
+				# Si no estaba siendo arrastrado, no hacemos nada
+				if not moverse:
+					return
+
+				moverse = false
+
+				var inventario_encontrado = null
+
+
+				# =============================================
+				# BUSCAR OBJETO DEL INVENTARIO
+				# =============================================
+
+				for item in Global.item:
+
+					if not is_instance_valid(item):
+						continue
+
+					var distancia = global_position.distance_to(
+						item.global_position
+					)
+
+					if distancia < 70:
+
+						inventario_encontrado = item
+						break
+
+
+				# =============================================
+				# INTERCAMBIO
+				# =============================================
+
+				if inventario_encontrado != null:
+
+					var padre = get_parent()
+
+					if padre.has_method(
+						"intercambiar_item_tienda_con_inventario"
+					):
+
+						padre.intercambiar_item_tienda_con_inventario(
+							self,
+							inventario_encontrado
+						)
 
 				else:
 
-					# =========================================
-					# SOLTAR ITEM
-					# =========================================
-
-					moverse = false
-
-					var inventario_encontrado = null
-
-					# Buscamos si estamos encima de algún
-					# objeto del inventario
-					for item in Global.item:
-
-						if not is_instance_valid(item):
-							continue
-
-						var distancia = global_position.distance_to(
-							item.global_position
-						)
-
-						if distancia < 70:
-
-							inventario_encontrado = item
-							break
+					# No se ha soltado sobre ningún objeto
+					position = posicion_original
 
 
-					# =========================================
-					# INTERCAMBIO
-					# =========================================
-
-					if inventario_encontrado != null:
-
-						var padre = get_parent()
-
-						if padre.has_method(
-							"intercambiar_item_tienda_con_inventario"
-						):
-
-							padre.intercambiar_item_tienda_con_inventario(
-								self,
-								inventario_encontrado
-							)
-
-					else:
-
-						# Si no se ha soltado encima de un objeto,
-						# vuelve a su posición original.
-						position = posicion_original
-
-					# IMPORTANTE:
-					# NO hacemos:
-					#
-					# brillo_bloqueado = false
-					#
-					# porque queremos que permanezca bloqueado
-					# para siempre.
+				# IMPORTANTE:
+				# NO ponemos brillo_bloqueado = false.
+				#
+				# Una vez comprado/agarrado, nunca vuelve
+				# a iluminarse.
 
 
 func _process(delta):
