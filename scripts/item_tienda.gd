@@ -17,10 +17,26 @@ func _ready() -> void:
 
 	set_meta("posicion_tienda", position)
 
+	# El texto de descripción empieza oculto
+	$Label.visible = false
+
 
 func _on_mouse_entered() -> void:
 
 	mouse_encima = true
+
+	# =================================================
+	# MOSTRAR DESCRIPCIÓN
+	# =================================================
+
+	# La descripción ya fue asignada por aplicar_datos_item()
+	# dependiendo del tipo de objeto.
+	$Label.visible = true
+
+
+	# =================================================
+	# BRILLO
+	# =================================================
 
 	# Si ya está vendido, nunca vuelve a iluminarse
 	if brillo_bloqueado:
@@ -39,6 +55,17 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 
 	mouse_encima = false
+
+	# =================================================
+	# OCULTAR DESCRIPCIÓN
+	# =================================================
+
+	$Label.visible = false
+
+
+	# =================================================
+	# QUITAR BRILLO
+	# =================================================
 
 	if has_meta("indice_tienda"):
 
@@ -96,6 +123,7 @@ func _input(event):
 
 				Global.brillo[indice] = false
 
+				# Ocultar descripción mientras se arrastra
 				$Label.visible = false
 
 				moverse = true
@@ -162,9 +190,6 @@ func _input(event):
 
 				# IMPORTANTE:
 				# NO ponemos brillo_bloqueado = false.
-				#
-				# Una vez comprado/agarrado, nunca vuelve
-				# a iluminarse.
 
 
 func _process(delta):
