@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://bof2xpia2q4p7"]
+
+[ext_resource type="Shader" uid="uid://c1wk4m3axp30c" path="res://shaders/items.gdshader" id="1_smuty"]
+[ext_resource type="Texture2D" uid="uid://do8jpylfblbwa" path="res://sprites/candado.png" id="2_yq1yi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lxy0s"]
+shader = ExtResource("1_smuty")
+shader_parameter/glow_strength = 0.0
+shader_parameter/glow_color = Color(1, 1, 0.5, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bqv46"]
+size = Vector2(66, 92)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_repfr"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+anti_aliasing_size = 10.0
+
+[node name="Node2D" type="Area2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_lxy0s")
+position = Vector2(0, -4.42025)
+scale = Vector2(0.3, 0.30159)
+texture = ExtResource("2_yq1yi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_bqv46")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -118.0
+offset_top = 58.0
+offset_right = 118.0
+offset_bottom = 144.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_repfr")
+text = "Cambia una casilla
+aleatoria al rojo."

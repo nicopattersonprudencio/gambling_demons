@@ -18,8 +18,8 @@ script = ExtResource("1_0fx2o")
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="cofre" type="Sprite2D" parent="."]
-position = Vector2(0, 51)
-scale = Vector2(2, 2)
+position = Vector2(0, 72)
+scale = Vector2(2.2, 2.2)
 texture = ExtResource("1_cdi0l")
 
 [node name="Inventario" type="Sprite2D" parent="."]
