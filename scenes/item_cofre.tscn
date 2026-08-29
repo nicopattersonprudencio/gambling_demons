@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bof2xpia2q4p7"]
+[gd_scene load_steps=7 format=3 uid="uid://bof2xpia2q4p7"]
 
 [ext_resource type="Shader" uid="uid://c1wk4m3axp30c" path="res://shaders/items.gdshader" id="1_smuty"]
+[ext_resource type="Script" uid="uid://cxbfjd254imik" path="res://scripts/item_cofre.gd" id="1_yq1yi"]
 [ext_resource type="Texture2D" uid="uid://do8jpylfblbwa" path="res://sprites/candado.png" id="2_yq1yi"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lxy0s"]
@@ -24,6 +25,7 @@ expand_margin_bottom = 5.0
 anti_aliasing_size = 10.0
 
 [node name="Node2D" type="Area2D"]
+script = ExtResource("1_yq1yi")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_lxy0s")
@@ -46,3 +48,6 @@ theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_repfr")
 text = "Cambia una casilla
 aleatoria al rojo."
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

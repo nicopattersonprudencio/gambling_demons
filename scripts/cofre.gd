@@ -2,6 +2,96 @@ extends Node2D
 
 
 # ============================================================
+# ITEM DEL COFRE
+# ============================================================
+
+var instancia_cofre = preload("res://scenes/item_cofre.tscn")
+
+var item_cofre = instancia_cofre.instantiate()
+
+# ============================================================
+# INTERCAMBIAR ITEM DEL COFRE CON ITEM DEL INVENTARIO
+# ============================================================
+
+func intercambiar_item_cofre_con_inventario(
+	item_cofre_obj: Area2D,
+	item_inventario: Area2D
+) -> void:
+
+
+	# ========================================================
+	# OBTENER LOS TIPOS
+	# ========================================================
+
+	var tipo_cofre = obtener_tipo_item(item_cofre_obj)
+	var tipo_inventario = obtener_tipo_item(item_inventario)
+
+
+	if tipo_cofre == "" or tipo_inventario == "":
+		print("ERROR: Uno de los items no tiene tipo.")
+		return
+
+
+	print("INTERCAMBIO:")
+	print("Cofre: ", tipo_cofre)
+	print("Inventario: ", tipo_inventario)
+
+
+	# ========================================================
+	# GUARDAR VISIBILIDAD
+	# ========================================================
+
+	var visible_cofre = item_cofre_obj.visible
+	var visible_inventario = item_inventario.visible
+
+
+	# ========================================================
+	# INTERCAMBIAR PROPIEDADES
+	# ========================================================
+
+	aplicar_datos_item(
+		item_inventario,
+		tipo_cofre
+	)
+
+	aplicar_datos_item(
+		item_cofre_obj,
+		tipo_inventario
+	)
+
+
+	# ========================================================
+	# INTERCAMBIAR VISIBILIDAD
+	# ========================================================
+
+	item_inventario.visible = visible_cofre
+	item_cofre_obj.visible = visible_inventario
+
+
+	# ========================================================
+	# EL ITEM DEL COFRE VUELVE A SU POSICIÓN
+	# ========================================================
+
+	item_cofre_obj.position = Vector2(0, 0)
+
+	item_cofre_obj.set_meta(
+		"posicion_cofre",
+		Vector2(0, 0)
+	)
+
+
+	# ========================================================
+	# EL BRILLO QUEDA DESACTIVADO
+	# ========================================================
+
+	item_cofre_obj.brillo_bloqueado = true
+
+	item_cofre_obj.get_node("Sprite2D").material.set_shader_parameter(
+		"glow_strength",
+		0
+	)
+
+# ============================================================
 # INVENTARIO
 # ============================================================
 
@@ -109,7 +199,68 @@ func obtener_tipo_item(item: Area2D) -> String:
 # ============================================================
 
 func _ready() -> void:
+	
+	# ========================================================
+	# CREAR ITEM DEL COFRE
+	# ========================================================
 
+	item_cofre.position = Vector2(0, 0)
+
+	add_child(item_cofre)
+
+	# Duplicamos el material para que el brillo
+	# afecte solamente a este objeto
+	var sprite_cofre = item_cofre.get_node("Sprite2D")
+
+	sprite_cofre.material = sprite_cofre.material.duplicate()
+
+
+	# ========================================================
+	# ELEGIR ITEM DEL COFRE
+	# ========================================================
+
+	randomize()
+
+	var tipos_items = [
+		"rosa_roja",
+		"rosa_azul",
+		"candado_cerrado",
+		"boton_reinicio"
+	]
+
+	var tipo_seleccionado = tipos_items.pick_random()
+
+	aplicar_datos_item(
+		item_cofre,
+		tipo_seleccionado
+	)
+
+	print(
+		"Item del cofre: ",
+		tipo_seleccionado
+	)
+
+
+	# ========================================================
+	# LIMPIAR ESTADO DEL INVENTARIO
+	# ========================================================
+
+	objeto_inventario = [
+		[false, false, false, false],
+		[false, false, false, false],
+		[false, false, false, false],
+		[false, false, false, false]
+	]
+
+	mouse_area = [
+		false,
+		false,
+		false,
+		false
+	]
+
+	intercambio = false
+	
 	# --------------------------------------------------------
 	# LIMPIAR ESTADO DEL INVENTARIO
 	# --------------------------------------------------------
