@@ -2,11 +2,12 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="31.008724mm"
-   height="31.008726mm"
-   viewBox="0 0 31.008724 31.008726"
+   width="31.008728mm"
+   height="31.008728mm"
+   viewBox="0 0 31.008728 31.008728"
    version="1.1"
    id="svg1"
+   sodipodi:docname="circumferencia.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,9 +25,9 @@
     <inkscape:page
        x="0"
        y="0"
-       width="31.008724"
-       height="31.008726"
-       id="page2"
+       width="31.008728"
+       height="31.008728"
+       id="page1"
        margin="0"
        bleed="0" />
   </sodipodi:namedview>
@@ -36,12 +37,15 @@
      inkscape:label="Capa 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-101.59088,-133.10604)">
+     transform="translate(-101.59087,-133.10605)">
     <circle
-       style="fill:none;stroke:#000000;stroke-width:1.667"
+       style="fill:#000000;stroke:#000000;stroke-width:1.667"
        id="path1"
        cx="117.09523"
        cy="148.61041"
-       r="14.670864" />
+       r="14.670864"
+       inkscape:export-filename="circumferencia.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
   </g>
 </svg>
