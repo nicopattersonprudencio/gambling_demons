@@ -64,6 +64,103 @@ var casillas_rojas_modificadas = [null,null,null,null]
 """candado_cerrado"""
 var habilidad_identificada
 
+var datos_items = {
+
+	"rosa_roja": {
+		"texture": preload("res://sprites/rosa_roja.png"),
+		"scale": Vector2(0.15, 0.15),
+		"collision_size": Vector2(117, 90),
+		"descripcion": "Cambia una casilla\naleatoria al rojo\nal principio del combate."
+	},
+
+	"rosa_azul": {
+		"texture": preload("res://sprites/rosa_azul.png"),
+		"scale": Vector2(0.15, 0.15),
+		"collision_size": Vector2(117, 90),
+		"descripcion": "Cambia una casilla\naleatoria al azul\nal principio del combate."
+	},
+
+	"candado_cerrado": {
+		"texture": preload("res://sprites/candado.png"),
+		"scale": Vector2(0.3, 0.3),
+		"collision_size": Vector2(69, 92),
+		"descripcion": "Anula una habilidad cualquiera\ndel oponente cada turno."
+	},
+
+	"boton_reinicio": {
+		"texture": preload("res://sprites/boton_reinicio.png"),
+		"scale": Vector2(0.5, 0.45),
+		"collision_size": Vector2(66, 115),
+		"descripcion": "Toda vez que el jugador no pueda elegir,\nla ruleta vuelve a su estado normal durante 1 turno."
+	}
+}
+
+func aplicar_datos_item(item: Area2D, tipo: String) -> void:
+
+	if not datos_items.has(tipo):
+		print("ERROR: No existe el tipo de item: ", tipo)
+		return
+
+	var datos = datos_items[tipo]
+
+	item.get_node("Sprite2D").texture = datos["texture"]
+	item.get_node("Sprite2D").scale = datos["scale"]
+	item.get_node("CollisionShape2D").shape.size = datos["collision_size"]
+	item.get_node("Label").text = datos["descripcion"]
+
+	item.set_meta("tipo_item", tipo)
+
+
+# ============================================================
+# OBTENER TIPO DE ITEM
+# ============================================================
+
+func obtener_tipo_item(item: Area2D) -> String:
+
+	if item.has_meta("tipo_item"):
+		return item.get_meta("tipo_item")
+
+	return ""
+
+
+
+func crear_items_inventario() -> void:
+
+	var instancia = preload("res://scenes/items.tscn")
+
+	for i in range(4):
+
+		var item = instancia.instantiate()
+
+		Global.item[i] = item
+
+		item.add_to_group("items")
+
+		item.position = posiciones_inventario[i]
+
+		add_child(item)
+
+
+	aplicar_datos_item(
+		Global.item[0],
+		"rosa_roja"
+	)
+
+	aplicar_datos_item(
+		Global.item[1],
+		"rosa_azul"
+	)
+
+	aplicar_datos_item(
+		Global.item[2],
+		"boton_reinicio"
+	)
+
+	aplicar_datos_item(
+		Global.item[3],
+		"candado_cerrado"
+	)
+
 func _ready() -> void:
 	
 	"""mosquito"""
@@ -102,37 +199,7 @@ func _ready() -> void:
 	
 	"""Items para hacer pruebas"""
 	
-	Global.item[0].add_to_group("items")
-	Global.item[0].position = posiciones_inventario[0]
-	Global.item[0].get_node("Sprite2D").texture = preload("res://sprites/rosa_roja.png")
-	Global.item[0].get_node("Sprite2D").scale = Vector2(0.15,0.15)
-	Global.item[0].get_node("CollisionShape2D").shape.size = Vector2(117,90)
-	Global.item[0].get_node("Label").text = "Cambia una casilla\naleatoria al rojo\nal principio del combate."
-	add_child(Global.item[0])
-	
-	Global.item[1].add_to_group("items")                                                                                                                                                                                                                 
-	Global.item[1].position = posiciones_inventario[1]
-	Global.item[1].get_node("Sprite2D").texture = preload("res://sprites/rosa_azul.png")
-	Global.item[1].get_node("Sprite2D").scale = Vector2(0.15,0.15)
-	Global.item[1].get_node("CollisionShape2D").shape.size = Vector2(117,90)
-	Global.item[1].get_node("Label").text = "Cambia una casilla\naleatoria al azul\nal principio del combate."
-	add_child(Global.item[1])
-	
-	Global.item[2].add_to_group("items")
-	Global.item[2].position = posiciones_inventario[2]
-	Global.item[2].get_node("Sprite2D").texture = preload("res://sprites/boton_reinicio.png")
-	Global.item[2].get_node("Sprite2D").scale = Vector2(0.5,0.45)
-	Global.item[2].get_node("CollisionShape2D").shape.size = Vector2(66,115)
-	Global.item[2].get_node("Label").text = "Toda vez que el jugador no pueda elegir,\nla ruleta vuelve a su estado normal durante 1 turno"
-	add_child(Global.item[2])
-	
-	Global.item[3].add_to_group("items")
-	Global.item[3].position = posiciones_inventario[3]
-	Global.item[3].get_node("Sprite2D").texture = preload("res://sprites/candado.png")
-	Global.item[3].get_node("Sprite2D").scale = Vector2(0.3,0.3)
-	Global.item[3].get_node("CollisionShape2D").shape.size = Vector2(69,92)
-	Global.item[3].get_node("Label").text = "Anula una habilidad cualquiera\ndel oponente cada turno."
-	add_child(Global.item[3])
+	crear_items_inventario()
 	
 	"""Dinero del jugador y del enemigo"""
 	RenderingServer.set_default_clear_color(Color(0.25, 0.25, 0.25))

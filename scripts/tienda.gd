@@ -241,6 +241,43 @@ func intercambiar_item_tienda_con_inventario(
 
 	Global.brillo[indice_tienda] = false
 
+func crear_items_inventario() -> void:
+
+	var instancia = preload("res://scenes/items.tscn")
+
+	for i in range(4):
+
+		var item = instancia.instantiate()
+
+		Global.item[i] = item
+
+		item.add_to_group("items")
+
+		item.position = posiciones_inventario[i]
+
+		add_child(item)
+
+
+	aplicar_datos_item(
+		Global.item[0],
+		"rosa_roja"
+	)
+
+	aplicar_datos_item(
+		Global.item[1],
+		"rosa_azul"
+	)
+
+	aplicar_datos_item(
+		Global.item[2],
+		"boton_reinicio"
+	)
+
+	aplicar_datos_item(
+		Global.item[3],
+		"candado_cerrado"
+	)
+
 func _ready() -> void:
 
 	for i in range(item_tienda.size()):
@@ -264,34 +301,7 @@ func _ready() -> void:
 	for item in item_tienda:
 		item.set_meta("posicion_tienda", item.position)
 
-
-	# ========================================================
-	# ITEMS DEL INVENTARIO
-	# ========================================================
-
-	Global.item[0].add_to_group("items")
-	Global.item[0].position = posiciones_inventario[0]
-	aplicar_datos_item(Global.item[0], "rosa_roja")
-	add_child(Global.item[0])
-
-
-	Global.item[1].add_to_group("items")
-	Global.item[1].position = posiciones_inventario[1]
-	aplicar_datos_item(Global.item[1], "rosa_azul")
-	add_child(Global.item[1])
-
-
-	Global.item[2].add_to_group("items")
-	Global.item[2].position = posiciones_inventario[2]
-	aplicar_datos_item(Global.item[2], "boton_reinicio")
-	add_child(Global.item[2])
-
-
-	Global.item[3].add_to_group("items")
-	Global.item[3].position = posiciones_inventario[3]
-	aplicar_datos_item(Global.item[3], "candado_cerrado")
-	add_child(Global.item[3])
-
+	crear_items_inventario()
 
 	# ========================================================
 	# DINERO

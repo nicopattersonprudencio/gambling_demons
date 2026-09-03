@@ -158,3 +158,5 @@ shape = SubResource("RectangleShape2D_ypnwh")
 [connection signal="area_exited" from="Inventario/Area2D4" to="." method="_on_area_2d_4_area_exited"]
 [connection signal="mouse_entered" from="Inventario/Area2D4" to="." method="_on_area_2d_4_mouse_entered"]
 [connection signal="mouse_exited" from="Inventario/Area2D4" to="." method="_on_area_2d_4_mouse_exited"]
+[connection signal="mouse_entered" from="Label2/Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Label2/Area2D" to="." method="_on_area_2d_mouse_exited"]

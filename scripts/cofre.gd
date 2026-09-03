@@ -193,6 +193,42 @@ func obtener_tipo_item(item: Area2D) -> String:
 
 	return ""
 
+func crear_items_inventario() -> void:
+
+	var instancia = preload("res://scenes/items.tscn")
+
+	for i in range(4):
+
+		var item = instancia.instantiate()
+
+		Global.item[i] = item
+
+		item.add_to_group("items")
+
+		item.position = posiciones_inventario[i]
+
+		add_child(item)
+
+
+	aplicar_datos_item(
+		Global.item[0],
+		"rosa_roja"
+	)
+
+	aplicar_datos_item(
+		Global.item[1],
+		"rosa_azul"
+	)
+
+	aplicar_datos_item(
+		Global.item[2],
+		"boton_reinicio"
+	)
+
+	aplicar_datos_item(
+		Global.item[3],
+		"candado_cerrado"
+	)
 
 # ============================================================
 # READY
@@ -260,91 +296,8 @@ func _ready() -> void:
 	]
 
 	intercambio = false
-	
-	# --------------------------------------------------------
-	# LIMPIAR ESTADO DEL INVENTARIO
-	# --------------------------------------------------------
 
-	objeto_inventario = [
-		[false, false, false, false],
-		[false, false, false, false],
-		[false, false, false, false],
-		[false, false, false, false]
-	]
-
-	mouse_area = [
-		false,
-		false,
-		false,
-		false
-	]
-
-	intercambio = false
-
-
-	# --------------------------------------------------------
-	# ITEM 0
-	# --------------------------------------------------------
-
-	Global.item[0].add_to_group("items")
-
-	Global.item[0].position = posiciones_inventario[0]
-
-	aplicar_datos_item(
-		Global.item[0],
-		"rosa_roja"
-	)
-
-	add_child(Global.item[0])
-
-
-	# --------------------------------------------------------
-	# ITEM 1
-	# --------------------------------------------------------
-
-	Global.item[1].add_to_group("items")
-
-	Global.item[1].position = posiciones_inventario[1]
-
-	aplicar_datos_item(
-		Global.item[1],
-		"rosa_azul"
-	)
-
-	add_child(Global.item[1])
-
-
-	# --------------------------------------------------------
-	# ITEM 2
-	# --------------------------------------------------------
-
-	Global.item[2].add_to_group("items")
-
-	Global.item[2].position = posiciones_inventario[2]
-
-	aplicar_datos_item(
-		Global.item[2],
-		"boton_reinicio"
-	)
-
-	add_child(Global.item[2])
-
-
-	# --------------------------------------------------------
-	# ITEM 3
-	# --------------------------------------------------------
-
-	Global.item[3].add_to_group("items")
-
-	Global.item[3].position = posiciones_inventario[3]
-
-	aplicar_datos_item(
-		Global.item[3],
-		"candado_cerrado"
-	)
-
-	add_child(Global.item[3])
-
+	crear_items_inventario()
 
 	# --------------------------------------------------------
 	# DINERO

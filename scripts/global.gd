@@ -6,7 +6,14 @@ var dinero = 10
 var arrastrando = [false,false,false,false]
 var efectos = false
 var instancia = preload("res://scenes/items.tscn")
-var item = [instancia.instantiate(),instancia.instantiate(),instancia.instantiate(),instancia.instantiate()]
+var instancia_item = preload("res://scenes/items.tscn")
+
+var item = [
+	null,
+	null,
+	null,
+	null
+]
 
 #items_tienda
 var brillo = [false,false,false]
