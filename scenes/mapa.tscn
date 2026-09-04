@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bcrpb32gfq3sa"]
+[gd_scene load_steps=14 format=3 uid="uid://bcrpb32gfq3sa"]
 
 [ext_resource type="Texture2D" uid="uid://t4te1l53wx1d" path="res://sprites/circumferencia.png" id="1_ekubr"]
 [ext_resource type="Script" uid="uid://8tk23gjvo554" path="res://scripts/mapa.gd" id="1_nrd35"]
@@ -242,6 +242,21 @@ size = Vector2(208.225, 148.981)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k7lwh"]
 size = Vector2(87, 74)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6i2c2"]
+size = Vector2(133, 56)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k7lwh"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+anti_aliasing_size = 10.0
+
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_nrd35")
 
@@ -443,6 +458,31 @@ text = "10"
 position = Vector2(36.5, 43)
 shape = SubResource("RectangleShape2D_k7lwh")
 
+[node name="Label5" type="Label" parent="."]
+offset_left = 695.0
+offset_top = -475.0
+offset_right = 821.0
+offset_bottom = -392.0
+theme_override_font_sizes/font_size = 60
+text = "1/10"
+
+[node name="Area2D" type="Area2D" parent="Label5"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Label5/Area2D"]
+position = Vector2(62.5, 43)
+shape = SubResource("RectangleShape2D_6i2c2")
+
+[node name="Label8" type="Label" parent="."]
+visible = false
+offset_left = 682.0
+offset_top = -393.0
+offset_right = 828.0
+offset_bottom = -357.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_k7lwh")
+text = "Nivel actual"
+
 [connection signal="area_entered" from="Inventario/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Inventario/Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="mouse_entered" from="Inventario/Area2D" to="." method="_on_area_2d_mouse_entered"]
@@ -461,3 +501,5 @@ shape = SubResource("RectangleShape2D_k7lwh")
 [connection signal="mouse_exited" from="Inventario/Area2D4" to="." method="_on_area_2d_4_mouse_exited"]
 [connection signal="mouse_entered" from="Label2/Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Label2/Area2D" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="mouse_entered" from="Label5/Area2D" to="." method="entrar_area_nivel"]
+[connection signal="mouse_exited" from="Label5/Area2D" to="." method="salir_area_nivel"]

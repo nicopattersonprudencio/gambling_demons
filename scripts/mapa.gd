@@ -341,6 +341,8 @@ func _ready() -> void:
 
 			simbolo.visible = true
 
+	$Label5.text = str(Global.nivel) + "/10"
+
 func _process(delta):
 
 	# ========================================================
@@ -649,3 +651,9 @@ func _on_area_tu_dinero_mouse_entered() -> void:
 func _on_area_tu_dinero_mouse_exited() -> void:
 
 	$Label7.visible = false
+
+func entrar_area_nivel() -> void:
+	$Label8.visible = true
+
+func salir_area_nivel() -> void:
+	$Label8.visible = false
