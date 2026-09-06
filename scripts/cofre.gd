@@ -618,3 +618,33 @@ func _on_area_tu_dinero_mouse_entered() -> void:
 func _on_area_tu_dinero_mouse_exited() -> void:
 
 	$Label7.visible = false
+
+
+func entrando_flecha() -> void:
+	$Sprite2D.material.set_shader_parameter(
+		"glow_strength",
+		1.5
+	)
+
+func saliendo_flecha() -> void:
+	$Sprite2D.material.set_shader_parameter(
+		"glow_strength",
+		0
+	)
+	
+func _on_area_2d_input_event(
+	viewport,
+	event,
+	shape_idx
+) -> void:
+
+	if event is InputEventMouseButton:
+
+		if event.button_index == MOUSE_BUTTON_LEFT:
+
+			if event.pressed:
+
+				get_tree().change_scene_to_file(
+					"res://scenes/mapa.tscn"
+				)
+				Global.nivel += 1

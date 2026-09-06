@@ -201,7 +201,7 @@ func crear_items_inventario() -> void:
 		Global.item[3],
 		"candado_cerrado"
 	)
-
+	
 # ============================================================
 # READY
 # ============================================================
@@ -229,7 +229,7 @@ func _ready() -> void:
 
 	intercambio = false
 
-	crear_items_inventario()
+	#crear_items_inventario()
 
 	# --------------------------------------------------------
 	# DINERO
@@ -358,6 +358,10 @@ func _process(delta):
 
 	for i in range(Global.item.size()):
 
+		# El mapa no tiene items
+		if not is_instance_valid(Global.item[i]):
+			continue
+
 		if Global.arrastrando[i]:
 
 			Global.item[i].get_node("Label").visible = false
@@ -374,6 +378,10 @@ func _process(delta):
 			if objeto_inventario[objeto_inv][
 				objeto_inventario[objeto_inv].size() - objeto - 1
 			]:
+
+				# Comprobar que existe el item
+				if not is_instance_valid(Global.item[objeto_inv]):
+					continue
 
 				if (
 					not Global.arrastrando[objeto_inv]
@@ -403,9 +411,14 @@ func _process(delta):
 		false
 	]
 
+
 	for espacio in posiciones_inventario:
 
 		for i in range(Global.item.size()):
+
+			# Ignorar items que no existen
+			if not is_instance_valid(Global.item[i]):
+				continue
 
 			if espacio == Global.item[i].position:
 
@@ -413,6 +426,10 @@ func _process(delta):
 
 
 	for i in range(dentro.size()):
+
+		# Ignorar items que no existen
+		if not is_instance_valid(Global.item[i]):
+			continue
 
 		if (
 			not dentro[i]
@@ -430,12 +447,22 @@ func _process(delta):
 
 	for i in range(posicion_actual.size()):
 
+		# Si no existe el item, no puede intercambiarse
+		if not is_instance_valid(Global.item[i]):
+			continue
+
 		for j in range(posicion_actual.size()):
+
+			if i == j:
+				continue
+
+			# Si el segundo item tampoco existe
+			if not is_instance_valid(Global.item[j]):
+				continue
 
 			if (
 				posicion_actual[i]
 				== posicion_actual[j]
-				and i != j
 			):
 
 				intercambio = true
@@ -461,7 +488,6 @@ func _process(delta):
 
 				Global.item[i].position = posicion_actual[i]
 				Global.item[j].position = posicion_actual[j]
-
 
 # ============================================================
 # ÁREA 1

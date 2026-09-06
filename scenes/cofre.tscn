@@ -1,16 +1,26 @@
-[gd_scene load_steps=8 format=3 uid="uid://c01a727wfhc5o"]
+[gd_scene load_steps=12 format=3 uid="uid://c01a727wfhc5o"]
 
 [ext_resource type="Script" uid="uid://bk8an0ltycgtt" path="res://scripts/cofre.gd" id="1_0fx2o"]
 [ext_resource type="Texture2D" uid="uid://bvxt78pnts8d1" path="res://sprites/cofre.png" id="1_cdi0l"]
 [ext_resource type="Texture2D" uid="uid://bo53p8bwhpoyo" path="res://sprites/inventario.png" id="2_6dcxj"]
 [ext_resource type="Texture2D" uid="uid://bu762bn1lkmr3" path="res://sprites/linea.png" id="3_0fx2o"]
 [ext_resource type="Texture2D" uid="uid://bj5axebs55ywj" path="res://sprites/marcado.png" id="4_ypnwh"]
+[ext_resource type="Shader" uid="uid://c1wk4m3axp30c" path="res://shaders/items.gdshader" id="6_nrnjt"]
+[ext_resource type="Texture2D" uid="uid://dmx1wic8n1lb3" path="res://sprites/flecha.png" id="6_ypnwh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nrnjt"]
 size = Vector2(208.225, 148.981)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ypnwh"]
 size = Vector2(87, 74)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dhfrm"]
+shader = ExtResource("6_nrnjt")
+shader_parameter/glow_strength = 0.0
+shader_parameter/glow_color = Color(1, 1, 0.5, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2xmtr"]
+size = Vector2(281.25, 165)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_0fx2o")
@@ -142,6 +152,19 @@ text = "10"
 position = Vector2(36.5, 43)
 shape = SubResource("RectangleShape2D_ypnwh")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_dhfrm")
+position = Vector2(644, 311)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("6_ypnwh")
+
+[node name="Area2D" type="Area2D" parent="Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
+position = Vector2(-5.625, 0)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_2xmtr")
+
 [connection signal="area_entered" from="Inventario/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Inventario/Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="mouse_entered" from="Inventario/Area2D" to="." method="_on_area_2d_mouse_entered"]
@@ -160,3 +183,6 @@ shape = SubResource("RectangleShape2D_ypnwh")
 [connection signal="mouse_exited" from="Inventario/Area2D4" to="." method="_on_area_2d_4_mouse_exited"]
 [connection signal="mouse_entered" from="Label2/Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Label2/Area2D" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="input_event" from="Sprite2D/Area2D" to="." method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="Sprite2D/Area2D" to="." method="entrando_flecha"]
+[connection signal="mouse_exited" from="Sprite2D/Area2D" to="." method="saliendo_flecha"]
