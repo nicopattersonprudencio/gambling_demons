@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://gg67dwasfpiy"]
+[gd_scene load_steps=15 format=3 uid="uid://gg67dwasfpiy"]
 
 [ext_resource type="Texture2D" uid="uid://bo53p8bwhpoyo" path="res://sprites/inventario.png" id="1_3a5gv"]
 [ext_resource type="Script" uid="uid://cc0b075hhy1gk" path="res://scripts/tienda.gd" id="1_lkpmm"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://brmwfdo1jjkao" path="res://sprites/vendedor.png" id="4_4lx8e"]
 [ext_resource type="Texture2D" uid="uid://cs6trblcw6a4r" path="res://sprites/alfombra.png" id="4_k8wxw"]
 [ext_resource type="Texture2D" uid="uid://b561c0yl13nwv" path="res://sprites/precio.png" id="8_1afbe"]
+[ext_resource type="Shader" uid="uid://c1wk4m3axp30c" path="res://shaders/items.gdshader" id="8_hlcuo"]
+[ext_resource type="Texture2D" uid="uid://dmx1wic8n1lb3" path="res://sprites/flecha.png" id="9_77gaw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lkpmm"]
 size = Vector2(208.225, 148.981)
@@ -25,6 +27,14 @@ expand_margin_top = 5.0
 expand_margin_right = 5.0
 expand_margin_bottom = 5.0
 anti_aliasing_size = 10.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ahx5p"]
+shader = ExtResource("8_hlcuo")
+shader_parameter/glow_strength = 0.0
+shader_parameter/glow_color = Color(1, 1, 0.5, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c4go7"]
+size = Vector2(281.25, 165)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_lkpmm")
@@ -210,6 +220,19 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 60
 text = "3$"
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_ahx5p")
+position = Vector2(749, 311)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("9_77gaw")
+
+[node name="Area2D" type="Area2D" parent="Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
+position = Vector2(-5.625, 0)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_c4go7")
+
 [connection signal="area_entered" from="Inventario/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Inventario/Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="mouse_entered" from="Inventario/Area2D" to="." method="_on_area_2d_mouse_entered"]
@@ -228,3 +251,6 @@ text = "3$"
 [connection signal="mouse_exited" from="Inventario/Area2D4" to="." method="_on_area_2d_4_mouse_exited"]
 [connection signal="mouse_entered" from="Label2/Area2D" to="." method="_on_area_tu_dinero_mouse_entered"]
 [connection signal="mouse_exited" from="Label2/Area2D" to="." method="_on_area_tu_dinero_mouse_exited"]
+[connection signal="input_event" from="Sprite2D/Area2D" to="." method="input_flecha"]
+[connection signal="mouse_entered" from="Sprite2D/Area2D" to="." method="entrando_flecha"]
+[connection signal="mouse_exited" from="Sprite2D/Area2D" to="." method="saliendo_flecha"]
