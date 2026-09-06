@@ -164,43 +164,6 @@ func obtener_tipo_item(item: Area2D) -> String:
 		return item.get_meta("tipo_item")
 
 	return ""
-
-func crear_items_inventario() -> void:
-
-	var instancia = preload("res://scenes/items.tscn")
-
-	for i in range(4):
-
-		var item = instancia.instantiate()
-
-		Global.item[i] = item
-
-		item.add_to_group("items")
-
-		item.position = posiciones_inventario[i]
-
-		add_child(item)
-
-
-	aplicar_datos_item(
-		Global.item[0],
-		"rosa_roja"
-	)
-
-	aplicar_datos_item(
-		Global.item[1],
-		"rosa_azul"
-	)
-
-	aplicar_datos_item(
-		Global.item[2],
-		"boton_reinicio"
-	)
-
-	aplicar_datos_item(
-		Global.item[3],
-		"candado_cerrado"
-	)
 	
 # ============================================================
 # READY
@@ -208,6 +171,7 @@ func crear_items_inventario() -> void:
 
 func _ready() -> void:
 	
+	$Label5.text = str(Global.nivel) + "/10"
 	
 	# ========================================================
 	# LIMPIAR ESTADO DEL INVENTARIO
@@ -228,8 +192,6 @@ func _ready() -> void:
 	]
 
 	intercambio = false
-
-	#crear_items_inventario()
 
 	# --------------------------------------------------------
 	# DINERO
@@ -340,8 +302,6 @@ func _ready() -> void:
 		if is_instance_valid(simbolo):
 
 			simbolo.visible = true
-
-	$Label5.text = str(Global.nivel) + "/10"
 
 func _process(delta):
 

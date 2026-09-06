@@ -199,7 +199,6 @@ func _ready() -> void:
 	
 	"""Items para hacer pruebas"""
 	
-	crear_items_inventario()
 	
 	"""Dinero del jugador y del enemigo"""
 	RenderingServer.set_default_clear_color(Color(0.25, 0.25, 0.25))

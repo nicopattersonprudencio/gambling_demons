@@ -195,40 +195,28 @@ func obtener_tipo_item(item: Area2D) -> String:
 
 func crear_items_inventario() -> void:
 
-	var instancia = preload("res://scenes/items.tscn")
-
 	for i in range(4):
 
-		var item = instancia.instantiate()
+		var item = Global.item[i]
 
-		Global.item[i] = item
+		if not is_instance_valid(item):
+			continue
 
 		item.add_to_group("items")
 
 		item.position = posiciones_inventario[i]
 
-		add_child(item)
+		item.visible = true
 
 
-	aplicar_datos_item(
-		Global.item[0],
-		"rosa_roja"
-	)
+		var tipo = obtener_tipo_item(item)
 
-	aplicar_datos_item(
-		Global.item[1],
-		"rosa_azul"
-	)
+		if tipo != "":
 
-	aplicar_datos_item(
-		Global.item[2],
-		"boton_reinicio"
-	)
-
-	aplicar_datos_item(
-		Global.item[3],
-		"candado_cerrado"
-	)
+			aplicar_datos_item(
+				item,
+				tipo
+			)
 
 # ============================================================
 # READY
@@ -296,8 +284,6 @@ func _ready() -> void:
 	]
 
 	intercambio = false
-
-	crear_items_inventario()
 
 	# --------------------------------------------------------
 	# DINERO
