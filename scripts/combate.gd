@@ -62,7 +62,7 @@ var orden_casillas_rojas_modificadas = [null,null,null,null]
 var casillas_rojas_modificadas = [null,null,null,null]
 
 """candado_cerrado"""
-var habilidad_identificada
+var habilidad_identificada =[]
 
 var datos_items = {
 
@@ -143,17 +143,17 @@ func crear_items_inventario() -> void:
 
 	aplicar_datos_item(
 		Global.item[0],
-		"rosa_roja"
+		"candado_cerrado"
 	)
 
 	aplicar_datos_item(
 		Global.item[1],
-		"rosa_azul"
+		"candado_cerrado"
 	)
 
 	aplicar_datos_item(
 		Global.item[2],
-		"boton_reinicio"
+		"candado_cerrado"
 	)
 
 	aplicar_datos_item(
@@ -162,7 +162,7 @@ func crear_items_inventario() -> void:
 	)
 
 func _ready() -> void:
-	
+	crear_items_inventario()
 	"""mosquito"""
 	enemigo = "mosquito"
 	for h in range(3):
@@ -301,9 +301,10 @@ func _process(delta):
 						
 					"""candado_cerrado"""
 					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png"):
-						habilidad_identificada = habilidades.pick_random()
+						print("tengo un candado cerrado")
+						habilidad_identificada.append(habilidades.pick_random())
 						Global.item[i].get_node("candado_cerrado").emitting = true
-						habilidad_identificada.get_node("candado_cerrado2").emitting = true
+						habilidad_identificada[i].get_node("candado_cerrado2").emitting = true
 						
 					"""boton_reinicio"""
 					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/boton_reinicio.png"):
@@ -352,15 +353,19 @@ func _process(delta):
 					if habilidades[h].position == posiciones_habilidades[c] and timer_efectos:
 						"""sed_de_sangre"""
 						if habilidades[h].get_node("habilidad").texture == preload("res://sprites/sed_de_sangre.png"):
-							if habilidad_identificada == habilidades[h]:
-								for i in range(Global.item.size()):
-									if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png"):
-										Global.item[i].get_node("candado_cerrado").emitting = false
-								habilidad_identificada.get_node("candado_cerrado2").emitting = false
-								$MarcadoEfectoEstado.visible = false
-								$efecto_estado.visible = false
-								activacion_estado = false
-							else:
+							var no_identificada = true
+							for ha in range(habilidad_identificada.size()):
+								if habilidad_identificada[ha] == habilidades[h]:
+									no_identificada = false
+									for i in range(Global.item.size()):
+										if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png"):
+											Global.item[i].get_node("candado_cerrado").emitting = false
+									habilidad_identificada[ha].get_node("candado_cerrado2").emitting = false
+									print("ha llegado aqui")
+									$MarcadoEfectoEstado.visible = false
+									$efecto_estado.visible = false
+									activacion_estado = false
+							if no_identificada:
 								habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
 								activacion_estado = false
 								if color_verdadero == "rojo":
@@ -375,12 +380,15 @@ func _process(delta):
 						"""rosa_roja"""
 						if habilidades[h].get_node("habilidad").texture == preload("res://sprites/rosa_roja.png"):
 							habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
-							if habilidad_identificada == habilidades[h]:
-								for i in range(Global.item.size()):
-									if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png"):
-										Global.item[i].get_node("candado_cerrado").emitting = false
-								habilidad_identificada.get_node("candado_cerrado2").emitting = false
-							else:
+							var no_identificada = true
+							for ha in range(habilidad_identificada.size()):
+								if habilidad_identificada[ha] == habilidades[h]:
+									no_identificada = false
+									for i in range(Global.item.size()):
+										if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png"):
+											Global.item[i].get_node("candado_cerrado").emitting = false
+									habilidad_identificada[ha].get_node("candado_cerrado2").emitting = false
+							if no_identificada:
 								if una_vez_habilidades[h]:
 									habilidades[h].get_node("rosa_roja_habilidades").emitting = true
 									activacion_estado = false
@@ -401,7 +409,7 @@ func _process(delta):
 									casillas_azules_habilidad[h] = casilla_azul_elegida
 									orden_azules_habilidad[h] = orden_casilla_azul
 								
-				
+						print("empieza el timer")
 						$tiempo_efectos.start()
 						Global.efectos = true
 						timer_efectos = false
@@ -950,10 +958,13 @@ func _on_tiempo_efectos_timeout() -> void:
 			
 				"""rosa_roja"""
 				if habilidades[h].get_node("habilidad").texture == preload("res://sprites/rosa_roja.png"):
-					if habilidad_identificada == habilidades[h]:
-						una_vez_habilidades[h] = false
-						pass
-					else:
+					var no_identificada = true
+					for ha in range(habilidad_identificada.size()):
+						if habilidad_identificada[ha] == habilidades[h]:
+							no_identificada = false
+							una_vez_habilidades[h] = false
+							pass
+					if no_identificada:
 						if una_vez_habilidades[h]:
 							casillas_azules_habilidad[h].texture = preload("res://sprites/casilla_roja.png")
 							colores_verdaderos[orden_azules_habilidad[h]] = "rojo"
@@ -1022,13 +1033,13 @@ func input_flecha(viewport,
 				Global.nivel += 1
 
 func entrando_flecha() -> void:
-	$Sprite2D.material.set_shader_parameter(
+	$Sprite2D2.material.set_shader_parameter(
 		"glow_strength",
 		1.5
 	)
 
 func saliendo_flecha() -> void:
-	$Sprite2D.material.set_shader_parameter(
+	$Sprite2D2.material.set_shader_parameter(
 		"glow_strength",
 		0
 	)
