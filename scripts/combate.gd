@@ -243,6 +243,7 @@ func _process(delta):
 	if monedas_demonio == 0:
 		$Mosquito.visible = false
 		$Mosquito2.visible = true
+		$Sprite2D2.visible = true
 		
 	"""Efectos items"""
 	if ruleta_apuestas and timer_efectos:
@@ -1002,3 +1003,32 @@ func _on_area_efecto_estado_mouse_entered() -> void:
 
 func _on_area_efecto_estado_mouse_exited() -> void:
 	$Label10.visible = false
+
+
+func input_flecha(viewport,
+	event,
+	shape_idx
+) -> void:
+
+	if event is InputEventMouseButton:
+
+		if event.button_index == MOUSE_BUTTON_LEFT:
+
+			if event.pressed:
+
+				get_tree().change_scene_to_file(
+					"res://scenes/mapa.tscn"
+				)
+				Global.nivel += 1
+
+func entrando_flecha() -> void:
+	$Sprite2D.material.set_shader_parameter(
+		"glow_strength",
+		1.5
+	)
+
+func saliendo_flecha() -> void:
+	$Sprite2D.material.set_shader_parameter(
+		"glow_strength",
+		0
+	)

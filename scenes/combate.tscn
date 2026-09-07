@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://4ngf3vgv678k"]
+[gd_scene load_steps=49 format=3 uid="uid://4ngf3vgv678k"]
 
 [ext_resource type="Script" uid="uid://g77dign2hpfo" path="res://scripts/combate.gd" id="1_gtb6u"]
 [ext_resource type="Texture2D" uid="uid://b3r04glxkdqpn" path="res://sprites/RULETA.png" id="2_eq4v2"]
@@ -15,7 +15,9 @@
 [ext_resource type="Texture2D" uid="uid://bmk0l5p0jltm4" path="res://sprites/mosquito_cuerpo.png" id="13_j4tab"]
 [ext_resource type="Texture2D" uid="uid://gkdcj3jrljcy" path="res://sprites/mosquito_pata.png" id="14_8r4fh"]
 [ext_resource type="Texture2D" uid="uid://d3iaw6n3sbbuy" path="res://sprites/mosquito_muerto.svg" id="15_j4tab"]
+[ext_resource type="Shader" uid="uid://c1wk4m3axp30c" path="res://shaders/items.gdshader" id="18_ok6sc"]
 [ext_resource type="Texture2D" uid="uid://cg3vcepxwcdd0" path="res://sprites/marcado_efecto_estado.png" id="18_trk37"]
+[ext_resource type="Texture2D" uid="uid://dmx1wic8n1lb3" path="res://sprites/flecha.png" id="19_egxlx"]
 [ext_resource type="Texture2D" uid="uid://if5v85ghn0ei" path="res://sprites/ladron_enmascarado.png" id="19_ok6sc"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_nhv6a"]
@@ -215,6 +217,14 @@ anti_aliasing_size = 10.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_egxlx"]
 size = Vector2(225, 169.708)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vcxiq"]
+shader = ExtResource("18_ok6sc")
+shader_parameter/glow_strength = 0.0
+shader_parameter/glow_color = Color(1, 1, 0.5, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kaxlv"]
+size = Vector2(281.25, 165)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_gtb6u")
@@ -1094,6 +1104,20 @@ position = Vector2(226, -213)
 scale = Vector2(0.12, 0.121)
 texture = ExtResource("19_ok6sc")
 
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_vcxiq")
+position = Vector2(749, 311)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("19_egxlx")
+
+[node name="Area2D" type="Area2D" parent="Sprite2D2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D2/Area2D"]
+position = Vector2(-5.625, 0)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_kaxlv")
+
 [connection signal="area_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="Sprite2D/Area2D2" to="." method="_on_area_2d_2_area_entered"]
 [connection signal="area_entered" from="Sprite2D/Area2D3" to="." method="_on_area_2d_3_area_entered"]
@@ -1140,3 +1164,6 @@ texture = ExtResource("19_ok6sc")
 [connection signal="timeout" from="tiempo_efectos" to="." method="_on_tiempo_efectos_timeout"]
 [connection signal="mouse_entered" from="MarcadoEfectoEstado/Area2D" to="." method="_on_area_efecto_estado_mouse_entered"]
 [connection signal="mouse_exited" from="MarcadoEfectoEstado/Area2D" to="." method="_on_area_efecto_estado_mouse_exited"]
+[connection signal="input_event" from="Sprite2D2/Area2D" to="." method="input_flecha"]
+[connection signal="mouse_entered" from="Sprite2D2/Area2D" to="." method="entrando_flecha"]
+[connection signal="mouse_exited" from="Sprite2D2/Area2D" to="." method="saliendo_flecha"]
