@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://4ngf3vgv678k"]
+[gd_scene load_steps=50 format=3 uid="uid://4ngf3vgv678k"]
 
 [ext_resource type="Script" uid="uid://g77dign2hpfo" path="res://scripts/combate.gd" id="1_gtb6u"]
 [ext_resource type="Texture2D" uid="uid://b3r04glxkdqpn" path="res://sprites/RULETA.png" id="2_eq4v2"]
@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://cg3vcepxwcdd0" path="res://sprites/marcado_efecto_estado.png" id="18_trk37"]
 [ext_resource type="Texture2D" uid="uid://dmx1wic8n1lb3" path="res://sprites/flecha.png" id="19_egxlx"]
 [ext_resource type="Texture2D" uid="uid://if5v85ghn0ei" path="res://sprites/ladron_enmascarado.png" id="19_ok6sc"]
+[ext_resource type="Texture2D" uid="uid://cw63meemsyagk" path="res://sprites/gato_slime.png" id="20_ok6sc"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_nhv6a"]
 a = Vector2(0.39093, -1.04008)
@@ -1116,6 +1117,14 @@ texture = ExtResource("19_egxlx")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D2/Area2D"]
 position = Vector2(-5.625, 0)
 shape = SubResource("RectangleShape2D_kaxlv")
+
+[node name="Gato_slime" type="Node2D" parent="."]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="Gato_slime"]
+position = Vector2(0, -343)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("20_ok6sc")
 
 [connection signal="area_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="Sprite2D/Area2D2" to="." method="_on_area_2d_2_area_entered"]

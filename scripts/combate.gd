@@ -161,44 +161,90 @@ func crear_items_inventario() -> void:
 		"candado_cerrado"
 	)
 
-func _ready() -> void:
-	crear_items_inventario()
-	"""mosquito"""
-	enemigo = "mosquito"
+func crear_habilidades() -> void: # añadir un parametro para elegir el tipo de enemigo(mosquito, slime)
+
 	for h in range(3):
-		habilidades.append(instancia_habilidad.instantiate())
+
+		var habilidad = instancia_habilidad.instantiate()
+
+		habilidades.append(habilidad)
 		una_vez_habilidades.append(true)
 		casillas_azules_habilidad.append(null)
 		orden_azules_habilidad.append(null)
-		
-	habilidades[0].add_to_group("habilidades")
-	habilidades[0].get_node("habilidad").texture = preload("res://sprites/sed_de_sangre.png")
-	habilidades[0].position = posiciones_habilidades[0]
-	habilidades[0].get_node("habilidad").scale = Vector2(0.18,0.18)
-	habilidades[0].get_node("Label6").text = "Toda vez que la ruleta caiga\nen una casilla roja, este enemigo\ngana en el proximo turno 1$ y tu -1$."
+
+		habilidad.add_to_group("habilidades")
+
+		habilidad.position = posiciones_habilidades[h]
+
+		add_child(habilidad)
+
+	#Mosquito:
+
+	# ============================================================
+	# HABILIDAD 0 - SED DE SANGRE
+	# ============================================================
+
+	habilidades[0].get_node("habilidad").texture = preload(
+		"res://sprites/sed_de_sangre.png"
+	)
+
+	habilidades[0].get_node("habilidad").scale = Vector2(0.18, 0.18)
+
 	habilidades[0].get_node("habilidad").rotation = -6.9
-	add_child(habilidades[0])
-	
-	habilidades[1].add_to_group("habilidades")
-	habilidades[1].get_node("habilidad").texture = preload("res://sprites/rosa_roja.png")
-	habilidades[1].position = posiciones_habilidades[1]
-	habilidades[1].get_node("habilidad").scale = Vector2(0.1,0.1)
-	habilidades[1].get_node("Label6").text = "Cambia una casilla\naleatoria al rojo\nal principio del combate."
+
+	habilidades[0].get_node("Label6").text = \
+		"Toda vez que la ruleta caiga\nen una casilla roja, este enemigo\ngana en el proximo turno 1$ y tu -1$."
+
+
+	# ============================================================
+	# HABILIDAD 1 - ROSA ROJA
+	# ============================================================
+
+	habilidades[1].get_node("habilidad").texture = preload(
+		"res://sprites/rosa_roja.png"
+	)
+
+	habilidades[1].get_node("habilidad").scale = Vector2(0.1, 0.1)
+
 	habilidades[1].get_node("habilidad").rotation = 0.0
-	add_child(habilidades[1])
-	
-	habilidades[2].add_to_group("habilidades")
-	habilidades[2].get_node("habilidad").texture = preload("res://sprites/rosa_roja.png")
-	habilidades[2].position = posiciones_habilidades[2]
-	habilidades[2].get_node("habilidad").scale = Vector2(0.1,0.1)
-	habilidades[2].get_node("Label6").text = "Cambia una casilla\naleatoria al rojo\nal principio del combate."
+
+	habilidades[1].get_node("Label6").text = \
+		"Cambia una casilla\naleatoria al rojo\nal principio del combate."
+
+
+	# ============================================================
+	# HABILIDAD 2 - ROSA ROJA
+	# ============================================================
+
+	habilidades[2].get_node("habilidad").texture = preload(
+		"res://sprites/rosa_roja.png"
+	)
+
+	habilidades[2].get_node("habilidad").scale = Vector2(0.1, 0.1)
+
 	habilidades[2].get_node("habilidad").rotation = 0.0
-	add_child(habilidades[2])
+
+	habilidades[2].get_node("Label6").text = \
+		"Cambia una casilla\naleatoria al rojo\nal principio del combate."
+		
+	#Slime:
+	
+	#habilidad0
+	#textura -> res://sprites/burbuja.png
+	#escala -> (0.45,0.45)
+	#rotación -> 0.0
+	#texto -> "Genera una burbuja en una casilla\naleatoria cada turno, toda vez que la\nruleta caiga en una casilla con\nburbuja esta explota y el enemigo\ngana en el proximo turno 1$ y tu -1$"
+
+func _ready() -> void:
+	"""Items para hacer pruebas"""
+	crear_items_inventario()
+	
+	"""mosquito"""
+	enemigo = "mosquito"
+	
+	crear_habilidades()
 	
 	$AnimationPlayer.play("movimiento_mosquito")
-	
-	"""Items para hacer pruebas"""
-	
 	
 	"""Dinero del jugador y del enemigo"""
 	RenderingServer.set_default_clear_color(Color(0.25, 0.25, 0.25))
