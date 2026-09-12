@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://bjmtji21f4uwt"]
 
 [ext_resource type="Script" uid="uid://3uw6l7nucfr1" path="res://scripts/habilidades.gd" id="1_g1ui7"]
-[ext_resource type="Texture2D" uid="uid://d6kuonl8qrwy" path="res://sprites/burbuja.png" id="2_1lbm5"]
+[ext_resource type="Texture2D" uid="uid://c01bf0mvs1ud7" path="res://sprites/maullido_alegre.png" id="2_1lbm5"]
 [ext_resource type="Texture2D" uid="uid://b4rsqm2ldnwyf" path="res://sprites/marcado_habilidades.png" id="2_g1ui7"]
 [ext_resource type="Texture2D" uid="uid://bj5axebs55ywj" path="res://sprites/marcado.png" id="3_1lbm5"]
 
@@ -33,7 +33,7 @@ script = ExtResource("1_g1ui7")
 
 [node name="habilidad" type="Sprite2D" parent="."]
 position = Vector2(1.00005, -2.99998)
-scale = Vector2(0.45, 0.45)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_1lbm5")
 
 [node name="MarcadoHabilidades" type="Sprite2D" parent="."]
@@ -60,11 +60,9 @@ offset_bottom = 63.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_8hhtx")
-text = "Genera una burbuja en una casilla
-aleatoria cada turno, toda vez que la 
-ruleta caiga en una casilla con 
-burbuja, esta explota y el enemigo
-gana en el proximo turno 1$ y tu -1$"
+text = "Aumenta las stats de un item 
+aleatorio del enemigo una unidad
+hasta el final del turno."
 
 [node name="rosa_roja_habilidades" type="CPUParticles2D" parent="."]
 z_index = -1

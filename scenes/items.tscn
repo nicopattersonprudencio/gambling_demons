@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://c6aku1my1x1ql"]
+[gd_scene load_steps=14 format=3 uid="uid://c6aku1my1x1ql"]
 
 [ext_resource type="Script" uid="uid://bawj5i8yje4n2" path="res://scripts/items.gd" id="1_sj0ge"]
 [ext_resource type="Texture2D" uid="uid://do8jpylfblbwa" path="res://sprites/candado.png" id="2_sj0ge"]
 [ext_resource type="Shader" uid="uid://c1wk4m3axp30c" path="res://shaders/items.gdshader" id="2_trfxy"]
+[ext_resource type="FontFile" uid="uid://c4y6jiklmpvld" path="res://fuentes/InterVariable.ttf" id="4_d17p1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d17p1"]
 shader = ExtResource("2_trfxy")
@@ -12,16 +13,24 @@ shader_parameter/glow_color = Color(1, 1, 0.5, 1)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sj0ge"]
 size = Vector2(66, 92)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sj0ge"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ludf"]
 bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-expand_margin_left = 5.0
-expand_margin_top = 5.0
-expand_margin_right = 5.0
-expand_margin_bottom = 5.0
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+shadow_color = Color(1, 1, 1, 0.6)
+anti_aliasing = false
 anti_aliasing_size = 10.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sj0ge"]
@@ -75,18 +84,21 @@ texture = ExtResource("2_sj0ge")
 position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_sj0ge")
 
-[node name="Label" type="Label" parent="."]
-visible = false
+[node name="Label" type="RichTextLabel" parent="."]
 z_index = 1
-offset_left = 118.0
-offset_top = -47.0
-offset_right = 354.0
-offset_bottom = 39.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 25
-theme_override_styles/normal = SubResource("StyleBoxFlat_sj0ge")
+offset_left = 109.0
+offset_top = -48.0
+offset_right = 451.0
+offset_bottom = 36.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_d17p1")
+theme_override_font_sizes/normal_font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_4ludf")
+bbcode_enabled = true
 text = "Cambia una casilla
 aleatoria al rojo."
+fit_content = true
+scroll_active = false
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5

@@ -70,14 +70,14 @@ var datos_items = {
 		"texture": preload("res://sprites/rosa_roja.png"),
 		"scale": Vector2(0.15, 0.15),
 		"collision_size": Vector2(117, 90),
-		"descripcion": "Cambia una casilla\naleatoria al rojo\nal principio del combate."
+		"descripcion": "Cambia 1 casilla\naleatoria al rojo\nal principio del combate."
 	},
 
 	"rosa_azul": {
 		"texture": preload("res://sprites/rosa_azul.png"),
 		"scale": Vector2(0.15, 0.15),
 		"collision_size": Vector2(117, 90),
-		"descripcion": "Cambia una casilla\naleatoria al azul\nal principio del combate."
+		"descripcion": "Cambia 1 casilla\naleatoria al azul\nal principio del combate."
 	},
 
 	"candado_cerrado": {
@@ -106,7 +106,21 @@ func aplicar_datos_item(item: Area2D, tipo: String) -> void:
 	item.get_node("Sprite2D").texture = datos["texture"]
 	item.get_node("Sprite2D").scale = datos["scale"]
 	item.get_node("CollisionShape2D").shape.size = datos["collision_size"]
-	item.get_node("Label").text = datos["descripcion"]
+
+	var descripcion = datos["descripcion"]
+
+	var regex = RegEx.new()
+	regex.compile(r"-?\d+")
+
+	var descripcion_coloreada = regex.sub(
+	descripcion,
+	"[color=#228B22]$0[/color]",
+	true
+	)
+
+	var etiqueta = item.get_node("Label")
+	etiqueta.bbcode_enabled = true
+	etiqueta.text = descripcion_coloreada
 
 	item.set_meta("tipo_item", tipo)
 
@@ -143,12 +157,12 @@ func crear_items_inventario() -> void:
 
 	aplicar_datos_item(
 		Global.item[0],
-		"candado_cerrado"
+		"rosa_roja"
 	)
 
 	aplicar_datos_item(
 		Global.item[1],
-		"candado_cerrado"
+		"boton_reinicio"
 	)
 
 	aplicar_datos_item(
@@ -161,7 +175,7 @@ func crear_items_inventario() -> void:
 		"candado_cerrado"
 	)
 
-func crear_habilidades() -> void: # añadir un parametro para elegir el tipo de enemigo(mosquito, slime)
+func crear_habilidades() -> void: #cuando esta función se llama debe elegir de forma aleatorio el tipo de enemigo (mosquito o slime)
 
 	for h in range(3):
 
@@ -233,7 +247,15 @@ func crear_habilidades() -> void: # añadir un parametro para elegir el tipo de 
 	#textura -> res://sprites/burbuja.png
 	#escala -> (0.45,0.45)
 	#rotación -> 0.0
-	#texto -> "Genera una burbuja en una casilla\naleatoria cada turno, toda vez que la\nruleta caiga en una casilla con\nburbuja esta explota y el enemigo\ngana en el proximo turno 1$ y tu -1$"
+	#texto -> "Genera una burbuja en una casilla\naleatoria cada turno, toda vez que la\nruleta caiga en una casilla con\nburbuja esta explota y el enemigo\ngana en el proximo turno 1$ y tu -1$."
+	
+	#habilidad1
+	#textura -> res://sprites/maullido_alegre.png
+	#escala -> (0.5,0.5)
+	#rotación -> 0.0
+	#texto -> "Aumenta las stats de un item\naleatorio del enemigo una unidad\nhasta el final del turno."
+	
+	#enemigo = monstruo elegido
 
 func _ready() -> void:
 	"""Items para hacer pruebas"""

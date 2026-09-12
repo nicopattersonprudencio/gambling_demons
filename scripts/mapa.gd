@@ -149,7 +149,21 @@ func aplicar_datos_item(item: Area2D, tipo: String) -> void:
 	item.get_node("Sprite2D").texture = datos["texture"]
 	item.get_node("Sprite2D").scale = datos["scale"]
 	item.get_node("CollisionShape2D").shape.size = datos["collision_size"]
-	item.get_node("Label").text = datos["descripcion"]
+
+	var descripcion = datos["descripcion"]
+
+	var regex = RegEx.new()
+	regex.compile(r"-?\d+")
+
+	var descripcion_coloreada = regex.sub(
+	descripcion,
+	"[color=#228B22]$0[/color]",
+	true
+	)
+
+	var etiqueta = item.get_node("Label")
+	etiqueta.bbcode_enabled = true
+	etiqueta.text = descripcion_coloreada
 
 	item.set_meta("tipo_item", tipo)
 
