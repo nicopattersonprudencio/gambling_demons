@@ -175,14 +175,21 @@ func crear_items_inventario() -> void:
 		"candado_cerrado"
 	)
 
-func crear_habilidades() -> void: #cuando esta función se llama debe elegir de forma aleatorio el tipo de enemigo (mosquito o slime)
+func crear_habilidades() -> void:
+	# Elegir aleatoriamente el enemigo
+	var enemigos = ["mosquito", "slime"]
+	enemigo = enemigos.pick_random()
 
-	for h in range(3):
+	# Configurar cantidad de habilidades según el enemigo
+	var cantidad_habilidades = 3 if enemigo == "mosquito" else 2
+	var una_vez = true if enemigo == "mosquito" else false
+
+	for h in range(cantidad_habilidades):
 
 		var habilidad = instancia_habilidad.instantiate()
 
 		habilidades.append(habilidad)
-		una_vez_habilidades.append(true)
+		una_vez_habilidades.append(una_vez)
 		casillas_azules_habilidad.append(null)
 		orden_azules_habilidad.append(null)
 
@@ -192,77 +199,81 @@ func crear_habilidades() -> void: #cuando esta función se llama debe elegir de 
 
 		add_child(habilidad)
 
-	#Mosquito:
 
 	# ============================================================
-	# HABILIDAD 0 - SED DE SANGRE
+	# MOSQUITO
 	# ============================================================
 
-	habilidades[0].get_node("habilidad").texture = preload(
-		"res://sprites/sed_de_sangre.png"
-	)
+	if enemigo == "mosquito":
+		$Mosquito.visible = true
+		# HABILIDAD 0 - SED DE SANGRE
+		habilidades[0].get_node("habilidad").texture = preload(
+			"res://sprites/sed_de_sangre.png"
+		)
 
-	habilidades[0].get_node("habilidad").scale = Vector2(0.18, 0.18)
+		habilidades[0].get_node("habilidad").scale = Vector2(0.18, 0.18)
+		habilidades[0].get_node("habilidad").rotation = -6.9
 
-	habilidades[0].get_node("habilidad").rotation = -6.9
+		habilidades[0].get_node("Label6").text = \
+			"Toda vez que la ruleta caiga\nen una casilla roja, este enemigo\ngana en el proximo turno 1$ y tu -1$."
 
-	habilidades[0].get_node("Label6").text = \
-		"Toda vez que la ruleta caiga\nen una casilla roja, este enemigo\ngana en el proximo turno 1$ y tu -1$."
+
+		# HABILIDAD 1 - ROSA ROJA
+		habilidades[1].get_node("habilidad").texture = preload(
+			"res://sprites/rosa_roja.png"
+		)
+
+		habilidades[1].get_node("habilidad").scale = Vector2(0.1, 0.1)
+		habilidades[1].get_node("habilidad").rotation = 0.0
+
+		habilidades[1].get_node("Label6").text = \
+			"Cambia una casilla\naleatoria al rojo\nal principio del combate."
+
+
+		# HABILIDAD 2 - ROSA ROJA
+		habilidades[2].get_node("habilidad").texture = preload(
+			"res://sprites/rosa_roja.png"
+		)
+
+		habilidades[2].get_node("habilidad").scale = Vector2(0.1, 0.1)
+		habilidades[2].get_node("habilidad").rotation = 0.0
+
+		habilidades[2].get_node("Label6").text = \
+			"Cambia una casilla\naleatoria al rojo\nal principio del combate."
 
 
 	# ============================================================
-	# HABILIDAD 1 - ROSA ROJA
+	# SLIME
 	# ============================================================
 
-	habilidades[1].get_node("habilidad").texture = preload(
-		"res://sprites/rosa_roja.png"
-	)
+	elif enemigo == "slime":
+		$Gato_slime.visible = true
+		# HABILIDAD 0 - BURBUJA
+		habilidades[0].get_node("habilidad").texture = preload(
+			"res://sprites/burbuja.png"
+		)
 
-	habilidades[1].get_node("habilidad").scale = Vector2(0.1, 0.1)
+		habilidades[0].get_node("habilidad").scale = Vector2(0.45, 0.45)
+		habilidades[0].get_node("habilidad").rotation = 0.0
 
-	habilidades[1].get_node("habilidad").rotation = 0.0
-
-	habilidades[1].get_node("Label6").text = \
-		"Cambia una casilla\naleatoria al rojo\nal principio del combate."
+		habilidades[0].get_node("Label6").text = \
+			"Genera una burbuja en una casilla\naleatoria cada turno, toda vez que la\nruleta caiga en una casilla con\nburbuja esta explota y el enemigo\ngana en el proximo turno 1$ y tu -1$."
 
 
-	# ============================================================
-	# HABILIDAD 2 - ROSA ROJA
-	# ============================================================
+		# HABILIDAD 1 - MAULLIDO ALEGRE
+		habilidades[1].get_node("habilidad").texture = preload(
+			"res://sprites/maullido_alegre.png"
+		)
 
-	habilidades[2].get_node("habilidad").texture = preload(
-		"res://sprites/rosa_roja.png"
-	)
+		habilidades[1].get_node("habilidad").scale = Vector2(0.5, 0.5)
+		habilidades[1].get_node("habilidad").rotation = 0.0
 
-	habilidades[2].get_node("habilidad").scale = Vector2(0.1, 0.1)
-
-	habilidades[2].get_node("habilidad").rotation = 0.0
-
-	habilidades[2].get_node("Label6").text = \
-		"Cambia una casilla\naleatoria al rojo\nal principio del combate."
-		
-	#Slime:
-	
-	#habilidad0
-	#textura -> res://sprites/burbuja.png
-	#escala -> (0.45,0.45)
-	#rotación -> 0.0
-	#texto -> "Genera una burbuja en una casilla\naleatoria cada turno, toda vez que la\nruleta caiga en una casilla con\nburbuja esta explota y el enemigo\ngana en el proximo turno 1$ y tu -1$."
-	
-	#habilidad1
-	#textura -> res://sprites/maullido_alegre.png
-	#escala -> (0.5,0.5)
-	#rotación -> 0.0
-	#texto -> "Aumenta las stats de un item\naleatorio del enemigo una unidad\nhasta el final del turno."
-	
-	#enemigo = monstruo elegido
+		habilidades[1].get_node("Label6").text = \
+			"Aumenta las stats de un item\naleatorio del enemigo una unidad\nhasta el final del turno."
 
 func _ready() -> void:
 	"""Items para hacer pruebas"""
 	crear_items_inventario()
-	
-	"""mosquito"""
-	enemigo = "mosquito"
 	
 	crear_habilidades()
 	
@@ -308,7 +319,7 @@ func _process(delta):
 		$efecto_estado.visible = true
 	
 	"""mosquito"""
-	if monedas_demonio == 0:
+	if monedas_demonio == 0 and enemigo == "mosquito":
 		$Mosquito.visible = false
 		$Mosquito2.visible = true
 		$Sprite2D2.visible = true
@@ -371,8 +382,9 @@ func _process(delta):
 					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png"):
 						print("tengo un candado cerrado")
 						habilidad_identificada.append(habilidades.pick_random())
+						print(habilidad_identificada.size())
 						Global.item[i].get_node("candado_cerrado").emitting = true
-						habilidad_identificada[i].get_node("candado_cerrado2").emitting = true
+						habilidad_identificada[-1].get_node("candado_cerrado2").emitting = true
 						
 					"""boton_reinicio"""
 					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/boton_reinicio.png"):
