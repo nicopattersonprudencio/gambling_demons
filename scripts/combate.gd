@@ -175,6 +175,16 @@ func crear_items_inventario() -> void:
 		"candado_cerrado"
 	)
 
+func colorear_numeros(texto: String) -> String:
+	var regex = RegEx.new()
+	regex.compile(r"-?\d+")
+
+	return regex.sub(
+		texto,
+		"[color=#228B22]$0[/color]",
+		true
+	)
+
 func crear_habilidades() -> void:
 	# Elegir aleatoriamente el enemigo
 	var enemigos = ["mosquito", "slime"]
@@ -206,6 +216,7 @@ func crear_habilidades() -> void:
 
 	if enemigo == "mosquito":
 		$Mosquito.visible = true
+
 		# HABILIDAD 0 - SED DE SANGRE
 		habilidades[0].get_node("habilidad").texture = preload(
 			"res://sprites/sed_de_sangre.png"
@@ -214,8 +225,12 @@ func crear_habilidades() -> void:
 		habilidades[0].get_node("habilidad").scale = Vector2(0.18, 0.18)
 		habilidades[0].get_node("habilidad").rotation = -6.9
 
-		habilidades[0].get_node("Label6").text = \
+		var texto_habilidad_0 = \
 			"Toda vez que la ruleta caiga\nen una casilla roja, este enemigo\ngana en el proximo turno 1$ y tu -1$."
+
+		var etiqueta_0 = habilidades[0].get_node("Label6")
+		etiqueta_0.bbcode_enabled = true
+		etiqueta_0.text = colorear_numeros(texto_habilidad_0)
 
 
 		# HABILIDAD 1 - ROSA ROJA
@@ -226,8 +241,12 @@ func crear_habilidades() -> void:
 		habilidades[1].get_node("habilidad").scale = Vector2(0.1, 0.1)
 		habilidades[1].get_node("habilidad").rotation = 0.0
 
-		habilidades[1].get_node("Label6").text = \
+		var texto_habilidad_1 = \
 			"Cambia una casilla\naleatoria al rojo\nal principio del combate."
+
+		var etiqueta_1 = habilidades[1].get_node("Label6")
+		etiqueta_1.bbcode_enabled = true
+		etiqueta_1.text = colorear_numeros(texto_habilidad_1)
 
 
 		# HABILIDAD 2 - ROSA ROJA
@@ -238,8 +257,12 @@ func crear_habilidades() -> void:
 		habilidades[2].get_node("habilidad").scale = Vector2(0.1, 0.1)
 		habilidades[2].get_node("habilidad").rotation = 0.0
 
-		habilidades[2].get_node("Label6").text = \
+		var texto_habilidad_2 = \
 			"Cambia una casilla\naleatoria al rojo\nal principio del combate."
+
+		var etiqueta_2 = habilidades[2].get_node("Label6")
+		etiqueta_2.bbcode_enabled = true
+		etiqueta_2.text = colorear_numeros(texto_habilidad_2)
 
 
 	# ============================================================
@@ -248,6 +271,7 @@ func crear_habilidades() -> void:
 
 	elif enemigo == "slime":
 		$Gato_slime.visible = true
+
 		# HABILIDAD 0 - BURBUJA
 		habilidades[0].get_node("habilidad").texture = preload(
 			"res://sprites/burbuja.png"
@@ -256,8 +280,12 @@ func crear_habilidades() -> void:
 		habilidades[0].get_node("habilidad").scale = Vector2(0.45, 0.45)
 		habilidades[0].get_node("habilidad").rotation = 0.0
 
-		habilidades[0].get_node("Label6").text = \
+		var texto_habilidad_0 = \
 			"Genera una burbuja en una casilla\naleatoria cada turno, toda vez que la\nruleta caiga en una casilla con\nburbuja esta explota y el enemigo\ngana en el proximo turno 1$ y tu -1$."
+
+		var etiqueta_0 = habilidades[0].get_node("Label6")
+		etiqueta_0.bbcode_enabled = true
+		etiqueta_0.text = colorear_numeros(texto_habilidad_0)
 
 
 		# HABILIDAD 1 - MAULLIDO ALEGRE
@@ -268,8 +296,12 @@ func crear_habilidades() -> void:
 		habilidades[1].get_node("habilidad").scale = Vector2(0.5, 0.5)
 		habilidades[1].get_node("habilidad").rotation = 0.0
 
-		habilidades[1].get_node("Label6").text = \
+		var texto_habilidad_1 = \
 			"Aumenta las stats de un item\naleatorio del enemigo una unidad\nhasta el final del turno."
+
+		var etiqueta_1 = habilidades[1].get_node("Label6")
+		etiqueta_1.bbcode_enabled = true
+		etiqueta_1.text = colorear_numeros(texto_habilidad_1)
 
 func _ready() -> void:
 	"""Items para hacer pruebas"""
