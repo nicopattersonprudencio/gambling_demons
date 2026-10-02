@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bcrpb32gfq3sa"]
+[gd_scene load_steps=15 format=3 uid="uid://bcrpb32gfq3sa"]
 
 [ext_resource type="Texture2D" uid="uid://t4te1l53wx1d" path="res://sprites/circumferencia.png" id="1_ekubr"]
 [ext_resource type="Script" uid="uid://8tk23gjvo554" path="res://scripts/mapa.gd" id="1_nrd35"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bo53p8bwhpoyo" path="res://sprites/inventario.png" id="5_k7lwh"]
 [ext_resource type="Texture2D" uid="uid://bj5axebs55ywj" path="res://sprites/marcado.png" id="6_6i2c2"]
 [ext_resource type="Texture2D" uid="uid://bu762bn1lkmr3" path="res://sprites/linea.png" id="7_6i2c2"]
+[ext_resource type="Texture2D" uid="uid://bn0r3xoojje5a" path="res://sprites/34692631545_66513c5f5c_c.jpg" id="7_6pxv8"]
 
 [sub_resource type="Animation" id="Animation_atgyb"]
 length = 0.001
@@ -482,6 +483,11 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_k7lwh")
 text = "Nivel actual"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -2
+scale = Vector2(2.65, 2.65)
+texture = ExtResource("7_6pxv8")
 
 [connection signal="area_entered" from="Inventario/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Inventario/Area2D" to="." method="_on_area_2d_area_exited"]

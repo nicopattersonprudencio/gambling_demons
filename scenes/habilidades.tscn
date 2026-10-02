@@ -95,6 +95,25 @@ scale_amount_max = 20.0
 scale_amount_curve = SubResource("Curve_g1ui7")
 color = Color(1, 0, 0, 1)
 
+[node name="burbuja_habilidades" type="CPUParticles2D" parent="."]
+z_index = -1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, -900)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_g1ui7")
+color = Color(0.301961, 0.301961, 0.301961, 1)
+
 [node name="rosa_roja2_habilidades" type="CPUParticles2D" parent="."]
 z_index = 1
 emitting = false

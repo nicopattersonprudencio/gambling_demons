@@ -64,6 +64,13 @@ var casillas_rojas_modificadas = [null,null,null,null]
 """candado_cerrado"""
 var habilidad_identificada =[]
 
+"""slime"""
+var posiciones_burbujas = []
+var explotada_este_turno = false
+var valor_burbuja = 1
+const BURBUJA = preload("res://scenes/creacion_burbuja.tscn")
+var burbuja
+
 var datos_items = {
 
 	"rosa_roja": {
@@ -162,17 +169,17 @@ func crear_items_inventario() -> void:
 
 	aplicar_datos_item(
 		Global.item[1],
-		"boton_reinicio"
+		"rosa_roja"
 	)
 
 	aplicar_datos_item(
 		Global.item[2],
-		"candado_cerrado"
+		"rosa_roja"
 	)
 
 	aplicar_datos_item(
 		Global.item[3],
-		"candado_cerrado"
+		"rosa_roja"
 	)
 
 func colorear_numeros(texto: String) -> String:
@@ -322,7 +329,8 @@ func _ready() -> void:
 	$Label2.text = str(Global.dinero) + "$"
 	$Label5.text = str(monedas_demonio) + "$"
 	
-
+	"""cambiar el color de los numeros de $Label10.text"""
+	$Label10.text = colorear_numeros($Label10.text)
 	
 func girar_sprite():                                                                                                                                                                             
 	ruleta_girada = true                                  
@@ -346,9 +354,13 @@ func _on_button_pressed() -> void:
 func _process(delta):
 	
 	"""Efectos de estado"""
-	if color_verdadero == "rojo" and activacion_estado and enemigo == "mosquito":
-		$MarcadoEfectoEstado.visible = true
-		$efecto_estado.visible = true
+	if activacion_estado:
+		if color_verdadero == "rojo" and enemigo == "mosquito":
+			$MarcadoEfectoEstado.visible = true
+			$efecto_estado.visible = true
+		if enemigo == "slime" and explotada_este_turno:
+			$MarcadoEfectoEstado.visible = true
+			$efecto_estado.visible = true
 	
 	"""mosquito"""
 	if monedas_demonio == 0 and enemigo == "mosquito":
@@ -473,7 +485,6 @@ func _process(delta):
 										if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png"):
 											Global.item[i].get_node("candado_cerrado").emitting = false
 									habilidad_identificada[ha].get_node("candado_cerrado2").emitting = false
-									print("ha llegado aqui")
 									$MarcadoEfectoEstado.visible = false
 									$efecto_estado.visible = false
 									activacion_estado = false
@@ -520,13 +531,75 @@ func _process(delta):
 									orden_casillas_azules[orden_casillas_azules.find(orden_casilla_azul)] = null
 									casillas_azules_habilidad[h] = casilla_azul_elegida
 									orden_azules_habilidad[h] = orden_casilla_azul
+						
+						"""burbuja toxica"""
+						if habilidades[h].get_node("habilidad").texture == preload("res://sprites/burbuja.png"):
+							habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
+							var no_identificada = true
+							for ha in range(habilidad_identificada.size()):
+								if habilidad_identificada[ha] == habilidades[h]:
+									no_identificada = false
+									for i in range(Global.item.size()):
+										if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png"):
+											Global.item[i].get_node("candado_cerrado").emitting = false
+									habilidad_identificada[ha].get_node("candado_cerrado2").emitting = false
+									$MarcadoEfectoEstado.visible = false
+									$efecto_estado.visible = false
+									activacion_estado = false
+							if no_identificada:
+								habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
+								activacion_estado = false
+								if explotada_este_turno:
+									habilidades[h].get_node("burbuja_habilidades").emitting = true
+									$MarcadoEfectoEstado.visible = false
+									$efecto_estado.visible = false
+									Global.dinero -= valor_burbuja
+									monedas_demonio += valor_burbuja
+									$Label2.text = str(Global.dinero)+"$"
+									$Label5.text = str(monedas_demonio)+"$"
+								"""se crea la burbuja"""
+								var pos_burbuja = 0
+								if posiciones_burbujas.size() != 12:
+									while true:
+										pos_burbuja = randi_range(1, 12)
+										for bur in range(posiciones_burbujas.size()):
+											if pos_burbuja == posiciones_burbujas[bur]:
+												pos_burbuja = 0
+												break
+										if pos_burbuja != 0:
+											break
+									burbuja = BURBUJA.instantiate()
+									burbuja.get_node("burbuja_ruleta/invocacion").emitting = true
+									
+									if pos_burbuja == 2:
+										$Sprite2D/posicion_burbuja.add_child(burbuja)
+									if pos_burbuja == 3:
+										$Sprite2D/posicion_burbuja2.add_child(burbuja)
+									if pos_burbuja == 4:
+										$Sprite2D/posicion_burbuja3.add_child(burbuja)
+									if pos_burbuja == 5:
+										$Sprite2D/posicion_burbuja4.add_child(burbuja)
+									if pos_burbuja == 6:
+										$Sprite2D/posicion_burbuja5.add_child(burbuja)
+									if pos_burbuja == 7:
+										$Sprite2D/posicion_burbuja6.add_child(burbuja)
+									if pos_burbuja == 8:
+										$Sprite2D/posicion_burbuja7.add_child(burbuja)
+									if pos_burbuja == 9:
+										$Sprite2D/posicion_burbuja8.add_child(burbuja)
+									if pos_burbuja == 10:
+										$Sprite2D/posicion_burbuja9.add_child(burbuja)
+									if pos_burbuja == 11:
+										$Sprite2D/posicion_burbuja10.add_child(burbuja)
+									if pos_burbuja == 12:
+										$Sprite2D/posicion_burbuja11.add_child(burbuja)
+									if pos_burbuja == 1:
+										$Sprite2D/posicion_burbuja12.add_child(burbuja)
 								
 						print("empieza el timer")
 						$tiempo_efectos.start()
 						Global.efectos = true
 						timer_efectos = false
-						#if h == habilidades.size()-1:
-							#ruleta_apuestas = false
 	
 	"""elegir apuesta"""
 	if not Global.efectos and ruleta_apuestas:

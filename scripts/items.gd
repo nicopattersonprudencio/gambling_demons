@@ -13,11 +13,11 @@ func _ready() -> void:
 
 func _on_mouse_entered():
 	mouse_encima = true
-	$Timer.start()
+	if not $Button.visible:
+		$Label.visible = true
 
 func _on_mouse_exited():
 	mouse_encima = false
-	$Timer.stop()
 	$Label.visible = false
 
 func _on_button_pressed() -> void:
@@ -28,7 +28,6 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			$Label.visible = false
-			$Timer.stop()
 			if not mouse_boton:
 				$Button.visible = false
 			if mouse_encima:
@@ -57,7 +56,7 @@ func _input(event):
 				if tiempo_pulsado < 0.2 and mouse_encima:
 					$Button.visible = true
 				if mouse_encima and not $Button.visible:
-					$Timer.start()
+					$Label.visible = true
 				moverse = false
 func _process(delta):
 	if manteniendo_click:
@@ -67,11 +66,6 @@ func _process(delta):
 		global_position = get_global_mouse_position() + offset
 	else:
 		z_index = 0
-
-func _on_timer_timeout() -> void:
-	if not $Button.visible:
-		$Label.visible = true
-
 
 func _on_button_mouse_entered() -> void:
 	mouse_boton = true

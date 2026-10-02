@@ -208,14 +208,21 @@ _data = {
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6bnq2"]
 bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-expand_margin_left = 5.0
-expand_margin_top = 5.0
-expand_margin_right = 5.0
-expand_margin_bottom = 5.0
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+anti_aliasing = false
 anti_aliasing_size = 10.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_egxlx"]
@@ -589,6 +596,42 @@ rotation = -4.55007
 scale = Vector2(0.397286, 0.344787)
 texture = ExtResource("6_ue5hb")
 
+[node name="posicion_burbuja" type="Node2D" parent="Sprite2D"]
+position = Vector2(182, 32)
+
+[node name="posicion_burbuja2" type="Node2D" parent="Sprite2D"]
+position = Vector2(176, -64)
+
+[node name="posicion_burbuja3" type="Node2D" parent="Sprite2D"]
+position = Vector2(32, -186)
+
+[node name="posicion_burbuja4" type="Node2D" parent="Sprite2D"]
+position = Vector2(120, -144)
+
+[node name="posicion_burbuja5" type="Node2D" parent="Sprite2D"]
+position = Vector2(-67, -173)
+
+[node name="posicion_burbuja6" type="Node2D" parent="Sprite2D"]
+position = Vector2(-146, -119)
+
+[node name="posicion_burbuja7" type="Node2D" parent="Sprite2D"]
+position = Vector2(-187, -29)
+
+[node name="posicion_burbuja8" type="Node2D" parent="Sprite2D"]
+position = Vector2(-177, 69)
+
+[node name="posicion_burbuja9" type="Node2D" parent="Sprite2D"]
+position = Vector2(-120, 147)
+
+[node name="posicion_burbuja10" type="Node2D" parent="Sprite2D"]
+position = Vector2(-30, 188)
+
+[node name="posicion_burbuja11" type="Node2D" parent="Sprite2D"]
+position = Vector2(65, 177)
+
+[node name="posicion_burbuja12" type="Node2D" parent="Sprite2D"]
+position = Vector2(143, 120)
+
 [node name="Button" type="Button" parent="."]
 visible = false
 offset_left = 329.0
@@ -711,6 +754,7 @@ offset_left = -812.0
 offset_top = -475.0
 offset_right = -743.0
 offset_bottom = -392.0
+theme_override_colors/font_color = Color(2.06962e-06, 0.813116, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("8_vcxiq")
@@ -728,6 +772,7 @@ offset_left = 781.0
 offset_top = -475.0
 offset_right = 850.0
 offset_bottom = -392.0
+theme_override_colors/font_color = Color(0.87451, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("8_vcxiq")
@@ -745,6 +790,7 @@ offset_left = 327.0
 offset_top = 36.0
 offset_right = 585.0
 offset_bottom = 91.0
+theme_override_colors/font_color = Color(1, 0.800943, 0.0293886, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("8_vcxiq")
@@ -763,6 +809,7 @@ offset_left = -174.0
 offset_top = 337.0
 offset_right = 173.0
 offset_bottom = 392.0
+theme_override_colors/font_color = Color(1, 0.8, 0.027451, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("8_vcxiq")
@@ -850,8 +897,8 @@ shape = SubResource("RectangleShape2D_l0eye")
 [node name="Label" type="Label" parent="Inventario"]
 offset_left = -155.878
 offset_top = -272.941
-offset_right = -115.878
-offset_bottom = -217.941
+offset_right = -111.878
+offset_bottom = -169.941
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("8_vcxiq")
@@ -1119,18 +1166,19 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_6bnq2")
 text = "El dinero que te apuestas
  este turno."
 
-[node name="Label10" type="Label" parent="."]
+[node name="Label10" type="RichTextLabel" parent="."]
 visible = false
-offset_left = 292.0
+offset_left = 278.0
 offset_top = -251.0
-offset_right = 597.0
-offset_bottom = -178.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("8_vcxiq")
-theme_override_font_sizes/font_size = 27
+offset_right = 664.0
+offset_bottom = -170.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("8_vcxiq")
+theme_override_font_sizes/normal_font_size = 27
 theme_override_styles/normal = SubResource("StyleBoxFlat_6bnq2")
+bbcode_enabled = true
 text = "Este enemigo piensa robarte
-el proximo turno."
+1$ el proximo turno."
 
 [node name="MarcadoEfectoEstado" type="Sprite2D" parent="."]
 visible = false
@@ -1175,8 +1223,8 @@ texture = ExtResource("20_ok6sc")
 
 [node name="Sepoct2024F15Monet" type="Sprite2D" parent="."]
 z_index = -2
-position = Vector2(0, -314)
-scale = Vector2(2.65, 2.65)
+position = Vector2(0, -376)
+scale = Vector2(2.9, 2.9)
 texture = ExtResource("21_egxlx")
 
 [connection signal="area_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_area_entered"]
