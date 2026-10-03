@@ -311,7 +311,27 @@ func crear_habilidades() -> void:
 		etiqueta_1.bbcode_enabled = true
 		etiqueta_1.text = colorear_numeros(texto_habilidad_1)
 
+func animacion_idle():
+	var tween = create_tween().set_loops()
+
+	tween.tween_property(
+		$Gato_slime/Sprite2D,
+		"scale",
+		Vector2(0.85, 0.7),
+		0.9
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+	tween.tween_property(
+		$Gato_slime/Sprite2D,
+		"scale",
+		Vector2(0.65, 0.75),
+		0.9
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
 func _ready() -> void:
+	"""animación del gato"""
+	animacion_idle()
+	
 	"""añadir burbujas"""
 	for i in range(12):
 		burbuja.append(BURBUJA.instantiate())
