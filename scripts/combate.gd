@@ -65,11 +65,12 @@ var casillas_rojas_modificadas = [null,null,null,null]
 var habilidad_identificada =[]
 
 """slime"""
+@onready var posiciones_invocaciones_burbujas = [$Sprite2D/posicion_burbuja,$Sprite2D/posicion_burbuja2,$Sprite2D/posicion_burbuja3,$Sprite2D/posicion_burbuja4,$Sprite2D/posicion_burbuja5,$Sprite2D/posicion_burbuja6,$Sprite2D/posicion_burbuja7,$Sprite2D/posicion_burbuja8,$Sprite2D/posicion_burbuja9,$Sprite2D/posicion_burbuja10,$Sprite2D/posicion_burbuja11,$Sprite2D/posicion_burbuja12]
 var posiciones_burbujas = []
 var explotada_este_turno = false
 var valor_burbuja = 1
 const BURBUJA = preload("res://scenes/creacion_burbuja.tscn")
-var burbuja
+var burbuja = []
 
 var datos_items = {
 
@@ -311,6 +312,11 @@ func crear_habilidades() -> void:
 		etiqueta_1.text = colorear_numeros(texto_habilidad_1)
 
 func _ready() -> void:
+	"""añadir burbujas"""
+	for i in range(12):
+		burbuja.append(BURBUJA.instantiate())
+		posiciones_invocaciones_burbujas[i].add_child(burbuja[i])
+	
 	"""Items para hacer pruebas"""
 	crear_items_inventario()
 	
@@ -342,7 +348,26 @@ func girar_sprite():
 		$Sprite2D.rotation + deg_to_rad(valor),
 		2.0
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	
+	tween.finished.connect(_al_terminar_giro)
 
+func _al_terminar_giro():
+	#print("ha terminado de girar")
+	var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
+	if fase_eleccion:
+		#print("fase de apuestas")
+		for i in range(posiciones_burbujas.size()):
+			#print(posiciones_burbujas[i])
+			
+			if str(posiciones_burbujas[i]) == $Label.text:
+				for bur in range(burbuja.size()):
+					if posiciones_burbujas[i] ==  orden[bur]:
+						burbuja[bur].get_node("burbuja_ruleta/desaparicion").emitting = true
+						burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible = false
+						posiciones_burbujas.remove_at(i)
+						explotada_este_turno = true
+						break
+				break
 
 func _on_button_pressed() -> void:
 	if not Global.efectos:
@@ -548,6 +573,7 @@ func _process(delta):
 									activacion_estado = false
 							if no_identificada:
 								habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
+								habilidades[h].get_node("burbuja_habilidades").emitting = true
 								activacion_estado = false
 								if explotada_este_turno:
 									habilidades[h].get_node("burbuja_habilidades").emitting = true
@@ -568,35 +594,16 @@ func _process(delta):
 												break
 										if pos_burbuja != 0:
 											break
-									burbuja = BURBUJA.instantiate()
-									burbuja.get_node("burbuja_ruleta/invocacion").emitting = true
 									
-									if pos_burbuja == 2:
-										$Sprite2D/posicion_burbuja.add_child(burbuja)
-									if pos_burbuja == 3:
-										$Sprite2D/posicion_burbuja2.add_child(burbuja)
-									if pos_burbuja == 4:
-										$Sprite2D/posicion_burbuja3.add_child(burbuja)
-									if pos_burbuja == 5:
-										$Sprite2D/posicion_burbuja4.add_child(burbuja)
-									if pos_burbuja == 6:
-										$Sprite2D/posicion_burbuja5.add_child(burbuja)
-									if pos_burbuja == 7:
-										$Sprite2D/posicion_burbuja6.add_child(burbuja)
-									if pos_burbuja == 8:
-										$Sprite2D/posicion_burbuja7.add_child(burbuja)
-									if pos_burbuja == 9:
-										$Sprite2D/posicion_burbuja8.add_child(burbuja)
-									if pos_burbuja == 10:
-										$Sprite2D/posicion_burbuja9.add_child(burbuja)
-									if pos_burbuja == 11:
-										$Sprite2D/posicion_burbuja10.add_child(burbuja)
-									if pos_burbuja == 12:
-										$Sprite2D/posicion_burbuja11.add_child(burbuja)
-									if pos_burbuja == 1:
-										$Sprite2D/posicion_burbuja12.add_child(burbuja)
-								
-						print("empieza el timer")
+									var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
+									for bur in range(burbuja.size()):
+										if pos_burbuja ==  orden[bur]:
+											#print(bur)
+											#print(pos_burbuja)
+											burbuja[bur].get_node("burbuja_ruleta/invocacion").emitting = true
+											posiciones_burbujas.append(pos_burbuja)
+											break
+									
 						$tiempo_efectos.start()
 						Global.efectos = true
 						timer_efectos = false
@@ -793,7 +800,11 @@ func _on_button_4_pressed() -> void:
 """Realiza las transacciones despues de girar la ruleta de apuestas
  	y se convierte en la ruleta de elecciones o sale del combate"""
 func _on_timer_timeout() -> void:
-	
+	var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
+	for i in range(posiciones_burbujas.size()):
+			for bur in range(burbuja.size()):
+					if posiciones_burbujas[i] ==  orden[bur]:
+						burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible = false
 	activacion_estado = true
 	si_color = false
 	poder_girar = true
@@ -980,6 +991,12 @@ func _on_button_5_pressed() -> void:
 
 """Decide quien puede elegir y cambia a la ruleta de apuestas"""
 func _on_timer_2_timeout() -> void:
+	print("ha entrado aqui")
+	var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
+	for i in range(posiciones_burbujas.size()):
+			for bur in range(burbuja.size()):
+					if posiciones_burbujas[i] ==  orden[bur]:
+						burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible = true
 	$Inventario/Marcado.visible = false
 	$Inventario/Marcado2.visible = false
 	$Inventario/Marcado3.visible = false
@@ -1055,7 +1072,10 @@ func _on_timer_3_timeout() -> void:
 
 """El usuario se escapa del combate"""
 func _on_timer_4_timeout() -> void:
-	get_tree().quit()
+	get_tree().change_scene_to_file(
+					"res://scenes/mapa.tscn"
+				)
+	Global.nivel += 1
 
 """efectos de los items"""
 func _on_tiempo_efectos_timeout() -> void:
@@ -1156,7 +1176,23 @@ func _on_tiempo_efectos_timeout() -> void:
 							casillas_azules_habilidad[h].get_node("rosa_roja2_habilidades").emitting = false
 					
 							una_vez_habilidades[h] = false
-							
+				
+				"""burbuja_toxica"""
+				if habilidades[h].get_node("habilidad").texture == preload("res://sprites/burbuja.png"):
+					var no_identificada = true
+					for ha in range(habilidad_identificada.size()):
+						if habilidad_identificada[ha] == habilidades[h]:
+							no_identificada = false
+							pass
+					if no_identificada:
+						var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
+						for bur in range(burbuja.size()):
+							if posiciones_burbujas[-1] ==  orden[bur]:
+								burbuja[bur].get_node("burbuja_ruleta/invocacion").emitting = false
+								burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible = true
+						habilidades[h].get_node("burbuja_habilidades").emitting = false
+					explotada_este_turno = false
+				
 				si = false
 				inicio_habilidades += 1
 				if h == habilidades.size()-1:
