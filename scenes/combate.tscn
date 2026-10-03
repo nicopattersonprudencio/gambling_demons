@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://4ngf3vgv678k"]
+[gd_scene load_steps=53 format=3 uid="uid://4ngf3vgv678k"]
 
 [ext_resource type="Script" uid="uid://g77dign2hpfo" path="res://scripts/combate.gd" id="1_gtb6u"]
 [ext_resource type="Texture2D" uid="uid://b3r04glxkdqpn" path="res://sprites/RULETA.png" id="2_eq4v2"]
@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://if5v85ghn0ei" path="res://sprites/ladron_enmascarado.png" id="19_ok6sc"]
 [ext_resource type="Texture2D" uid="uid://cw63meemsyagk" path="res://sprites/gato_slime.png" id="20_ok6sc"]
 [ext_resource type="Texture2D" uid="uid://bn0r3xoojje5a" path="res://sprites/34692631545_66513c5f5c_c.jpg" id="21_egxlx"]
+[ext_resource type="Texture2D" uid="uid://dv8sejsywlvie" path="res://sprites/gato_slime_muerto.png" id="22_kaxlv"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_nhv6a"]
 a = Vector2(0.39093, -1.04008)
@@ -1214,12 +1215,20 @@ position = Vector2(-5.625, 0)
 shape = SubResource("RectangleShape2D_kaxlv")
 
 [node name="Gato_slime" type="Node2D" parent="."]
-visible = false
+z_index = -1
 
 [node name="Sprite2D" type="Sprite2D" parent="Gato_slime"]
 position = Vector2(0, -343)
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("20_ok6sc")
+
+[node name="Gato_slime_muerto" type="Node2D" parent="."]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="Gato_slime_muerto"]
+position = Vector2(0, -343)
+scale = Vector2(0.024, 0.024)
+texture = ExtResource("22_kaxlv")
 
 [node name="Sepoct2024F15Monet" type="Sprite2D" parent="."]
 z_index = -2

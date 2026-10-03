@@ -71,6 +71,7 @@ var explotada_este_turno = false
 var valor_burbuja = 1
 const BURBUJA = preload("res://scenes/creacion_burbuja.tscn")
 var burbuja = []
+var tween_idle: Tween
 
 var datos_items = {
 
@@ -195,7 +196,7 @@ func colorear_numeros(texto: String) -> String:
 
 func crear_habilidades() -> void:
 	# Elegir aleatoriamente el enemigo
-	var enemigos = ["mosquito", "slime"]
+	var enemigos = ["slime"]
 	enemigo = enemigos.pick_random()
 
 	# Configurar cantidad de habilidades según el enemigo
@@ -311,22 +312,28 @@ func crear_habilidades() -> void:
 		etiqueta_1.bbcode_enabled = true
 		etiqueta_1.text = colorear_numeros(texto_habilidad_1)
 
-func animacion_idle():
-	var tween = create_tween().set_loops()
-
-	tween.tween_property(
+func animacion_idle() -> void:
+	var escala_original = $Sprite2D.scale
+	
+	tween_idle = create_tween().set_loops()
+	
+	tween_idle.tween_property(
 		$Gato_slime/Sprite2D,
 		"scale",
-		Vector2(0.85, 0.7),
-		0.9
+		escala_original * Vector2(0.85, 0.7),
+		0.8
 	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-
-	tween.tween_property(
+	
+	tween_idle.tween_property(
 		$Gato_slime/Sprite2D,
 		"scale",
-		Vector2(0.65, 0.75),
-		0.9
+		escala_original * Vector2(0.65, 0.75),
+		0.8
 	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+func terminar_animacion_idle() -> void:
+	if tween_idle:
+		tween_idle.kill()
 
 func _ready() -> void:
 	"""animación del gato"""
@@ -411,6 +418,14 @@ func _process(delta):
 	if monedas_demonio == 0 and enemigo == "mosquito":
 		$Mosquito.visible = false
 		$Mosquito2.visible = true
+		$Sprite2D2.visible = true
+	
+	"""slime"""
+	if monedas_demonio == 0 and enemigo == "slime":
+		
+		terminar_animacion_idle()
+		$Gato_slime.visible = false
+		$Gato_slime_muerto.visible = true
 		$Sprite2D2.visible = true
 		
 	"""Efectos items"""
@@ -1011,7 +1026,6 @@ func _on_button_5_pressed() -> void:
 
 """Decide quien puede elegir y cambia a la ruleta de apuestas"""
 func _on_timer_2_timeout() -> void:
-	print("ha entrado aqui")
 	var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
 	for i in range(posiciones_burbujas.size()):
 			for bur in range(burbuja.size()):
