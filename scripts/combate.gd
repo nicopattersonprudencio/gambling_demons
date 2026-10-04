@@ -318,16 +318,16 @@ func animacion_idle() -> void:
 	tween_idle = create_tween().set_loops()
 	
 	tween_idle.tween_property(
-		$Gato_slime/Sprite2D,
+		$Gato_slime/Node2D/Sprite2D,
 		"scale",
-		escala_original * Vector2(0.85, 0.7),
+		escala_original * Vector2(0.85, 0.8),
 		0.8
 	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	
 	tween_idle.tween_property(
-		$Gato_slime/Sprite2D,
+		$Gato_slime/Node2D/Sprite2D,
 		"scale",
-		escala_original * Vector2(0.65, 0.75),
+		escala_original * Vector2(0.65, 0.95),
 		0.8
 	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
@@ -382,7 +382,7 @@ func _al_terminar_giro():
 	#print("ha terminado de girar")
 	var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
 	if fase_eleccion:
-		#print("fase de apuestas")
+		#print("posiciones burbujas:")
 		for i in range(posiciones_burbujas.size()):
 			#print(posiciones_burbujas[i])
 			
@@ -395,6 +395,8 @@ func _al_terminar_giro():
 						explotada_este_turno = true
 						break
 				break
+		print("label actual:")
+		print($Label.text)
 
 func _on_button_pressed() -> void:
 	if not Global.efectos:
@@ -633,8 +635,9 @@ func _process(delta):
 									var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
 									for bur in range(burbuja.size()):
 										if pos_burbuja ==  orden[bur]:
-											#print(bur)
-											#print(pos_burbuja)
+											print("creacion burbuja")
+											print(bur)
+											print(pos_burbuja)
 											burbuja[bur].get_node("burbuja_ruleta/invocacion").emitting = true
 											posiciones_burbujas.append(pos_burbuja)
 											break
@@ -1106,6 +1109,7 @@ func _on_timer_3_timeout() -> void:
 
 """El usuario se escapa del combate"""
 func _on_timer_4_timeout() -> void:
+	print("se ha escapado")
 	get_tree().change_scene_to_file(
 					"res://scenes/mapa.tscn"
 				)
@@ -1222,9 +1226,14 @@ func _on_tiempo_efectos_timeout() -> void:
 						var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
 						for bur in range(burbuja.size()):
 							if posiciones_burbujas[-1] ==  orden[bur]:
+								print("ultima agregada:")
+								print(posiciones_burbujas[-1])
 								burbuja[bur].get_node("burbuja_ruleta/invocacion").emitting = false
 								burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible = true
 						habilidades[h].get_node("burbuja_habilidades").emitting = false
+						print("posiciones de las burbujas:")
+						for pos in range(posiciones_burbujas.size()):
+							print(posiciones_burbujas[pos])
 					explotada_este_turno = false
 				
 				si = false
@@ -1281,7 +1290,7 @@ func input_flecha(viewport,
 		if event.button_index == MOUSE_BUTTON_LEFT:
 
 			if event.pressed:
-
+				print("nivel superado")
 				get_tree().change_scene_to_file(
 					"res://scenes/mapa.tscn"
 				)

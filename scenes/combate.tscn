@@ -604,10 +604,10 @@ position = Vector2(182, 32)
 position = Vector2(176, -64)
 
 [node name="posicion_burbuja3" type="Node2D" parent="Sprite2D"]
-position = Vector2(32, -186)
+position = Vector2(120, -144)
 
 [node name="posicion_burbuja4" type="Node2D" parent="Sprite2D"]
-position = Vector2(120, -144)
+position = Vector2(32, -186)
 
 [node name="posicion_burbuja5" type="Node2D" parent="Sprite2D"]
 position = Vector2(-67, -173)
@@ -1215,19 +1215,26 @@ position = Vector2(-5.625, 0)
 shape = SubResource("RectangleShape2D_kaxlv")
 
 [node name="Gato_slime" type="Node2D" parent="."]
+visible = false
 z_index = -1
 
-[node name="Sprite2D" type="Sprite2D" parent="Gato_slime"]
-position = Vector2(0, -343)
+[node name="Node2D" type="Node2D" parent="Gato_slime"]
+position = Vector2(0, -187)
+
+[node name="Sprite2D" type="Sprite2D" parent="Gato_slime/Node2D"]
+position = Vector2(0, 0.999969)
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("20_ok6sc")
+centered = false
+offset = Vector2(-253, -420)
 
 [node name="Gato_slime_muerto" type="Node2D" parent="."]
 visible = false
+z_index = -1
 
 [node name="Sprite2D" type="Sprite2D" parent="Gato_slime_muerto"]
-position = Vector2(0, -343)
-scale = Vector2(0.024, 0.024)
+position = Vector2(0, -330)
+scale = Vector2(0.025, 0.025)
 texture = ExtResource("22_kaxlv")
 
 [node name="Sepoct2024F15Monet" type="Sprite2D" parent="."]
