@@ -151,7 +151,7 @@ func crear_items_inventario() -> void:
 
 	var instancia = preload("res://scenes/items.tscn")
 
-	for i in range(4):
+	for i in range(1):
 
 		var item = instancia.instantiate()
 
@@ -166,9 +166,9 @@ func crear_items_inventario() -> void:
 
 	aplicar_datos_item(
 		Global.item[0],
-		"rosa_roja"
+		"candado_cerrado"
 	)
-
+"""
 	aplicar_datos_item(
 		Global.item[1],
 		"rosa_roja"
@@ -183,7 +183,7 @@ func crear_items_inventario() -> void:
 		Global.item[3],
 		"rosa_roja"
 	)
-
+"""
 func colorear_numeros(texto: String) -> String:
 	var regex = RegEx.new()
 	regex.compile(r"-?\d+")
@@ -196,11 +196,13 @@ func colorear_numeros(texto: String) -> String:
 
 func crear_habilidades() -> void:
 	# Elegir aleatoriamente el enemigo
-	var enemigos = ["slime","mosquito"]
+	var enemigos = ["mosquito","slime"]
+	
 	if Global.nivel <= 2:
 		enemigo = "mosquito"
 	else:
 		enemigo = "slime"
+
 	#enemigo = enemigos.pick_random()
 
 	# Configurar cantidad de habilidades según el enemigo
@@ -362,10 +364,12 @@ func _ready() -> void:
 	"""Dinero del jugador y del enemigo"""
 	RenderingServer.set_default_clear_color(Color(0.25, 0.25, 0.25))
 	randomize()
-	if monedas_demonio <= Global.dinero:
+	if monedas_demonio <= Global.dinero and monedas_demonio < 3:
 		apuesta = randi_range(1,monedas_demonio)
-	else:
+	elif Global.dinero < 3 and Global.dinero < monedas_demonio:
 		apuesta = randi_range(1,Global.dinero)
+	else:
+		apuesta = randi_range(1,3)
 	$Label3.text = "APUESTA: ?"
 	$Label2.text = str(Global.dinero) + "$"
 	$Label5.text = str(monedas_demonio) + "$"
@@ -387,12 +391,9 @@ func girar_sprite():
 	tween.finished.connect(_al_terminar_giro)
 
 func _al_terminar_giro():
-	#print("ha terminado de girar")
 	var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
 	if fase_eleccion:
-		#print("posiciones burbujas:")
 		for i in range(posiciones_burbujas.size()):
-			#print(posiciones_burbujas[i])
 			
 			if str(posiciones_burbujas[i]) == $Label.text:
 				for bur in range(burbuja.size()):
@@ -492,8 +493,8 @@ func _process(delta):
 						
 					"""candado_cerrado"""
 					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png"):
-						print("tengo un candado cerrado")
 						habilidad_identificada.append(habilidades.pick_random())
+						print("cantidad de habilidades identificadas:")
 						print(habilidad_identificada.size())
 						Global.item[i].get_node("candado_cerrado").emitting = true
 						habilidad_identificada[-1].get_node("candado_cerrado2").emitting = true
@@ -615,6 +616,13 @@ func _process(delta):
 									$efecto_estado.visible = false
 									activacion_estado = false
 							valor_burbuja = 1
+							$Label10.text = "Este enemigo piensa robarte "+str(valor_burbuja)+"$ el proximo turno."
+							$Label10.text = colorear_numeros($Label10.text)
+							for hab in range(habilidades.size()):
+								if habilidades[hab].get_node("habilidad").texture == preload("res://sprites/burbuja.png"):
+									habilidades[hab].get_node("Label6").text = "Genera una burbuja en una casilla\naleatoria cada turno, toda vez que la\nruleta caiga en una casilla con\nburbuja esta explota y el enemigo\ngana en el proximo turno +"+str(valor_burbuja)+"$ y tu -"+str(valor_burbuja)+"$."
+									habilidades[hab].get_node("Label6").text = colorear_numeros(habilidades[hab].get_node("Label6").text)
+									break
 							if no_identificada:
 								habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
 								habilidades[h].get_node("burbuja_habilidades").emitting = true
@@ -642,9 +650,6 @@ func _process(delta):
 									var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
 									for bur in range(burbuja.size()):
 										if pos_burbuja ==  orden[bur]:
-											print("creacion burbuja")
-											print(bur)
-											print(pos_burbuja)
 											burbuja[bur].get_node("burbuja_ruleta/invocacion").emitting = true
 											posiciones_burbujas.append(pos_burbuja)
 											break
@@ -685,10 +690,12 @@ func _process(delta):
 	"""elegir apuesta"""
 	if not Global.efectos and ruleta_apuestas:
 		ruleta_apuestas = false
-		if monedas_demonio <= Global.dinero:
+		if monedas_demonio <= Global.dinero and monedas_demonio < 3:
 			apuesta = randi_range(1,monedas_demonio)
-		else:
+		elif Global.dinero < 3 and Global.dinero < monedas_demonio:
 			apuesta = randi_range(1,Global.dinero)
+		else:
+			apuesta = randi_range(1,3)
 		$Label3.text = "APUESTA: "+ str(apuesta) +"$"
 	
 	"""RULETA ELECCION"""
@@ -1100,8 +1107,6 @@ func _on_timer_2_timeout() -> void:
 				color_elegido = "azul"
 			else:
 				color_elegido = "rojo"
-			print("cantidad de rojas:")
-			print(cantidad_rojas)
 				
 			
 		if color_elegido == "rojo":
@@ -1158,7 +1163,6 @@ func _on_timer_3_timeout() -> void:
 
 """El usuario se escapa del combate"""
 func _on_timer_4_timeout() -> void:
-	print("se ha escapado")
 	get_tree().change_scene_to_file(
 					"res://scenes/mapa.tscn"
 				)
@@ -1270,19 +1274,14 @@ func _on_tiempo_efectos_timeout() -> void:
 					for ha in range(habilidad_identificada.size()):
 						if habilidad_identificada[ha] == habilidades[h]:
 							no_identificada = false
-							pass
+							habilidad_identificada.remove_at(ha)
 					if no_identificada:
 						var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
 						for bur in range(burbuja.size()):
 							if posiciones_burbujas[-1] ==  orden[bur]:
-								print("ultima agregada:")
-								print(posiciones_burbujas[-1])
 								burbuja[bur].get_node("burbuja_ruleta/invocacion").emitting = false
 								burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible = true
 						habilidades[h].get_node("burbuja_habilidades").emitting = false
-						print("posiciones de las burbujas:")
-						for pos in range(posiciones_burbujas.size()):
-							print(posiciones_burbujas[pos])
 					explotada_este_turno = false
 					
 				"""maullido_alegre"""
@@ -1291,13 +1290,21 @@ func _on_tiempo_efectos_timeout() -> void:
 					for ha in range(habilidad_identificada.size()):
 						if habilidad_identificada[ha] == habilidades[h]:
 							no_identificada = false
-							pass
+							habilidad_identificada.remove_at(ha)
 					if no_identificada:
 						habilidades[h].get_node("maullido_habilidades").emitting = false
 						for hab in range(habilidades.size()):
 									if habilidades[hab].get_node("habilidad").texture == preload("res://sprites/burbuja.png"):
 										habilidades[hab].get_node("maullido_habilidades").emitting = false
 										break
+				
+				"""sed_de_sangre"""
+				if habilidades[h].get_node("habilidad").texture == preload("res://sprites/sed_de_sangre.png"):
+					var no_identificada = true
+					for ha in range(habilidad_identificada.size()):
+						if habilidad_identificada[ha] == habilidades[h]:
+							no_identificada = false
+							habilidad_identificada.remove_at(ha)
 				
 				si = false
 				inicio_habilidades += 1
@@ -1353,7 +1360,6 @@ func input_flecha(viewport,
 		if event.button_index == MOUSE_BUTTON_LEFT:
 
 			if event.pressed:
-				print("nivel superado")
 				get_tree().change_scene_to_file(
 					"res://scenes/mapa.tscn"
 				)

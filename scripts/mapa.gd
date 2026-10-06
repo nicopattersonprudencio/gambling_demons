@@ -185,7 +185,7 @@ func obtener_tipo_item(item: Area2D) -> String:
 
 func _ready() -> void:
 	
-	$Label5.text = str(Global.nivel) + "/10"
+	$Label5.text = str(Global.nivel) + "/?"
 	
 	# ========================================================
 	# LIMPIAR ESTADO DEL INVENTARIO
