@@ -196,8 +196,12 @@ func colorear_numeros(texto: String) -> String:
 
 func crear_habilidades() -> void:
 	# Elegir aleatoriamente el enemigo
-	var enemigos = ["slime"]
-	enemigo = enemigos.pick_random()
+	var enemigos = ["slime","mosquito"]
+	if Global.nivel <= 2:
+		enemigo = "mosquito"
+	else:
+		enemigo = "slime"
+	#enemigo = enemigos.pick_random()
 
 	# Configurar cantidad de habilidades según el enemigo
 	var cantidad_habilidades = 3 if enemigo == "mosquito" else 2
@@ -279,6 +283,8 @@ func crear_habilidades() -> void:
 	# ============================================================
 
 	elif enemigo == "slime":
+		monedas_demonio = 7
+		$Label10.text = "Este enemigo piensa robarte "+str(valor_burbuja)+"$ el proximo turno."
 		$Gato_slime.visible = true
 
 		# HABILIDAD 0 - BURBUJA
@@ -290,7 +296,7 @@ func crear_habilidades() -> void:
 		habilidades[0].get_node("habilidad").rotation = 0.0
 
 		var texto_habilidad_0 = \
-			"Genera una burbuja en una casilla\naleatoria cada turno, toda vez que la\nruleta caiga en una casilla con\nburbuja esta explota y el enemigo\ngana en el proximo turno 1$ y tu -1$."
+			"Genera una burbuja en una casilla\naleatoria cada turno, toda vez que la\nruleta caiga en una casilla con\nburbuja esta explota y el enemigo\ngana en el proximo turno +"+str(valor_burbuja)+"$ y tu -"+str(valor_burbuja)+"$."
 
 		var etiqueta_0 = habilidades[0].get_node("Label6")
 		etiqueta_0.bbcode_enabled = true
@@ -345,10 +351,12 @@ func _ready() -> void:
 		posiciones_invocaciones_burbujas[i].add_child(burbuja[i])
 	
 	"""Items para hacer pruebas"""
-	crear_items_inventario()
+	#crear_items_inventario()
 	
+	"""habilidades de los enemigos"""
 	crear_habilidades()
 	
+	"""si enemigo mosquito"""
 	$AnimationPlayer.play("movimiento_mosquito")
 	
 	"""Dinero del jugador y del enemigo"""
@@ -395,8 +403,6 @@ func _al_terminar_giro():
 						explotada_este_turno = true
 						break
 				break
-		print("label actual:")
-		print($Label.text)
 
 func _on_button_pressed() -> void:
 	if not Global.efectos:
@@ -608,6 +614,7 @@ func _process(delta):
 									$MarcadoEfectoEstado.visible = false
 									$efecto_estado.visible = false
 									activacion_estado = false
+							valor_burbuja = 1
 							if no_identificada:
 								habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
 								habilidades[h].get_node("burbuja_habilidades").emitting = true
@@ -642,6 +649,35 @@ func _process(delta):
 											posiciones_burbujas.append(pos_burbuja)
 											break
 									
+						"""maullido de gato"""
+						if habilidades[h].get_node("habilidad").texture == preload("res://sprites/maullido_alegre.png"):
+							habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
+							var no_identificada = true
+							for ha in range(habilidad_identificada.size()):
+								if habilidad_identificada[ha] == habilidades[h]:
+									no_identificada = false
+									for i in range(Global.item.size()):
+										if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png"):
+											Global.item[i].get_node("candado_cerrado").emitting = false
+									habilidad_identificada[ha].get_node("candado_cerrado2").emitting = false
+									$MarcadoEfectoEstado.visible = false
+									$efecto_estado.visible = false
+									activacion_estado = false
+							if no_identificada:
+								habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
+								habilidades[h].get_node("maullido_habilidades").emitting = true
+								"""eligiendo un item para aumentar sus stats"""
+								valor_burbuja += 1
+								$Label10.text = "Este enemigo piensa robarte "+str(valor_burbuja)+"$ el proximo turno."
+								$Label10.text = colorear_numeros($Label10.text)
+								for hab in range(habilidades.size()):
+									if habilidades[hab].get_node("habilidad").texture == preload("res://sprites/burbuja.png"):
+										habilidades[hab].get_node("maullido_habilidades").emitting = true
+										habilidades[hab].get_node("Label6").text = "Genera una burbuja en una casilla\naleatoria cada turno, toda vez que la\nruleta caiga en una casilla con\nburbuja esta explota y el enemigo\ngana en el proximo turno +"+str(valor_burbuja)+"$ y tu -"+str(valor_burbuja)+"$."
+										habilidades[hab].get_node("Label6").text = colorear_numeros(habilidades[hab].get_node("Label6").text)
+										break
+								activacion_estado = false
+							
 						$tiempo_efectos.start()
 						Global.efectos = true
 						timer_efectos = false
@@ -1054,6 +1090,19 @@ func _on_timer_2_timeout() -> void:
 		
 		if enemigo == "mosquito":
 			color_elegido = "azul"
+		
+		if enemigo == "slime":
+			var cantidad_rojas = 0
+			for c in range(colores_verdaderos.size()):
+				if colores_verdaderos[c] == "rojo":
+					cantidad_rojas += 1
+			if cantidad_rojas > 6:
+				color_elegido = "azul"
+			else:
+				color_elegido = "rojo"
+			print("cantidad de rojas:")
+			print(cantidad_rojas)
+				
 			
 		if color_elegido == "rojo":
 			$Label4.text = "EL DEMONIO HA ELEGIDO EL COLOR AZUL"
@@ -1235,6 +1284,20 @@ func _on_tiempo_efectos_timeout() -> void:
 						for pos in range(posiciones_burbujas.size()):
 							print(posiciones_burbujas[pos])
 					explotada_este_turno = false
+					
+				"""maullido_alegre"""
+				if habilidades[h].get_node("habilidad").texture == preload("res://sprites/maullido_alegre.png"):
+					var no_identificada = true
+					for ha in range(habilidad_identificada.size()):
+						if habilidad_identificada[ha] == habilidades[h]:
+							no_identificada = false
+							pass
+					if no_identificada:
+						habilidades[h].get_node("maullido_habilidades").emitting = false
+						for hab in range(habilidades.size()):
+									if habilidades[hab].get_node("habilidad").texture == preload("res://sprites/burbuja.png"):
+										habilidades[hab].get_node("maullido_habilidades").emitting = false
+										break
 				
 				si = false
 				inicio_habilidades += 1
