@@ -72,6 +72,7 @@ var valor_burbuja = 1
 const BURBUJA = preload("res://scenes/creacion_burbuja.tscn")
 var burbuja = []
 var tween_idle: Tween
+var burbuja_boton_reinicio = []
 
 var datos_items = {
 
@@ -79,33 +80,32 @@ var datos_items = {
 		"texture": preload("res://sprites/rosa_roja.png"),
 		"scale": Vector2(0.15, 0.15),
 		"collision_size": Vector2(117, 90),
-		"descripcion": "Cambia 1 casilla\naleatoria al rojo\nal principio del combate."
+		"descripcion": "Cambia una casilla\naleatoria al rojo\nal principio del combate."
 	},
 
 	"rosa_azul": {
 		"texture": preload("res://sprites/rosa_azul.png"),
 		"scale": Vector2(0.15, 0.15),
 		"collision_size": Vector2(117, 90),
-		"descripcion": "Cambia 1 casilla\naleatoria al azul\nal principio del combate."
+		"descripcion": "Cambia una casilla\naleatoria al azul\nal principio del combate."
 	},
 
 	"candado_cerrado": {
 		"texture": preload("res://sprites/candado.png"),
 		"scale": Vector2(0.3, 0.3),
 		"collision_size": Vector2(69, 92),
-		"descripcion": "Anula una habilidad cualquiera\ndel oponente cada turno."
+		"descripcion": "Tiene una probabilidad\ndel 33% de anular\nuna habilidad cualquiera\ndel oponente cada turno."
 	},
 
 	"boton_reinicio": {
 		"texture": preload("res://sprites/boton_reinicio.png"),
 		"scale": Vector2(0.5, 0.45),
 		"collision_size": Vector2(66, 115),
-		"descripcion": "Toda vez que el jugador no pueda elegir,\nla ruleta vuelve a su estado normal durante 1 turno."
+		"descripcion": "Toda vez que el jugador no pueda elegir,\nla ruleta vuelve a su estado normal durante un turno."
 	}
 }
 
 func aplicar_datos_item(item: Area2D, tipo: String) -> void:
-
 	if not datos_items.has(tipo):
 		print("ERROR: No existe el tipo de item: ", tipo)
 		return
@@ -116,23 +116,11 @@ func aplicar_datos_item(item: Area2D, tipo: String) -> void:
 	item.get_node("Sprite2D").scale = datos["scale"]
 	item.get_node("CollisionShape2D").shape.size = datos["collision_size"]
 
-	var descripcion = datos["descripcion"]
-
-	var regex = RegEx.new()
-	regex.compile(r"-?\d+")
-
-	var descripcion_coloreada = regex.sub(
-	descripcion,
-	"[color=#228B22]$0[/color]",
-	true
-	)
-
 	var etiqueta = item.get_node("Label")
 	etiqueta.bbcode_enabled = true
-	etiqueta.text = descripcion_coloreada
+	etiqueta.text = colorear_numeros(datos["descripcion"])
 
 	item.set_meta("tipo_item", tipo)
-
 
 # ============================================================
 # OBTENER TIPO DE ITEM
@@ -168,42 +156,55 @@ func crear_items_inventario() -> void:
 		Global.item[0],
 		"candado_cerrado"
 	)
-"""
+
 	aplicar_datos_item(
 		Global.item[1],
-		"rosa_roja"
+		"boton_reinicio"
 	)
 
 	aplicar_datos_item(
 		Global.item[2],
-		"rosa_roja"
+		"boton_reinicio"
 	)
 
 	aplicar_datos_item(
 		Global.item[3],
-		"rosa_roja"
+		"boton_reinicio"
 	)
-"""
+
 func colorear_numeros(texto: String) -> String:
 	var regex = RegEx.new()
-	regex.compile(r"-?\d+")
+	regex.compile(r"\$-?\d+(?:[.,]\d+)?|-?\d+(?:[.,]\d+)?\$|-?\d+(?:[.,]\d+)?%")
 
-	return regex.sub(
-		texto,
-		"[color=#228B22]$0[/color]",
-		true
-	)
+	var resultado = ""
+	var posicion = 0
+
+	for coincidencia in regex.search_all(texto):
+		resultado += texto.substr(posicion, coincidencia.get_start() - posicion)
+
+		var fragmento = coincidencia.get_string()
+
+		if fragmento.begins_with("$") or fragmento.ends_with("$"):
+			resultado += "[color=#228B22]" + fragmento + "[/color]"
+		else:
+			resultado += "[color=#0000FF]" + fragmento + "[/color]"
+
+		posicion = coincidencia.get_end()
+
+	resultado += texto.substr(posicion)
+
+	return resultado
 
 func crear_habilidades() -> void:
 	# Elegir aleatoriamente el enemigo
-	var enemigos = ["mosquito","slime"]
+	var enemigos = ["slime","mosquito"]
 	
-	if Global.nivel <= 2:
+	if Global.nivel <= 3:
 		enemigo = "mosquito"
 	else:
 		enemigo = "slime"
-
-	#enemigo = enemigos.pick_random()
+	
+	enemigo = enemigos.pick_random()
 
 	# Configurar cantidad de habilidades según el enemigo
 	var cantidad_habilidades = 3 if enemigo == "mosquito" else 2
@@ -298,7 +299,7 @@ func crear_habilidades() -> void:
 		habilidades[0].get_node("habilidad").rotation = 0.0
 
 		var texto_habilidad_0 = \
-			"Genera una burbuja en una casilla\naleatoria cada turno, toda vez que la\nruleta caiga en una casilla con\nburbuja esta explota y el enemigo\ngana en el proximo turno +"+str(valor_burbuja)+"$ y tu -"+str(valor_burbuja)+"$."
+			"Genera una burbuja en una casilla\naleatoria cada turno, toda vez que la\nruleta caiga en una casilla con\nburbuja esta explota y el enemigo\ngana en el proximo turno "+str(valor_burbuja)+"$ y tu -"+str(valor_burbuja)+"$."
 
 		var etiqueta_0 = habilidades[0].get_node("Label6")
 		etiqueta_0.bbcode_enabled = true
@@ -314,7 +315,7 @@ func crear_habilidades() -> void:
 		habilidades[1].get_node("habilidad").rotation = 0.0
 
 		var texto_habilidad_1 = \
-			"Aumenta las stats de un item\naleatorio del enemigo una unidad\nhasta el final del turno."
+			"Aumenta el dinero conseguido de un item aleatorio del enemigo\nuna unidad cada turno."
 
 		var etiqueta_1 = habilidades[1].get_node("Label6")
 		etiqueta_1.bbcode_enabled = true
@@ -353,7 +354,7 @@ func _ready() -> void:
 		posiciones_invocaciones_burbujas[i].add_child(burbuja[i])
 	
 	"""Items para hacer pruebas"""
-	#crear_items_inventario()
+	crear_items_inventario()
 	
 	"""habilidades de los enemigos"""
 	crear_habilidades()
@@ -364,9 +365,9 @@ func _ready() -> void:
 	"""Dinero del jugador y del enemigo"""
 	RenderingServer.set_default_clear_color(Color(0.25, 0.25, 0.25))
 	randomize()
-	if monedas_demonio <= Global.dinero and monedas_demonio < 3:
+	if monedas_demonio <= Global.dinero and monedas_demonio < 4:
 		apuesta = randi_range(1,monedas_demonio)
-	elif Global.dinero < 3 and Global.dinero < monedas_demonio:
+	elif Global.dinero < 4 and Global.dinero < monedas_demonio:
 		apuesta = randi_range(1,Global.dinero)
 	else:
 		apuesta = randi_range(1,3)
@@ -397,7 +398,7 @@ func _al_terminar_giro():
 			
 			if str(posiciones_burbujas[i]) == $Label.text:
 				for bur in range(burbuja.size()):
-					if posiciones_burbujas[i] ==  orden[bur]:
+					if posiciones_burbujas[i] ==  orden[bur] and burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible:
 						burbuja[bur].get_node("burbuja_ruleta/desaparicion").emitting = true
 						burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible = false
 						posiciones_burbujas.remove_at(i)
@@ -492,7 +493,8 @@ func _process(delta):
 							orden_casillas_rojas_modificadas[i] = orden_casilla_roja
 						
 					"""candado_cerrado"""
-					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png"):
+					var probabilidad_exito: bool = randi_range(1, 100) <= 33
+					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png") and probabilidad_exito:
 						habilidad_identificada.append(habilidades.pick_random())
 						print("cantidad de habilidades identificadas:")
 						print(habilidad_identificada.size())
@@ -515,6 +517,12 @@ func _process(delta):
 									if cr == cro and casillas_rojas[cr] != casillas_rojas_original[cro]:
 										casillas_rojas_original[cro].get_node("rosa_roja2").emitting = true
 										Global.item[i].get_node("boton_reinicio").emitting = true
+							"""las burbujas desaparecen"""
+							for b in range(burbuja.size()):
+								if burbuja[b].get_node("burbuja_ruleta/Sprite2D3").visible:
+									burbuja_boton_reinicio.append(burbuja[b])
+									burbuja[b].get_node("burbuja_ruleta/invocacion").emitting = true
+									Global.item[i].get_node("boton_reinicio").emitting = true
 						else:
 							for ca in range(casillas_azules.size()):
 								if casillas_azules[ca] != null:
@@ -534,6 +542,14 @@ func _process(delta):
 											casillas_rojas_modificadas[it].get_node("rosa_azul2").emitting = true
 											Global.item[i].get_node("boton_reinicio").emitting = true
 											
+							"""las burbujas reaparecen"""
+							for b in range(burbuja.size()):
+								for bur in range(burbuja_boton_reinicio.size()):
+									print("Burbuja:", burbuja.size())
+									print("Burbuja botón reinicio:", burbuja_boton_reinicio.size())
+									if burbuja[b] == burbuja_boton_reinicio[bur]:
+										Global.item[i].get_node("boton_reinicio").emitting = true
+										burbuja[b].get_node("burbuja_ruleta/invocacion").emitting = true
 										
 					$tiempo_efectos.start()
 					Global.efectos = true
@@ -615,7 +631,6 @@ func _process(delta):
 									$MarcadoEfectoEstado.visible = false
 									$efecto_estado.visible = false
 									activacion_estado = false
-							valor_burbuja = 1
 							$Label10.text = "Este enemigo piensa robarte "+str(valor_burbuja)+"$ el proximo turno."
 							$Label10.text = colorear_numeros($Label10.text)
 							for hab in range(habilidades.size()):
@@ -690,9 +705,9 @@ func _process(delta):
 	"""elegir apuesta"""
 	if not Global.efectos and ruleta_apuestas:
 		ruleta_apuestas = false
-		if monedas_demonio <= Global.dinero and monedas_demonio < 3:
+		if monedas_demonio <= Global.dinero and monedas_demonio < 4:
 			apuesta = randi_range(1,monedas_demonio)
-		elif Global.dinero < 3 and Global.dinero < monedas_demonio:
+		elif Global.dinero < 4 and Global.dinero < monedas_demonio:
 			apuesta = randi_range(1,Global.dinero)
 		else:
 			apuesta = randi_range(1,3)
@@ -884,7 +899,7 @@ func _on_timer_timeout() -> void:
 	var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
 	for i in range(posiciones_burbujas.size()):
 			for bur in range(burbuja.size()):
-					if posiciones_burbujas[i] ==  orden[bur]:
+					if posiciones_burbujas[i] ==  orden[bur] and burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible:
 						burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible = false
 	activacion_estado = true
 	si_color = false
@@ -1077,6 +1092,10 @@ func _on_timer_2_timeout() -> void:
 			for bur in range(burbuja.size()):
 					if posiciones_burbujas[i] ==  orden[bur]:
 						burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible = true
+						for b in range(burbuja_boton_reinicio.size()):
+							if burbuja_boton_reinicio[b] == burbuja[bur]:
+								burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible = false
+						
 	$Inventario/Marcado.visible = false
 	$Inventario/Marcado2.visible = false
 	$Inventario/Marcado3.visible = false
@@ -1218,6 +1237,10 @@ func _on_tiempo_efectos_timeout() -> void:
 										colores_verdaderos[orden_casillas_rojas_original[cro]] = "rojo"
 										casillas_rojas[cr] = casillas_rojas_original[cro]
 										orden_casillas_rojas[cr] = orden_casillas_rojas_original[cro]
+						for b in range(burbuja.size()):
+								if burbuja[b].get_node("burbuja_ruleta/Sprite2D3").visible:
+									burbuja[b].get_node("burbuja_ruleta/invocacion").emitting = false
+									burbuja[b].get_node("burbuja_ruleta/Sprite2D3").visible = false
 					else:
 							for ca in range(casillas_azules.size()):
 								if casillas_azules[ca] != null:
@@ -1244,6 +1267,12 @@ func _on_tiempo_efectos_timeout() -> void:
 											colores_verdaderos[orden_casillas_rojas_modificadas[it]] = "azul"
 											casillas_rojas[cr] = null
 											orden_casillas_rojas[cr] = null
+							for b in range(burbuja.size()):
+								for bur in range(burbuja_boton_reinicio.size()):
+									if burbuja[b] == burbuja_boton_reinicio[bur]:
+										burbuja[b].get_node("burbuja_ruleta/invocacion").emitting = false
+										burbuja[b].get_node("burbuja_ruleta/Sprite2D3").visible = true
+										burbuja_boton_reinicio.remove_at(bur)
 				si = false
 	
 	"""habilidades"""
@@ -1278,7 +1307,7 @@ func _on_tiempo_efectos_timeout() -> void:
 					if no_identificada:
 						var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
 						for bur in range(burbuja.size()):
-							if posiciones_burbujas[-1] ==  orden[bur]:
+							if posiciones_burbujas[-1] == orden[bur]:
 								burbuja[bur].get_node("burbuja_ruleta/invocacion").emitting = false
 								burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible = true
 						habilidades[h].get_node("burbuja_habilidades").emitting = false
