@@ -8,6 +8,7 @@ var apuesta
 var fase_eleccion = true
 var jugador_ganador
 var escapar = false
+var duracion_animacion: float = 1.0
 
 var posiciones_inventario = [Vector2(-778,-218),Vector2(-778,-73),Vector2(-778,71),Vector2(-778,215)]
 var objeto_inventario = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
@@ -105,6 +106,8 @@ var datos_items = {
 	}
 }
 
+
+
 func aplicar_datos_item(item: Area2D, tipo: String) -> void:
 	if not datos_items.has(tipo):
 		print("ERROR: No existe el tipo de item: ", tipo)
@@ -139,7 +142,7 @@ func crear_items_inventario() -> void:
 
 	var instancia = preload("res://scenes/items.tscn")
 
-	for i in range(1):
+	for i in range(4):
 
 		var item = instancia.instantiate()
 
@@ -164,12 +167,12 @@ func crear_items_inventario() -> void:
 
 	aplicar_datos_item(
 		Global.item[2],
-		"boton_reinicio"
+		"rosa_roja"
 	)
 
 	aplicar_datos_item(
 		Global.item[3],
-		"boton_reinicio"
+		"rosa_azul"
 	)
 
 func colorear_numeros(texto: String) -> String:
@@ -388,9 +391,9 @@ func girar_sprite():
 		$Sprite2D.rotation + deg_to_rad(valor),
 		2.0
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-	
 	tween.finished.connect(_al_terminar_giro)
-
+	$AudioStreamPlayer3.play()
+	
 func _al_terminar_giro():
 	var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
 	if fase_eleccion:
@@ -408,6 +411,7 @@ func _al_terminar_giro():
 
 func _on_button_pressed() -> void:
 	if not Global.efectos:
+		$AudioStreamPlayer2.play()
 		$Button.visible = false
 		$Button2.visible = false
 		if poder_girar:
@@ -445,15 +449,20 @@ func _process(delta):
 				if Global.item[i].position == posiciones_inventario[p] and timer_efectos:
 					if p == 0:
 						$Inventario/Marcado4.visible = true
+						$AudioStreamPlayer.play()
 					elif p == 1:
 						$Inventario/Marcado3.visible = true
+						$AudioStreamPlayer.play()
 					elif p == 2:
 						$Inventario/Marcado2.visible = true
+						$AudioStreamPlayer.play()
 					else:
 						$Inventario/Marcado.visible = true
+						$AudioStreamPlayer.play()
 					"""rosa_roja"""
 					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/rosa_roja.png"):
 						if una_vez[i]:
+							$AudioStreamPlayer12.play()
 							Global.item[i].get_node("rosa_roja").emitting = true
 							casilla_azul_elegida = casillas_azules.pick_random()
 							while casilla_azul_elegida == null:
@@ -475,6 +484,7 @@ func _process(delta):
 					"""rosa_azul"""
 					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/rosa_azul.png"):
 						if una_vez[i]:
+							$AudioStreamPlayer12.play()
 							Global.item[i].get_node("rosa_azul").emitting = true
 							casilla_roja_elegida = casillas_rojas.pick_random()
 							while casilla_roja_elegida == null:
@@ -495,6 +505,7 @@ func _process(delta):
 					"""candado_cerrado"""
 					var probabilidad_exito: bool = randi_range(1, 100) <= 33
 					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png") and probabilidad_exito:
+						$AudioStreamPlayer8.play()
 						habilidad_identificada.append(habilidades.pick_random())
 						print("cantidad de habilidades identificadas:")
 						print(habilidad_identificada.size())
@@ -512,27 +523,32 @@ func _process(delta):
 										else:
 											casillas_azules_original[cao].get_node("rosa_azul2_habilidades").emitting = true
 										Global.item[i].get_node("boton_reinicio").emitting = true
+										$AudioStreamPlayer13.play()
 							for cr in range(casillas_rojas.size()):
 								for cro in range(casillas_rojas_original.size()):
 									if cr == cro and casillas_rojas[cr] != casillas_rojas_original[cro]:
 										casillas_rojas_original[cro].get_node("rosa_roja2").emitting = true
 										Global.item[i].get_node("boton_reinicio").emitting = true
+										$AudioStreamPlayer13.play()
 							"""las burbujas desaparecen"""
 							for b in range(burbuja.size()):
 								if burbuja[b].get_node("burbuja_ruleta/Sprite2D3").visible:
 									burbuja_boton_reinicio.append(burbuja[b])
 									burbuja[b].get_node("burbuja_ruleta/invocacion").emitting = true
 									Global.item[i].get_node("boton_reinicio").emitting = true
+									$AudioStreamPlayer13.play()
 						else:
 							for ca in range(casillas_azules.size()):
 								if casillas_azules[ca] != null:
 									for it in range(Global.item.size()):
 										if casillas_azules_modificadas[it] == casillas_azules_original[ca]:
 											Global.item[i].get_node("boton_reinicio").emitting = true
+											$AudioStreamPlayer13.play()
 											casillas_azules_modificadas[it].get_node("rosa_roja2").emitting = true
 									for h in range(habilidades.size()):
 										if casillas_azules_habilidad[h] == casillas_azules_original[ca]:
 											Global.item[i].get_node("boton_reinicio").emitting = true
+											$AudioStreamPlayer13.play()
 											casillas_azules_habilidad[h].get_node("rosa_roja2_habilidades").emitting = true
 											
 							for cr in range(casillas_rojas.size()):
@@ -541,6 +557,7 @@ func _process(delta):
 										if casillas_rojas_modificadas[it] == casillas_rojas_original[cr]:
 											casillas_rojas_modificadas[it].get_node("rosa_azul2").emitting = true
 											Global.item[i].get_node("boton_reinicio").emitting = true
+											$AudioStreamPlayer13.play()
 											
 							"""las burbujas reaparecen"""
 							for b in range(burbuja.size()):
@@ -575,19 +592,48 @@ func _process(delta):
 									activacion_estado = false
 							if no_identificada:
 								habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
+								$AudioStreamPlayer.play()
 								activacion_estado = false
 								if color_verdadero == "rojo":
+									$AudioStreamPlayer11.play()
 									habilidades[h].get_node("rosa_roja_habilidades").emitting = true
 									$MarcadoEfectoEstado.visible = false
 									$efecto_estado.visible = false
 									Global.dinero -= 1
 									monedas_demonio += 1
-									$Label2.text = str(Global.dinero)+"$"
-									$Label5.text = str(monedas_demonio)+"$"
+									$AudioStreamPlayer5.play()
+									var dinero_inicial = int($Label2.text.replace("$", ""))
+									var dinero_final = Global.dinero
+
+									var monedas_iniciales = int($Label5.text.replace("$", ""))
+									var monedas_finales = monedas_demonio
+
+									var tween_dinero = create_tween()
+									tween_dinero.tween_method(
+									func(valor: int):
+										if valor != int($Label2.text.replace("$", "")):
+											$AudioStreamPlayer6.play()
+										$Label2.text = str(valor) + "$",
+										dinero_inicial,
+										dinero_final,
+										duracion_animacion
+										).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+									var tween_monedas = create_tween()
+									tween_monedas.tween_method(
+									func(valor: int):
+										if valor != int($Label5.text.replace("$", "")):
+											$AudioStreamPlayer6.play()
+										$Label5.text = str(valor) + "$",
+										monedas_iniciales,
+										monedas_finales,
+										duracion_animacion
+										).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 						
 						"""rosa_roja"""
 						if habilidades[h].get_node("habilidad").texture == preload("res://sprites/rosa_roja.png"):
 							habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
+							$AudioStreamPlayer.play()
 							var no_identificada = true
 							for ha in range(habilidad_identificada.size()):
 								if habilidad_identificada[ha] == habilidades[h]:
@@ -598,6 +644,7 @@ func _process(delta):
 									habilidad_identificada[ha].get_node("candado_cerrado2").emitting = false
 							if no_identificada:
 								if una_vez_habilidades[h]:
+									$AudioStreamPlayer12.play()
 									habilidades[h].get_node("rosa_roja_habilidades").emitting = true
 									activacion_estado = false
 									casilla_azul_elegida = casillas_azules.pick_random()
@@ -620,6 +667,7 @@ func _process(delta):
 						"""burbuja toxica"""
 						if habilidades[h].get_node("habilidad").texture == preload("res://sprites/burbuja.png"):
 							habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
+							$AudioStreamPlayer.play()
 							var no_identificada = true
 							for ha in range(habilidad_identificada.size()):
 								if habilidad_identificada[ha] == habilidades[h]:
@@ -639,7 +687,9 @@ func _process(delta):
 									habilidades[hab].get_node("Label6").text = colorear_numeros(habilidades[hab].get_node("Label6").text)
 									break
 							if no_identificada:
+								$AudioStreamPlayer9.play()
 								habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
+								$AudioStreamPlayer.play()
 								habilidades[h].get_node("burbuja_habilidades").emitting = true
 								activacion_estado = false
 								if explotada_este_turno:
@@ -648,8 +698,34 @@ func _process(delta):
 									$efecto_estado.visible = false
 									Global.dinero -= valor_burbuja
 									monedas_demonio += valor_burbuja
-									$Label2.text = str(Global.dinero)+"$"
-									$Label5.text = str(monedas_demonio)+"$"
+									var dinero_inicial = int($Label2.text.replace("$", ""))
+									var dinero_final = Global.dinero
+
+									var monedas_iniciales = int($Label5.text.replace("$", ""))
+									var monedas_finales = monedas_demonio
+
+									var tween_dinero = create_tween()
+									tween_dinero.tween_method(
+									func(valor: int):
+										if valor != int($Label2.text.replace("$", "")):
+											$AudioStreamPlayer6.play()
+										$Label2.text = str(valor) + "$",
+										dinero_inicial,
+										dinero_final,
+										duracion_animacion
+										).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+									var tween_monedas = create_tween()
+									tween_monedas.tween_method(
+									func(valor: int):
+										if valor != int($Label5.text.replace("$", "")):
+											$AudioStreamPlayer6.play()
+										$Label5.text = str(valor) + "$",
+										monedas_iniciales,
+										monedas_finales,
+										duracion_animacion
+										).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+									$AudioStreamPlayer5.play()
 								"""se crea la burbuja"""
 								var pos_burbuja = 0
 								if posiciones_burbujas.size() != 12:
@@ -672,6 +748,7 @@ func _process(delta):
 						"""maullido de gato"""
 						if habilidades[h].get_node("habilidad").texture == preload("res://sprites/maullido_alegre.png"):
 							habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
+							$AudioStreamPlayer.play()
 							var no_identificada = true
 							for ha in range(habilidad_identificada.size()):
 								if habilidad_identificada[ha] == habilidades[h]:
@@ -684,7 +761,9 @@ func _process(delta):
 									$efecto_estado.visible = false
 									activacion_estado = false
 							if no_identificada:
+								$AudioStreamPlayer10.play()
 								habilidades[h].get_node("MarcadoHabilidades/marcado").visible = true
+								$AudioStreamPlayer.play()
 								habilidades[h].get_node("maullido_habilidades").emitting = true
 								"""eligiendo un item para aumentar sus stats"""
 								valor_burbuja += 1
@@ -871,6 +950,7 @@ func _on_area_2d_12_area_entered(area: Area2D) -> void:
 
 func _on_button_2_pressed() -> void:
 	if not Global.efectos:
+		$AudioStreamPlayer2.play()
 		$Button.visible = false
 		$Button2.visible = false
 		escapar = true
@@ -884,8 +964,10 @@ func _on_button_3_pressed() -> void:
 	$Button.visible = true
 	$Button2.visible = true
 	color_elegido = "azul"
+	$AudioStreamPlayer2.play()
 
 func _on_button_4_pressed() -> void:
+	$AudioStreamPlayer2.play()
 	$Button3.visible = false
 	$Button4.visible = false
 	$Label4.visible = false
@@ -905,13 +987,43 @@ func _on_timer_timeout() -> void:
 	si_color = false
 	poder_girar = true
 	if color_elegido == color_verdadero:
+		$AudioStreamPlayer7.play()
 		Global.dinero += apuesta
 		monedas_demonio -= apuesta
 	else:
+		$AudioStreamPlayer5.play()
 		Global.dinero -= apuesta
 		monedas_demonio += apuesta
-	$Label2.text = str(Global.dinero)+"$"
-	$Label5.text = str(monedas_demonio)+"$"
+	var dinero_inicial = int($Label2.text.replace("$", ""))
+	var dinero_final = Global.dinero
+
+	var monedas_iniciales = int($Label5.text.replace("$", ""))
+	var monedas_finales = monedas_demonio
+
+
+
+	var tween_dinero = create_tween()
+	tween_dinero.tween_method(
+		func(valor: int):
+		if valor != int($Label2.text.replace("$", "")):
+			$AudioStreamPlayer6.play()
+		$Label2.text = str(valor) + "$",
+	dinero_inicial,
+	dinero_final,
+	duracion_animacion
+).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+	var tween_monedas = create_tween()
+	tween_monedas.tween_method(
+	func(valor: int):
+		if valor != int($Label5.text.replace("$", "")):
+			$AudioStreamPlayer6.play()
+		$Label5.text = str(valor) + "$",
+	monedas_iniciales,
+	monedas_finales,
+	duracion_animacion
+).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
 	if monedas_demonio <= 0 or Global.dinero <= 0:
 		poder_girar = false
 	if escapar:
@@ -964,6 +1076,7 @@ func _on_area_2d_mouse_entered() -> void:
 	mouse_area[0] = true
 	if not Global.efectos:
 		$Inventario/Marcado.visible = true
+		$AudioStreamPlayer.play()
 
 func _on_area_2d_mouse_exited() -> void:
 	mouse_area[0] = false
@@ -974,6 +1087,7 @@ func _on_area_2d_2_mouse_entered() -> void:
 	mouse_area[1] = true
 	if not Global.efectos:
 		$Inventario/Marcado2.visible = true
+		$AudioStreamPlayer.play()
 
 func _on_area_2d_2_mouse_exited() -> void:
 	mouse_area[1] = false
@@ -984,6 +1098,7 @@ func _on_area_2d_3_mouse_entered() -> void:
 	mouse_area[2] = true
 	if not Global.efectos:
 		$Inventario/Marcado3.visible = true
+		$AudioStreamPlayer.play()
 
 func _on_area_2d_3_mouse_exited() -> void:
 	mouse_area[2] = false
@@ -994,6 +1109,7 @@ func _on_area_2d_4_mouse_entered() -> void:
 	mouse_area[3] = true
 	if not Global.efectos:
 		$Inventario/Marcado4.visible = true
+		$AudioStreamPlayer.play()
 
 func _on_area_2d_4_mouse_exited() -> void:
 	mouse_area[3] = false
@@ -1082,6 +1198,7 @@ func item_inventario_salida_4(area: Area2D) -> void:
 
 func _on_button_5_pressed() -> void:
 		if poder_girar:
+			$AudioStreamPlayer2.play()
 			$Button5.visible = false
 			girar_sprite()
 
@@ -1178,6 +1295,7 @@ func _on_timer_2_timeout() -> void:
 """Bomba de humo que sirve como transición entre ruletas o escapar del combate"""
 func _on_timer_3_timeout() -> void:
 	if not escapar:
+		$AudioStreamPlayer4.play()
 		$CPUParticles2D.emitting = true
 
 """El usuario se escapa del combate"""
@@ -1389,12 +1507,14 @@ func input_flecha(viewport,
 		if event.button_index == MOUSE_BUTTON_LEFT:
 
 			if event.pressed:
+				$AudioStreamPlayer2.play()
 				get_tree().change_scene_to_file(
 					"res://scenes/mapa.tscn"
 				)
 				Global.nivel += 1
 
 func entrando_flecha() -> void:
+	$AudioStreamPlayer.play()
 	$Sprite2D2.material.set_shader_parameter(
 		"glow_strength",
 		1.5
@@ -1405,3 +1525,18 @@ func saliendo_flecha() -> void:
 		"glow_strength",
 		0
 	)
+
+func _on_button_mouse_entered_musica() -> void:
+	$AudioStreamPlayer.play()
+
+func _on_button_5_mouse_entered_musica() -> void:
+	$AudioStreamPlayer.play()
+
+func _on_button_3_mouse_entered_sonido() -> void:
+	$AudioStreamPlayer.play()
+
+func _on_button_2_mouse_entered_sonido() -> void:
+	$AudioStreamPlayer.play()
+
+func _on_button_4_mouse_entered() -> void:
+	$AudioStreamPlayer.play()

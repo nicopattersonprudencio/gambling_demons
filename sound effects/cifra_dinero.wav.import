@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ql4ak3uetnyj"
+path="res://.godot/imported/cifra_dinero.wav-ad4b43d8667e9689f3fac5e358dbd4e7.sample"
+
+[deps]
+
+source_file="res://sound effects/cifra_dinero.wav"
+dest_files=["res://.godot/imported/cifra_dinero.wav-ad4b43d8667e9689f3fac5e358dbd4e7.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

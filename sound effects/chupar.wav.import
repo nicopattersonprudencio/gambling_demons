@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://hfohwequxxqy"
+path="res://.godot/imported/chupar.wav-491a35a74472be9be9a6cb4b7b95a23b.sample"
+
+[deps]
+
+source_file="res://sound effects/chupar.wav"
+dest_files=["res://.godot/imported/chupar.wav-491a35a74472be9be9a6cb4b7b95a23b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

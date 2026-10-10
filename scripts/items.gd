@@ -22,6 +22,7 @@ func _on_mouse_exited():
 
 func _on_button_pressed() -> void:
 	if not Global.efectos:
+		$AudioStreamPlayer2.play()
 		visible = false
 
 func _input(event):
@@ -55,6 +56,7 @@ func _input(event):
 					Global.arrastrando[3] = false
 				if tiempo_pulsado < 0.2 and mouse_encima:
 					$Button.visible = true
+					$AudioStreamPlayer2.play()
 				if mouse_encima and not $Button.visible:
 					$Label.visible = true
 				moverse = false
@@ -69,7 +71,7 @@ func _process(delta):
 
 func _on_button_mouse_entered() -> void:
 	mouse_boton = true
-
+	$AudioStreamPlayer.play()
 
 func _on_button_mouse_exited() -> void:
 	mouse_boton = false

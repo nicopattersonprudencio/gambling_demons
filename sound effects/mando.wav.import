@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dhdsvk2t130c2"
+path="res://.godot/imported/mando.wav-3bca1626f505ae447079e8dcdac6d06f.sample"
+
+[deps]
+
+source_file="res://sound effects/mando.wav"
+dest_files=["res://.godot/imported/mando.wav-3bca1626f505ae447079e8dcdac6d06f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

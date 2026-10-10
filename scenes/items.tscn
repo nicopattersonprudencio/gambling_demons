@@ -1,9 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://c6aku1my1x1ql"]
+[gd_scene load_steps=16 format=3 uid="uid://c6aku1my1x1ql"]
 
 [ext_resource type="Script" uid="uid://bawj5i8yje4n2" path="res://scripts/items.gd" id="1_sj0ge"]
 [ext_resource type="Texture2D" uid="uid://do8jpylfblbwa" path="res://sprites/candado.png" id="2_sj0ge"]
 [ext_resource type="Shader" uid="uid://c1wk4m3axp30c" path="res://shaders/items.gdshader" id="2_trfxy"]
 [ext_resource type="FontFile" uid="uid://c4y6jiklmpvld" path="res://fuentes/InterVariable.ttf" id="4_d17p1"]
+[ext_resource type="AudioStream" uid="uid://e87ypj23j67l" path="res://sound effects/casillas_items2.wav" id="5_me73k"]
+[ext_resource type="AudioStream" uid="uid://dlcegdheto5to" path="res://sound effects/casillas_items.wav" id="6_4ludf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d17p1"]
 shader = ExtResource("2_trfxy")
@@ -229,6 +231,14 @@ scale_amount_min = 20.0
 scale_amount_max = 20.0
 scale_amount_curve = SubResource("Curve_trfxy")
 color = Color(0, 0, 1, 1)
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_me73k")
+pitch_scale = 1.2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_4ludf")
+pitch_scale = 1.4
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
