@@ -403,6 +403,7 @@ func _al_terminar_giro():
 				for bur in range(burbuja.size()):
 					if posiciones_burbujas[i] ==  orden[bur] and burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible:
 						burbuja[bur].get_node("burbuja_ruleta/desaparicion").emitting = true
+						$AudioStreamPlayer14.play()
 						burbuja[bur].get_node("burbuja_ruleta/Sprite2D3").visible = false
 						posiciones_burbujas.remove_at(i)
 						explotada_este_turno = true
@@ -507,8 +508,6 @@ func _process(delta):
 					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/candado.png") and probabilidad_exito:
 						$AudioStreamPlayer8.play()
 						habilidad_identificada.append(habilidades.pick_random())
-						print("cantidad de habilidades identificadas:")
-						print(habilidad_identificada.size())
 						Global.item[i].get_node("candado_cerrado").emitting = true
 						habilidad_identificada[-1].get_node("candado_cerrado2").emitting = true
 						
@@ -562,8 +561,6 @@ func _process(delta):
 							"""las burbujas reaparecen"""
 							for b in range(burbuja.size()):
 								for bur in range(burbuja_boton_reinicio.size()):
-									print("Burbuja:", burbuja.size())
-									print("Burbuja botón reinicio:", burbuja_boton_reinicio.size())
 									if burbuja[b] == burbuja_boton_reinicio[bur]:
 										Global.item[i].get_node("boton_reinicio").emitting = true
 										burbuja[b].get_node("burbuja_ruleta/invocacion").emitting = true
@@ -602,6 +599,7 @@ func _process(delta):
 									Global.dinero -= 1
 									monedas_demonio += 1
 									$AudioStreamPlayer5.play()
+									
 									var dinero_inicial = int($Label2.text.replace("$", ""))
 									var dinero_final = Global.dinero
 
@@ -610,25 +608,35 @@ func _process(delta):
 
 									var tween_dinero = create_tween()
 									tween_dinero.tween_method(
-									func(valor: int):
-										if valor != int($Label2.text.replace("$", "")):
-											$AudioStreamPlayer6.play()
-										$Label2.text = str(valor) + "$",
-										dinero_inicial,
-										dinero_final,
-										duracion_animacion
-										).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+										func(valor: int):
+											if valor != int($Label2.text.replace("$", "")):
+												$AudioStreamPlayer6.play()
+
+												var giro = create_tween()
+												giro.tween_property($Label2, "rotation_degrees", 20.0, 0.05)
+												giro.tween_property($Label2, "rotation_degrees", 0.0, 0.1)
+
+											$Label2.text = str(valor) + "$",
+											dinero_inicial,
+											dinero_final,
+											duracion_animacion
+											).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 									var tween_monedas = create_tween()
 									tween_monedas.tween_method(
-									func(valor: int):
-										if valor != int($Label5.text.replace("$", "")):
-											$AudioStreamPlayer6.play()
-										$Label5.text = str(valor) + "$",
-										monedas_iniciales,
-										monedas_finales,
-										duracion_animacion
-										).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+										func(valor: int):
+											if valor != int($Label5.text.replace("$", "")):
+												$AudioStreamPlayer6.play()
+
+												var giro = create_tween()
+												giro.tween_property($Label5, "rotation_degrees", 20.0, 0.05)
+												giro.tween_property($Label5, "rotation_degrees", 0.0, 0.1)
+
+											$Label5.text = str(valor) + "$",
+											monedas_iniciales,
+											monedas_finales,
+											duracion_animacion
+											).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 						
 						"""rosa_roja"""
 						if habilidades[h].get_node("habilidad").texture == preload("res://sprites/rosa_roja.png"):
@@ -706,25 +714,35 @@ func _process(delta):
 
 									var tween_dinero = create_tween()
 									tween_dinero.tween_method(
-									func(valor: int):
-										if valor != int($Label2.text.replace("$", "")):
-											$AudioStreamPlayer6.play()
-										$Label2.text = str(valor) + "$",
-										dinero_inicial,
-										dinero_final,
-										duracion_animacion
-										).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+										func(valor: int):
+											if valor != int($Label2.text.replace("$", "")):
+												$AudioStreamPlayer6.play()
+
+												var giro = create_tween()
+												giro.tween_property($Label2, "rotation_degrees", 20.0, 0.05)
+												giro.tween_property($Label2, "rotation_degrees", 0.0, 0.1)
+
+											$Label2.text = str(valor) + "$",
+											dinero_inicial,
+											dinero_final,
+											duracion_animacion
+											).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 									var tween_monedas = create_tween()
 									tween_monedas.tween_method(
-									func(valor: int):
-										if valor != int($Label5.text.replace("$", "")):
-											$AudioStreamPlayer6.play()
-										$Label5.text = str(valor) + "$",
-										monedas_iniciales,
-										monedas_finales,
-										duracion_animacion
-										).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+										func(valor: int):
+											if valor != int($Label5.text.replace("$", "")):
+												$AudioStreamPlayer6.play()
+
+												var giro = create_tween()
+												giro.tween_property($Label5, "rotation_degrees", 20.0, 0.05)
+												giro.tween_property($Label5, "rotation_degrees", 0.0, 0.1)
+
+											$Label5.text = str(valor) + "$",
+											monedas_iniciales,
+											monedas_finales,
+											duracion_animacion
+											).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 									$AudioStreamPlayer5.play()
 								"""se crea la burbuja"""
 								var pos_burbuja = 0
@@ -994,19 +1012,23 @@ func _on_timer_timeout() -> void:
 		$AudioStreamPlayer5.play()
 		Global.dinero -= apuesta
 		monedas_demonio += apuesta
+		
 	var dinero_inicial = int($Label2.text.replace("$", ""))
 	var dinero_final = Global.dinero
 
 	var monedas_iniciales = int($Label5.text.replace("$", ""))
 	var monedas_finales = monedas_demonio
 
-
-
 	var tween_dinero = create_tween()
 	tween_dinero.tween_method(
-		func(valor: int):
+	func(valor: int):
 		if valor != int($Label2.text.replace("$", "")):
 			$AudioStreamPlayer6.play()
+
+			var giro = create_tween()
+			giro.tween_property($Label2, "rotation_degrees", 20.0, 0.05)
+			giro.tween_property($Label2, "rotation_degrees", 0.0, 0.1)
+
 		$Label2.text = str(valor) + "$",
 	dinero_inicial,
 	dinero_final,
@@ -1018,6 +1040,11 @@ func _on_timer_timeout() -> void:
 	func(valor: int):
 		if valor != int($Label5.text.replace("$", "")):
 			$AudioStreamPlayer6.play()
+
+			var giro = create_tween()
+			giro.tween_property($Label5, "rotation_degrees", 20.0, 0.05)
+			giro.tween_property($Label5, "rotation_degrees", 0.0, 0.1)
+
 		$Label5.text = str(valor) + "$",
 	monedas_iniciales,
 	monedas_finales,
@@ -1391,6 +1418,7 @@ func _on_tiempo_efectos_timeout() -> void:
 										burbuja[b].get_node("burbuja_ruleta/invocacion").emitting = false
 										burbuja[b].get_node("burbuja_ruleta/Sprite2D3").visible = true
 										burbuja_boton_reinicio.remove_at(bur)
+										break
 				si = false
 	
 	"""habilidades"""

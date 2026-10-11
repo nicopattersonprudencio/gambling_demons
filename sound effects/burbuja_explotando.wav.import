@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://5rijytqn8431"
+path="res://.godot/imported/burbuja_explotando.wav-aef90f665ab60c71ddc2d6035e7c6975.sample"
+
+[deps]
+
+source_file="res://sound effects/burbuja_explotando.wav"
+dest_files=["res://.godot/imported/burbuja_explotando.wav-aef90f665ab60c71ddc2d6035e7c6975.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

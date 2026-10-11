@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://ceyaj6g2fb86j"]
+[gd_scene load_steps=9 format=3 uid="uid://ceyaj6g2fb86j"]
 
 [ext_resource type="Texture2D" uid="uid://t4te1l53wx1d" path="res://sprites/circumferencia.png" id="1_kcf7p"]
 [ext_resource type="Shader" uid="uid://c1wk4m3axp30c" path="res://shaders/items.gdshader" id="1_yquar"]
 [ext_resource type="Script" uid="uid://d3lxtwd16ihd2" path="res://scripts/simbolos.gd" id="2_v0eej"]
 [ext_resource type="Texture2D" uid="uid://dsovntkvahbjo" path="res://sprites/bolsa_dinero.png" id="3_yquar"]
+[ext_resource type="AudioStream" uid="uid://dlcegdheto5to" path="res://sound effects/casillas_items.wav" id="5_pcqaa"]
+[ext_resource type="AudioStream" uid="uid://e87ypj23j67l" path="res://sound effects/casillas_items2.wav" id="6_5md03"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sryga"]
 shader = ExtResource("1_yquar")
@@ -27,6 +29,14 @@ texture = ExtResource("3_yquar")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_yquar")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_pcqaa")
+pitch_scale = 1.4
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_5md03")
+pitch_scale = 1.2
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bcrpb32gfq3sa"]
+[gd_scene load_steps=19 format=3 uid="uid://bcrpb32gfq3sa"]
 
 [ext_resource type="Texture2D" uid="uid://t4te1l53wx1d" path="res://sprites/circumferencia.png" id="1_ekubr"]
 [ext_resource type="Script" uid="uid://8tk23gjvo554" path="res://scripts/mapa.gd" id="1_nrd35"]
@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://bj5axebs55ywj" path="res://sprites/marcado.png" id="6_6i2c2"]
 [ext_resource type="Texture2D" uid="uid://bu762bn1lkmr3" path="res://sprites/linea.png" id="7_6i2c2"]
 [ext_resource type="Texture2D" uid="uid://bn0r3xoojje5a" path="res://sprites/34692631545_66513c5f5c_c.jpg" id="7_6pxv8"]
+[ext_resource type="FontFile" uid="uid://c4y6jiklmpvld" path="res://fuentes/InterVariable.ttf" id="7_vsp40"]
+[ext_resource type="AudioStream" uid="uid://dlcegdheto5to" path="res://sound effects/casillas_items.wav" id="9_mt72o"]
+[ext_resource type="AudioStream" uid="uid://e87ypj23j67l" path="res://sound effects/casillas_items2.wav" id="10_k3j34"]
 
 [sub_resource type="Animation" id="Animation_atgyb"]
 length = 0.001
@@ -113,6 +116,18 @@ tracks/8/path = NodePath("Linea9:visible")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("AudioStreamPlayer:playing")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -230,6 +245,18 @@ tracks/8/keys = {
 "update": 1,
 "values": [false, true]
 }
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("AudioStreamPlayer:playing")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0.433333, 0.966667, 1.46667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, true, true]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_k7lwh"]
 _data = {
@@ -244,18 +271,44 @@ size = Vector2(208.225, 148.981)
 size = Vector2(87, 74)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6i2c2"]
-size = Vector2(133, 56)
+size = Vector2(124, 70)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k7lwh"]
 bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-expand_margin_left = 5.0
-expand_margin_top = 5.0
-expand_margin_right = 5.0
-expand_margin_bottom = 5.0
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+anti_aliasing = false
+anti_aliasing_size = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6pxv8"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+anti_aliasing = false
 anti_aliasing_size = 10.0
 
 [node name="Node2D" type="Node2D"]
@@ -414,35 +467,47 @@ scale = Vector2(0.999999, 0.999999)
 shape = SubResource("RectangleShape2D_6pxv8")
 
 [node name="Label" type="Label" parent="Inventario"]
-offset_left = -155.878
+visible = false
+offset_left = -144.246
 offset_top = -272.941
-offset_right = -115.878
-offset_bottom = -217.941
-theme_override_font_sizes/font_size = 40
+offset_right = -104.246
+offset_bottom = -180.941
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("7_vsp40")
+theme_override_font_sizes/font_size = 75
 text = "1"
 
 [node name="Label2" type="Label" parent="Inventario"]
-offset_left = -155.878
+visible = false
+offset_left = -159.0
 offset_top = -108.039
-offset_right = -115.878
-offset_bottom = -53.0393
-theme_override_font_sizes/font_size = 40
+offset_right = -113.0
+offset_bottom = -16.039
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("7_vsp40")
+theme_override_font_sizes/font_size = 75
 text = "2"
 
 [node name="Label3" type="Label" parent="Inventario"]
-offset_left = -153.551
+visible = false
+offset_left = -160.531
 offset_top = 56.8628
-offset_right = -113.551
-offset_bottom = 111.863
-theme_override_font_sizes/font_size = 40
+offset_right = -114.531
+offset_bottom = 148.863
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("7_vsp40")
+theme_override_font_sizes/font_size = 75
 text = "3"
 
 [node name="Label4" type="Label" parent="Inventario"]
-offset_left = -154.714
+visible = false
+offset_left = -161.693
 offset_top = 218.353
-offset_right = -114.714
-offset_bottom = 273.353
-theme_override_font_sizes/font_size = 40
+offset_right = -113.693
+offset_bottom = 310.353
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("7_vsp40")
+theme_override_font_sizes/font_size = 75
 text = "4"
 
 [node name="Label2" type="Label" parent="."]
@@ -450,7 +515,10 @@ offset_left = -812.0
 offset_top = -475.0
 offset_right = -743.0
 offset_bottom = -392.0
-theme_override_font_sizes/font_size = 60
+theme_override_colors/font_color = Color(0, 0.811765, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("7_vsp40")
+theme_override_font_sizes/font_size = 75
 text = "10"
 
 [node name="Area2D" type="Area2D" parent="Label2"]
@@ -464,13 +532,15 @@ offset_left = 695.0
 offset_top = -475.0
 offset_right = 821.0
 offset_bottom = -392.0
-theme_override_font_sizes/font_size = 60
-text = "1/?"
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("7_vsp40")
+theme_override_font_sizes/font_size = 75
+text = "1/5"
 
 [node name="Area2D" type="Area2D" parent="Label5"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Label5/Area2D"]
-position = Vector2(62.5, 43)
+position = Vector2(58, 50)
 shape = SubResource("RectangleShape2D_6i2c2")
 
 [node name="Label8" type="Label" parent="."]
@@ -480,7 +550,8 @@ offset_top = -393.0
 offset_right = 828.0
 offset_bottom = -357.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_fonts/font = ExtResource("7_vsp40")
+theme_override_font_sizes/font_size = 27
 theme_override_styles/normal = SubResource("StyleBoxFlat_k7lwh")
 text = "Nivel actual"
 
@@ -488,6 +559,26 @@ text = "Nivel actual"
 z_index = -2
 scale = Vector2(2.65, 2.65)
 texture = ExtResource("7_6pxv8")
+
+[node name="Label7" type="Label" parent="."]
+visible = false
+offset_left = -824.0
+offset_top = -391.0
+offset_right = -696.0
+offset_bottom = -355.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_vsp40")
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBoxFlat_6pxv8")
+text = "Tu dinero."
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_mt72o")
+pitch_scale = 1.4
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_k3j34")
+pitch_scale = 1.2
 
 [connection signal="area_entered" from="Inventario/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Inventario/Area2D" to="." method="_on_area_2d_area_exited"]
@@ -505,7 +596,7 @@ texture = ExtResource("7_6pxv8")
 [connection signal="area_exited" from="Inventario/Area2D4" to="." method="_on_area_2d_4_area_exited"]
 [connection signal="mouse_entered" from="Inventario/Area2D4" to="." method="_on_area_2d_4_mouse_entered"]
 [connection signal="mouse_exited" from="Inventario/Area2D4" to="." method="_on_area_2d_4_mouse_exited"]
-[connection signal="mouse_entered" from="Label2/Area2D" to="." method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="Label2/Area2D" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="mouse_entered" from="Label2/Area2D" to="." method="_on_area_tu_dinero_mouse_entered"]
+[connection signal="mouse_exited" from="Label2/Area2D" to="." method="_on_area_tu_dinero_mouse_exited"]
 [connection signal="mouse_entered" from="Label5/Area2D" to="." method="entrar_area_nivel"]
 [connection signal="mouse_exited" from="Label5/Area2D" to="." method="salir_area_nivel"]

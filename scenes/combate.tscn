@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://4ngf3vgv678k"]
+[gd_scene load_steps=67 format=3 uid="uid://4ngf3vgv678k"]
 
 [ext_resource type="Script" uid="uid://g77dign2hpfo" path="res://scripts/combate.gd" id="1_gtb6u"]
 [ext_resource type="Texture2D" uid="uid://b3r04glxkdqpn" path="res://sprites/RULETA.png" id="2_eq4v2"]
@@ -36,6 +36,7 @@
 [ext_resource type="AudioStream" uid="uid://hfohwequxxqy" path="res://sound effects/chupar.wav" id="34_7h2xf"]
 [ext_resource type="AudioStream" uid="uid://din3ao338mp4l" path="res://sound effects/flor.wav" id="35_lxbhu"]
 [ext_resource type="AudioStream" uid="uid://dhdsvk2t130c2" path="res://sound effects/mando.wav" id="36_mnmh5"]
+[ext_resource type="AudioStream" uid="uid://5rijytqn8431" path="res://sound effects/burbuja_explotando.wav" id="37_v8w77"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_nhv6a"]
 a = Vector2(0.39093, -1.04008)
@@ -835,6 +836,7 @@ wait_time = 3.0
 one_shot = true
 
 [node name="Inventario" type="Sprite2D" parent="."]
+z_index = -1
 position = Vector2(-779, 5.72205e-06)
 scale = Vector2(0.859649, 0.87931)
 texture = ExtResource("6_qwq5a")
@@ -909,9 +911,10 @@ scale = Vector2(0.999999, 0.999999)
 shape = SubResource("RectangleShape2D_l0eye")
 
 [node name="Label" type="Label" parent="Inventario"]
-offset_left = -155.878
+visible = false
+offset_left = -145.409
 offset_top = -272.941
-offset_right = -111.878
+offset_right = -101.409
 offset_bottom = -169.941
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
@@ -920,6 +923,7 @@ theme_override_font_sizes/font_size = 75
 text = "1"
 
 [node name="Label2" type="Label" parent="Inventario"]
+visible = false
 offset_left = -159.368
 offset_top = -108.039
 offset_right = -115.368
@@ -930,6 +934,7 @@ theme_override_font_sizes/font_size = 75
 text = "2"
 
 [node name="Label3" type="Label" parent="Inventario"]
+visible = false
 offset_left = -157.041
 offset_top = 56.8628
 offset_right = -114.041
@@ -940,6 +945,7 @@ theme_override_font_sizes/font_size = 75
 text = "3"
 
 [node name="Label4" type="Label" parent="Inventario"]
+visible = false
 offset_left = -162.856
 offset_top = 218.353
 offset_right = -114.856
@@ -1277,7 +1283,7 @@ pitch_scale = 1.2
 
 [node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("28_dx1h4")
-volume_db = -5.0
+volume_db = -7.0
 pitch_scale = 1.2
 
 [node name="AudioStreamPlayer6" type="AudioStreamPlayer" parent="."]
@@ -1305,9 +1311,14 @@ stream = ExtResource("34_7h2xf")
 
 [node name="AudioStreamPlayer12" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("35_lxbhu")
+volume_db = -3.0
 
 [node name="AudioStreamPlayer13" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("36_mnmh5")
+
+[node name="AudioStreamPlayer14" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("37_v8w77")
+volume_db = -5.0
 
 [connection signal="area_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="Sprite2D/Area2D2" to="." method="_on_area_2d_2_area_entered"]

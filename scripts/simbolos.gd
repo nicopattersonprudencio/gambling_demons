@@ -84,6 +84,7 @@ func _input(event):
 
 
 			var tipo = get_meta("tipo_simbolo")
+			$AudioStreamPlayer2.play()
 
 
 			# =================================================
@@ -125,6 +126,7 @@ func _input(event):
 # ============================================================
 
 func _on_area_2d_mouse_entered() -> void:
+	$AudioStreamPlayer.play()
 	print("ha entrado")
 	mouse_encima = true
 
