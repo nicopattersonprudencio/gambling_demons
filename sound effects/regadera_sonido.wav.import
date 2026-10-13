@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bvan61ibxhkxo"
+path="res://.godot/imported/regadera_sonido.wav-307b098da1181357bcc8205ca776fb89.sample"
+
+[deps]
+
+source_file="res://sound effects/regadera_sonido.wav"
+dest_files=["res://.godot/imported/regadera_sonido.wav-307b098da1181357bcc8205ca776fb89.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

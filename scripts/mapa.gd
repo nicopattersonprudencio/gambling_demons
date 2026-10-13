@@ -185,7 +185,7 @@ func obtener_tipo_item(item: Area2D) -> String:
 
 func _ready() -> void:
 	
-	$Label5.text = str(Global.nivel) + "/5"
+	$Label5.text = str(Global.nivel) + "/6"
 	
 	# ========================================================
 	# LIMPIAR ESTADO DEL INVENTARIO
@@ -236,9 +236,14 @@ func _ready() -> void:
 		# ELEGIR TIPO ALEATORIO
 		# ----------------------------------------------------
 
-		var tipo_seleccionado = tipos_simbolos.pick_random()
-
-
+		var tipo_seleccionado
+		if Global.nivel <= 3 or Global.nivel == 5:
+			print("ha accedido")
+			print(tipos_simbolos[i])
+			tipo_seleccionado = tipos_simbolos[i]
+		if Global.nivel == 4 or Global.nivel >= 6:
+			tipo_seleccionado = tipos_simbolos[1]
+		
 		# ----------------------------------------------------
 		# OBTENER DATOS
 		# ----------------------------------------------------

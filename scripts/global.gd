@@ -1,6 +1,6 @@
 extends Node
  
-var dinero = 10
+var dinero = 12
 var nivel = 1
 
 #items

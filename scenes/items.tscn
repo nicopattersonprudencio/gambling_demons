@@ -1,8 +1,8 @@
 [gd_scene load_steps=16 format=3 uid="uid://c6aku1my1x1ql"]
 
 [ext_resource type="Script" uid="uid://bawj5i8yje4n2" path="res://scripts/items.gd" id="1_sj0ge"]
-[ext_resource type="Texture2D" uid="uid://do8jpylfblbwa" path="res://sprites/candado.png" id="2_sj0ge"]
 [ext_resource type="Shader" uid="uid://c1wk4m3axp30c" path="res://shaders/items.gdshader" id="2_trfxy"]
+[ext_resource type="Texture2D" uid="uid://b023n520norm7" path="res://sprites/regadera.png" id="3_4ludf"]
 [ext_resource type="FontFile" uid="uid://c4y6jiklmpvld" path="res://fuentes/InterVariable.ttf" id="4_d17p1"]
 [ext_resource type="AudioStream" uid="uid://e87ypj23j67l" path="res://sound effects/casillas_items2.wav" id="5_me73k"]
 [ext_resource type="AudioStream" uid="uid://dlcegdheto5to" path="res://sound effects/casillas_items.wav" id="6_4ludf"]
@@ -13,7 +13,7 @@ shader_parameter/glow_strength = 0.0
 shader_parameter/glow_color = Color(1, 1, 0.5, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sj0ge"]
-size = Vector2(66, 92)
+size = Vector2(130, 120)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ludf"]
 bg_color = Color(1, 1, 1, 1)
@@ -73,14 +73,15 @@ _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.393258), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="Node2D" type="Area2D"]
+z_index = 1
 collision_layer = 2
 script = ExtResource("1_sj0ge")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_d17p1")
 position = Vector2(0, -4.42025)
-scale = Vector2(0.3, 0.30159)
-texture = ExtResource("2_sj0ge")
+scale = Vector2(0.2, 0.201)
+texture = ExtResource("3_4ludf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4)

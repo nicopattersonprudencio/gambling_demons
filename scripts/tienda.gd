@@ -34,7 +34,8 @@ var tipos_items = [
 	"rosa_roja",
 	"rosa_azul",
 	"candado_cerrado",
-	"boton_reinicio"
+	"boton_reinicio",
+	"regadera_dinero"
 ]
 
 var instancia = preload("res://scenes/item_tienda.tscn")
@@ -44,6 +45,8 @@ var item_tienda = [
 	instancia.instantiate()
 ]
 
+"""regadera"""
+var cantidad_flores = 0
 
 # ============================================================
 # CONFIGURACIÓN DE TODOS LOS ITEMS
@@ -55,28 +58,34 @@ var datos_items = {
 		"texture": preload("res://sprites/rosa_roja.png"),
 		"scale": Vector2(0.15, 0.15),
 		"collision_size": Vector2(117, 90),
-		"descripcion": "Cambia 1 casilla\naleatoria al rojo\nal principio del combate."
+		"descripcion": "Cambia una casilla\naleatoria al rojo\nal principio del combate."
 	},
 
 	"rosa_azul": {
 		"texture": preload("res://sprites/rosa_azul.png"),
 		"scale": Vector2(0.15, 0.15),
 		"collision_size": Vector2(117, 90),
-		"descripcion": "Cambia 1 casilla\naleatoria al azul\nal principio del combate."
+		"descripcion": "Cambia una casilla\naleatoria al azul\nal principio del combate."
 	},
 
 	"candado_cerrado": {
 		"texture": preload("res://sprites/candado.png"),
 		"scale": Vector2(0.3, 0.3),
 		"collision_size": Vector2(69, 92),
-		"descripcion": "Anula una habilidad cualquiera\ndel oponente cada turno."
+		"descripcion": "Tiene una probabilidad\ndel 33% de anular\nuna habilidad cualquiera\ndel enemigo cada turno."
 	},
 
 	"boton_reinicio": {
 		"texture": preload("res://sprites/boton_reinicio.png"),
 		"scale": Vector2(0.5, 0.45),
 		"collision_size": Vector2(66, 115),
-		"descripcion": "Toda vez que el jugador no pueda elegir,\nla ruleta vuelve a su estado normal durante 1 turno."
+		"descripcion": "Toda vez que no puedas elegir,\nla ruleta vuelve a su estado normal durante un turno."
+	},
+	"regadera_dinero": {
+		"texture": preload("res://sprites/regadera.png"),
+		"scale": Vector2(0.2, 0.2),
+		"collision_size": Vector2(130, 120),
+		"descripcion": "Toda vez que ganes\nuna apuesta, gana 1$\nadicional por cada flor\nequipada. Actualmente: 0$"
 	}
 }
 
@@ -128,7 +137,6 @@ func comprar_item(indice: int) -> void:
 # ============================================================
 
 func aplicar_datos_item(item: Area2D, tipo: String) -> void:
-
 	if not datos_items.has(tipo):
 		print("ERROR: No existe el tipo de item: ", tipo)
 		return
@@ -139,23 +147,34 @@ func aplicar_datos_item(item: Area2D, tipo: String) -> void:
 	item.get_node("Sprite2D").scale = datos["scale"]
 	item.get_node("CollisionShape2D").shape.size = datos["collision_size"]
 
-	var descripcion = datos["descripcion"]
-
-	var regex = RegEx.new()
-	regex.compile(r"-?\d+")
-
-	var descripcion_coloreada = regex.sub(
-	descripcion,
-	"[color=#228B22]$0[/color]",
-	true
-	)
-
 	var etiqueta = item.get_node("Label")
 	etiqueta.bbcode_enabled = true
-	etiqueta.text = descripcion_coloreada
+	etiqueta.text = colorear_numeros(datos["descripcion"])
 
 	item.set_meta("tipo_item", tipo)
 
+func colorear_numeros(texto: String) -> String:
+	var regex = RegEx.new()
+	regex.compile(r"\$-?\d+(?:[.,]\d+)?|-?\d+(?:[.,]\d+)?\$|-?\d+(?:[.,]\d+)?%")
+
+	var resultado = ""
+	var posicion = 0
+
+	for coincidencia in regex.search_all(texto):
+		resultado += texto.substr(posicion, coincidencia.get_start() - posicion)
+
+		var fragmento = coincidencia.get_string()
+
+		if fragmento.begins_with("$") or fragmento.ends_with("$"):
+			resultado += "[color=#228B22]" + fragmento + "[/color]"
+		else:
+			resultado += "[color=#0000FF]" + fragmento + "[/color]"
+
+		posicion = coincidencia.get_end()
+
+	resultado += texto.substr(posicion)
+
+	return resultado
 
 # ============================================================
 # OBTENER EL TIPO DE UN ITEM
@@ -280,7 +299,17 @@ func crear_items_inventario() -> void:
 			)
 
 func _ready() -> void:
-
+	
+	"""modificar descipción de regadera_dinero"""
+	for it in range(Global.item.size()):
+		if (Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/rosa_roja.png") or Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/rosa_azul.png")) and Global.item[it].get_node("Sprite2D").visible:
+			cantidad_flores += 1
+	
+	for it in range(Global.item.size()):
+		if Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/regadera.png"):
+			Global.item[it].get_node("Label").text = "Toda vez que ganes\nuna apuesta, gana 1$\nadicional por cada flor\nequipada. Actualmente: "+str(cantidad_flores)+"$"
+			Global.item[it].get_node("Label").text = colorear_numeros(Global.item[it].get_node("Label").text)
+	
 	for i in range(item_tienda.size()):
 
 		var item = item_tienda[i]
@@ -340,7 +369,19 @@ func _ready() -> void:
 # ============================================================
 
 func _process(delta):
-
+	"""comproabar si una flor se ha eliminado"""
+	var cantidad_flores2 = 0
+	for it in range(Global.item.size()):
+		if (Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/rosa_roja.png") or Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/rosa_azul.png")) and Global.item[it].visible:
+			cantidad_flores2 += 1
+	if cantidad_flores != cantidad_flores2:
+		cantidad_flores = cantidad_flores2
+		for ite in range(Global.item.size()):
+			if Global.item[ite].get_node("Sprite2D").texture == preload("res://sprites/regadera.png"):
+				Global.item[ite].get_node("Label").text = "Toda vez que ganes\nuna apuesta, gana 1$\nadicional por cada flor\nequipada. Actualmente: "+str(cantidad_flores)+"$"
+				Global.item[ite].get_node("Label").text = colorear_numeros(Global.item[ite].get_node("Label").text)
+		
+	
 	if Global.brillo[0]:
 		item_tienda[0].get_node("Sprite2D").material.set_shader_parameter(
 			"glow_strength",

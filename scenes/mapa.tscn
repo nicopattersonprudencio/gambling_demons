@@ -393,6 +393,7 @@ libraries = {
 }
 
 [node name="Inventario" type="Sprite2D" parent="."]
+z_index = -1
 position = Vector2(-779, 5.72205e-06)
 scale = Vector2(0.859649, 0.87931)
 texture = ExtResource("5_k7lwh")

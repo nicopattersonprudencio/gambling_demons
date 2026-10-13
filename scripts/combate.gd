@@ -75,6 +75,9 @@ var burbuja = []
 var tween_idle: Tween
 var burbuja_boton_reinicio = []
 
+"""regadera"""
+var cantidad_flores = 0
+
 var datos_items = {
 
 	"rosa_roja": {
@@ -95,14 +98,21 @@ var datos_items = {
 		"texture": preload("res://sprites/candado.png"),
 		"scale": Vector2(0.3, 0.3),
 		"collision_size": Vector2(69, 92),
-		"descripcion": "Tiene una probabilidad\ndel 33% de anular\nuna habilidad cualquiera\ndel oponente cada turno."
+		"descripcion": "Tiene una probabilidad\ndel 33% de anular\nuna habilidad cualquiera\ndel enemigo cada turno."
 	},
 
 	"boton_reinicio": {
 		"texture": preload("res://sprites/boton_reinicio.png"),
 		"scale": Vector2(0.5, 0.45),
 		"collision_size": Vector2(66, 115),
-		"descripcion": "Toda vez que el jugador no pueda elegir,\nla ruleta vuelve a su estado normal durante un turno."
+		"descripcion": "Toda vez que no puedas elegir,\nla ruleta vuelve a su estado normal durante un turno."
+	},
+	
+	"regadera_dinero": {
+		"texture": preload("res://sprites/regadera.png"),
+		"scale": Vector2(0.2, 0.2),
+		"collision_size": Vector2(130, 120),
+		"descripcion": "Toda vez que ganes\nuna apuesta, gana 1$\nadicional por cada flor\nequipada. Actualmente: 0$"
 	}
 }
 
@@ -157,17 +167,17 @@ func crear_items_inventario() -> void:
 
 	aplicar_datos_item(
 		Global.item[0],
-		"candado_cerrado"
+		"rosa_azul"
 	)
 
 	aplicar_datos_item(
 		Global.item[1],
-		"boton_reinicio"
+		"rosa_azul"
 	)
 
 	aplicar_datos_item(
 		Global.item[2],
-		"rosa_roja"
+		"rosa_azul"
 	)
 
 	aplicar_datos_item(
@@ -348,6 +358,16 @@ func terminar_animacion_idle() -> void:
 		tween_idle.kill()
 
 func _ready() -> void:
+	"""modificar descipción de regadera_dinero"""
+	for it in range(Global.item.size()):
+		if (Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/rosa_roja.png") or Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/rosa_azul.png")) and Global.item[it].get_node("Sprite2D").visible:
+			cantidad_flores += 1
+	
+	for it in range(Global.item.size()):
+		if Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/regadera.png"):
+			Global.item[it].get_node("Label").text = "Toda vez que ganes\nuna apuesta, gana 1$\nadicional por cada flor\nequipada. Actualmente: "+str(cantidad_flores)+"$"
+			Global.item[it].get_node("Label").text = colorear_numeros(Global.item[it].get_node("Label").text)
+		
 	"""animación del gato"""
 	animacion_idle()
 	
@@ -357,7 +377,7 @@ func _ready() -> void:
 		posiciones_invocaciones_burbujas[i].add_child(burbuja[i])
 	
 	"""Items para hacer pruebas"""
-	crear_items_inventario()
+	#crear_items_inventario()
 	
 	"""habilidades de los enemigos"""
 	crear_habilidades()
@@ -368,12 +388,11 @@ func _ready() -> void:
 	"""Dinero del jugador y del enemigo"""
 	RenderingServer.set_default_clear_color(Color(0.25, 0.25, 0.25))
 	randomize()
-	if monedas_demonio <= Global.dinero and monedas_demonio < 4:
+	if monedas_demonio <= Global.dinero:
 		apuesta = randi_range(1,monedas_demonio)
-	elif Global.dinero < 4 and Global.dinero < monedas_demonio:
+	elif Global.dinero < monedas_demonio:
 		apuesta = randi_range(1,Global.dinero)
-	else:
-		apuesta = randi_range(1,3)
+
 	$Label3.text = "APUESTA: ?"
 	$Label2.text = str(Global.dinero) + "$"
 	$Label5.text = str(monedas_demonio) + "$"
@@ -414,11 +433,21 @@ func _on_button_pressed() -> void:
 	if not Global.efectos:
 		$AudioStreamPlayer2.play()
 		$Button.visible = false
-		$Button2.visible = false
 		if poder_girar:
 			girar_sprite()
 
 func _process(delta):
+	"""comproabar si una flor se ha eliminado"""
+	var cantidad_flores2 = 0
+	for it in range(Global.item.size()):
+		if (Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/rosa_roja.png") or Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/rosa_azul.png")) and (Global.item[it].get_node("Sprite2D").visible and Global.item[it].visible):
+			cantidad_flores2 += 1
+	if cantidad_flores != cantidad_flores2:
+		cantidad_flores = cantidad_flores2
+		for ite in range(Global.item.size()):
+			if Global.item[ite].get_node("Sprite2D").texture == preload("res://sprites/regadera.png"):
+				Global.item[ite].get_node("Label").text = "Toda vez que ganes\nuna apuesta, gana 1$\nadicional por cada flor\nequipada. Actualmente: "+str(cantidad_flores)+"$"
+				Global.item[ite].get_node("Label").text = colorear_numeros(Global.item[ite].get_node("Label").text)
 	
 	"""Efectos de estado"""
 	if activacion_estado:
@@ -469,8 +498,10 @@ func _process(delta):
 							while casilla_azul_elegida == null:
 								casilla_azul_elegida = casillas_azules.pick_random()
 							orden_casilla_azul = orden_casillas_azules[casillas_azules.find(casilla_azul_elegida)]
-							Global.item[i].get_node("rosa_roja2").reparent(casilla_azul_elegida)
-							Global.item[i].get_node("rosa_azul2").reparent(casilla_azul_elegida)
+							var rosa_azul2 = Global.item[i].get_node("rosa_azul2").duplicate()
+							var rosa_roja2 = Global.item[i].get_node("rosa_roja2").duplicate()
+							casilla_azul_elegida.add_child(rosa_azul2)
+							casilla_azul_elegida.add_child(rosa_roja2)
 							casilla_azul_elegida.get_node("rosa_roja2").position = 	Vector2(0,0)
 							casilla_azul_elegida.get_node("rosa_azul2").position = Vector2(0,0)
 							casilla_azul_elegida.get_node("rosa_roja2").emitting = true
@@ -483,7 +514,7 @@ func _process(delta):
 						
 			
 					"""rosa_azul"""
-					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/rosa_azul.png"):
+					if Global.item[i].visible and Global.item[i].get_node("Sprite2D").visible and Global.item[i].get_node("Sprite2D").texture == preload("res://sprites/rosa_azul.png"):
 						if una_vez[i]:
 							$AudioStreamPlayer12.play()
 							Global.item[i].get_node("rosa_azul").emitting = true
@@ -491,8 +522,12 @@ func _process(delta):
 							while casilla_roja_elegida == null:
 								casilla_roja_elegida = casillas_rojas.pick_random()
 							orden_casilla_roja = orden_casillas_rojas[casillas_rojas.find(casilla_roja_elegida)]
-							Global.item[i].get_node("rosa_azul2").reparent(casilla_roja_elegida)
-							Global.item[i].get_node("rosa_roja2").reparent(casilla_roja_elegida)
+							
+							var rosa_azul2 = Global.item[i].get_node("rosa_azul2").duplicate()
+							var rosa_roja2 = Global.item[i].get_node("rosa_roja2").duplicate()
+							casilla_roja_elegida.add_child(rosa_azul2)
+							casilla_roja_elegida.add_child(rosa_roja2)
+							
 							casilla_roja_elegida.get_node("rosa_azul2").position = Vector2(0,0)
 							casilla_roja_elegida.get_node("rosa_roja2").position = Vector2(0,0)
 							casilla_roja_elegida.get_node("rosa_azul2").emitting = true
@@ -606,37 +641,53 @@ func _process(delta):
 									var monedas_iniciales = int($Label5.text.replace("$", ""))
 									var monedas_finales = monedas_demonio
 
+									var audio = $AudioStreamPlayer6
+									var frecuencia_base = 0.8
+									var incremento_frecuencia = 0.08
+
 									var tween_dinero = create_tween()
 									tween_dinero.tween_method(
-										func(valor: int):
-											if valor != int($Label2.text.replace("$", "")):
-												$AudioStreamPlayer6.play()
+									func(valor: int):
+										var valor_actual = int($Label2.text.replace("$", ""))
 
-												var giro = create_tween()
-												giro.tween_property($Label2, "rotation_degrees", 20.0, 0.05)
-												giro.tween_property($Label2, "rotation_degrees", 0.0, 0.1)
+										if valor != valor_actual:
+										# Aumentar el tono al ganar dinero y reducirlo al perderlo
+											if dinero_final > dinero_inicial:
+												audio.pitch_scale = min(
+					frecuencia_base + abs(valor - dinero_inicial) * incremento_frecuencia / max(abs(dinero_final - dinero_inicial), 1),
+					1.5
+				)
+											elif dinero_final < dinero_inicial:
+												audio.pitch_scale = max(
+					frecuencia_base - abs(valor - dinero_inicial) * incremento_frecuencia / max(abs(dinero_final - dinero_inicial), 1),
+					0.5
+				)
 
-											$Label2.text = str(valor) + "$",
-											dinero_inicial,
-											dinero_final,
-											duracion_animacion
-											).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+											audio.play()
+
+											var giro = create_tween()
+											giro.tween_property($Label2, "rotation_degrees", 20.0, 0.1)
+											giro.tween_property($Label2, "rotation_degrees", 0.0, 0.15)
+
+										$Label2.text = str(valor) + "$",
+										dinero_inicial,
+										dinero_final,
+										duracion_animacion
+										).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 									var tween_monedas = create_tween()
 									tween_monedas.tween_method(
-										func(valor: int):
-											if valor != int($Label5.text.replace("$", "")):
-												$AudioStreamPlayer6.play()
+									func(valor: int):
+										if valor != int($Label5.text.replace("$", "")):
+											var giro = create_tween()
+											giro.tween_property($Label5, "rotation_degrees", 20.0, 0.1)
+											giro.tween_property($Label5, "rotation_degrees", 0.0, 0.15)
 
-												var giro = create_tween()
-												giro.tween_property($Label5, "rotation_degrees", 20.0, 0.05)
-												giro.tween_property($Label5, "rotation_degrees", 0.0, 0.1)
-
-											$Label5.text = str(valor) + "$",
-											monedas_iniciales,
-											monedas_finales,
-											duracion_animacion
-											).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+										$Label5.text = str(valor) + "$",
+										monedas_iniciales,
+										monedas_finales,
+										duracion_animacion
+										).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 						
 						"""rosa_roja"""
 						if habilidades[h].get_node("habilidad").texture == preload("res://sprites/rosa_roja.png"):
@@ -706,43 +757,60 @@ func _process(delta):
 									$efecto_estado.visible = false
 									Global.dinero -= valor_burbuja
 									monedas_demonio += valor_burbuja
+									
 									var dinero_inicial = int($Label2.text.replace("$", ""))
 									var dinero_final = Global.dinero
 
 									var monedas_iniciales = int($Label5.text.replace("$", ""))
 									var monedas_finales = monedas_demonio
 
+									var audio = $AudioStreamPlayer6
+									var frecuencia_base = 0.8
+									var incremento_frecuencia = 0.08
+
 									var tween_dinero = create_tween()
 									tween_dinero.tween_method(
-										func(valor: int):
-											if valor != int($Label2.text.replace("$", "")):
-												$AudioStreamPlayer6.play()
+									func(valor: int):
+										var valor_actual = int($Label2.text.replace("$", ""))
 
-												var giro = create_tween()
-												giro.tween_property($Label2, "rotation_degrees", 20.0, 0.05)
-												giro.tween_property($Label2, "rotation_degrees", 0.0, 0.1)
+										if valor != valor_actual:
+										# Aumentar el tono al ganar dinero y reducirlo al perderlo
+											if dinero_final > dinero_inicial:
+												audio.pitch_scale = min(
+					frecuencia_base + abs(valor - dinero_inicial) * incremento_frecuencia / max(abs(dinero_final - dinero_inicial), 1),
+					1.5
+				)
+											elif dinero_final < dinero_inicial:
+												audio.pitch_scale = max(
+					frecuencia_base - abs(valor - dinero_inicial) * incremento_frecuencia / max(abs(dinero_final - dinero_inicial), 1),
+					0.5
+				)
 
-											$Label2.text = str(valor) + "$",
-											dinero_inicial,
-											dinero_final,
-											duracion_animacion
-											).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+											audio.play()
+
+											var giro = create_tween()
+											giro.tween_property($Label2, "rotation_degrees", 20.0, 0.1)
+											giro.tween_property($Label2, "rotation_degrees", 0.0, 0.15)
+
+										$Label2.text = str(valor) + "$",
+										dinero_inicial,
+										dinero_final,
+										duracion_animacion
+										).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 									var tween_monedas = create_tween()
 									tween_monedas.tween_method(
-										func(valor: int):
-											if valor != int($Label5.text.replace("$", "")):
-												$AudioStreamPlayer6.play()
+									func(valor: int):
+										if valor != int($Label5.text.replace("$", "")):
+											var giro = create_tween()
+											giro.tween_property($Label5, "rotation_degrees", 20.0, 0.1)
+											giro.tween_property($Label5, "rotation_degrees", 0.0, 0.15)
 
-												var giro = create_tween()
-												giro.tween_property($Label5, "rotation_degrees", 20.0, 0.05)
-												giro.tween_property($Label5, "rotation_degrees", 0.0, 0.1)
-
-											$Label5.text = str(valor) + "$",
-											monedas_iniciales,
-											monedas_finales,
-											duracion_animacion
-											).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+										$Label5.text = str(valor) + "$",
+										monedas_iniciales,
+										monedas_finales,
+										duracion_animacion
+										).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 									$AudioStreamPlayer5.play()
 								"""se crea la burbuja"""
 								var pos_burbuja = 0
@@ -802,12 +870,11 @@ func _process(delta):
 	"""elegir apuesta"""
 	if not Global.efectos and ruleta_apuestas:
 		ruleta_apuestas = false
-		if monedas_demonio <= Global.dinero and monedas_demonio < 4:
+		if monedas_demonio <= Global.dinero:
 			apuesta = randi_range(1,monedas_demonio)
-		elif Global.dinero < 4 and Global.dinero < monedas_demonio:
+		elif Global.dinero < monedas_demonio:
 			apuesta = randi_range(1,Global.dinero)
-		else:
-			apuesta = randi_range(1,3)
+			
 		$Label3.text = "APUESTA: "+ str(apuesta) +"$"
 	
 	"""RULETA ELECCION"""
@@ -966,21 +1033,11 @@ func _on_area_2d_12_area_entered(area: Area2D) -> void:
 	$Indicador/Sprite2D.texture = preload("res://sprites/demonio.png")
 	$Indicador/Sprite2D.scale = Vector2(0.72,0.66)
 
-func _on_button_2_pressed() -> void:
-	if not Global.efectos:
-		$AudioStreamPlayer2.play()
-		$Button.visible = false
-		$Button2.visible = false
-		escapar = true
-		if poder_girar:
-			girar_sprite()
-
 func _on_button_3_pressed() -> void:
 	$Button3.visible = false
 	$Button4.visible = false
 	$Label4.visible = false
 	$Button.visible = true
-	$Button2.visible = true
 	color_elegido = "azul"
 	$AudioStreamPlayer2.play()
 
@@ -990,7 +1047,6 @@ func _on_button_4_pressed() -> void:
 	$Button4.visible = false
 	$Label4.visible = false
 	$Button.visible = true
-	$Button2.visible = true
 	color_elegido = "rojo"
 	
 """Realiza las transacciones despues de girar la ruleta de apuestas
@@ -1008,6 +1064,17 @@ func _on_timer_timeout() -> void:
 		$AudioStreamPlayer7.play()
 		Global.dinero += apuesta
 		monedas_demonio -= apuesta
+		var existe_regadera = false
+		for it in range(Global.item.size()):
+			if Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/regadera.png") and Global.item[it].visible and Global.item[it].get_node("Sprite2D").visible:
+				existe_regadera = true
+				Global.dinero += cantidad_flores
+				Global.item[it].get_node("boton_reinicio").emitting = true
+		if existe_regadera:
+			$AudioStreamPlayer15.play()
+			$efecto_regaderas.start()
+		
+		
 	else:
 		$AudioStreamPlayer5.play()
 		Global.dinero -= apuesta
@@ -1019,15 +1086,33 @@ func _on_timer_timeout() -> void:
 	var monedas_iniciales = int($Label5.text.replace("$", ""))
 	var monedas_finales = monedas_demonio
 
+	var audio = $AudioStreamPlayer6
+	var frecuencia_base = 0.8
+	var incremento_frecuencia = 0.08
+
 	var tween_dinero = create_tween()
 	tween_dinero.tween_method(
 	func(valor: int):
-		if valor != int($Label2.text.replace("$", "")):
-			$AudioStreamPlayer6.play()
+		var valor_actual = int($Label2.text.replace("$", ""))
+
+		if valor != valor_actual:
+			# Aumentar el tono al ganar dinero y reducirlo al perderlo
+			if dinero_final > dinero_inicial:
+				audio.pitch_scale = min(
+					frecuencia_base + abs(valor - dinero_inicial) * incremento_frecuencia / max(abs(dinero_final - dinero_inicial), 1),
+					1.5
+				)
+			elif dinero_final < dinero_inicial:
+				audio.pitch_scale = max(
+					frecuencia_base - abs(valor - dinero_inicial) * incremento_frecuencia / max(abs(dinero_final - dinero_inicial), 1),
+					0.5
+				)
+
+			audio.play()
 
 			var giro = create_tween()
-			giro.tween_property($Label2, "rotation_degrees", 20.0, 0.05)
-			giro.tween_property($Label2, "rotation_degrees", 0.0, 0.1)
+			giro.tween_property($Label2, "rotation_degrees", 20.0, 0.1)
+			giro.tween_property($Label2, "rotation_degrees", 0.0, 0.15)
 
 		$Label2.text = str(valor) + "$",
 	dinero_inicial,
@@ -1039,11 +1124,9 @@ func _on_timer_timeout() -> void:
 	tween_monedas.tween_method(
 	func(valor: int):
 		if valor != int($Label5.text.replace("$", "")):
-			$AudioStreamPlayer6.play()
-
 			var giro = create_tween()
-			giro.tween_property($Label5, "rotation_degrees", 20.0, 0.05)
-			giro.tween_property($Label5, "rotation_degrees", 0.0, 0.1)
+			giro.tween_property($Label5, "rotation_degrees", 20.0, 0.1)
+			giro.tween_property($Label5, "rotation_degrees", 0.0, 0.15)
 
 		$Label5.text = str(valor) + "$",
 	monedas_iniciales,
@@ -1097,7 +1180,6 @@ func _on_timer_timeout() -> void:
 		$Indicador/Sprite2D.visible = true
 		$Label.visible = false
 		$Button.visible = false
-		$Button2.visible = false
 		$Button5.visible = true
 func _on_area_2d_mouse_entered() -> void:
 	mouse_area[0] = true
@@ -1277,7 +1359,6 @@ func _on_timer_2_timeout() -> void:
 		else:
 			$Label4.text = "EL DEMONIO HA ELEGIDO EL COLOR ROJO"
 		$Button.visible = true
-		$Button2.visible = true
 	
 	$Label4.visible = true
 	$Sprite2D/Sprite2D.visible = false
@@ -1450,6 +1531,7 @@ func _on_tiempo_efectos_timeout() -> void:
 						if habilidad_identificada[ha] == habilidades[h]:
 							no_identificada = false
 							habilidad_identificada.remove_at(ha)
+							break
 					if no_identificada:
 						var orden = [4,3,2,1,12,11,10,9,8,7,6,5]
 						for bur in range(burbuja.size()):
@@ -1480,6 +1562,7 @@ func _on_tiempo_efectos_timeout() -> void:
 						if habilidad_identificada[ha] == habilidades[h]:
 							no_identificada = false
 							habilidad_identificada.remove_at(ha)
+							break
 				
 				si = false
 				inicio_habilidades += 1
@@ -1566,5 +1649,7 @@ func _on_button_3_mouse_entered_sonido() -> void:
 func _on_button_2_mouse_entered_sonido() -> void:
 	$AudioStreamPlayer.play()
 
-func _on_button_4_mouse_entered() -> void:
-	$AudioStreamPlayer.play()
+func _on_efecto_regaderas_timeout() -> void:
+	for it in range(Global.item.size()):
+		if Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/regadera.png"):
+			Global.item[it].get_node("boton_reinicio").emitting = false

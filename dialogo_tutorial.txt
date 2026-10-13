@@ -1,0 +1,53 @@
+Aparece la pantalla con un efecto de aparición progresiva y se oye una musica profunda de fondo, después de un breve tiempo aparece un botón diciendo "¿Donde estoy?" con un efecto de sonido de burbuja. El jugador pulsa el botón y en un instante aparece una voz y la musica se para.
+
+- Vaya, has despertado.
+
+aparece la criatura y aparece una musica estilo blus o jass con un toque picaro.
+
+- Saludos, soy Demi.
+
+- No hace falta que me digas tu nombre.
+
+- Todo aquel que llega aquí se le olvida igualmente.
+
+- Mira, seré breve.
+
+- Has muerto y te encuentras en el inframundo.
+
+- Asi que es mejor que te vayas acostumbrando a este sitio.
+
+Se apaga la musica y procede a hablar un poco mas lento
+
+- Por que estarás aquí durante toda la eternidad.
+
+Se reanuda la musica y su tono voz normal
+
+- A menos claro, que asciendas.
+
+- Para ascender deber comprar un ticket para ir al cielo
+
+- Y estos cuestan muyyyyyyyyy caros
+
+- Existen muchas formas de conseguir dinero
+
+- Pero solo una de esas formas lo puedes lograr en poco tiempo.
+
+La musica se cambia por una de suspense
+
+- Y esa forma es...
+
+Se dispara confeti y suena un sonido de premio, se vuelve a reanudar la musica picaresca
+
+- Jugar a la ruleta.
+
+- Mira, deja que te enseñe
+
+Desaparece el demonio y aparece el símbolo de combate
+
+- Solo dale al icono de arriba para continuar
+
+
+
+
+
+
