@@ -523,7 +523,7 @@ func _on_area_2d_4_area_exited(area: Area2D) -> void:
 # ============================================================
 
 func _on_area_2d_mouse_entered() -> void:
-
+	$AudioStreamPlayer3.play()
 	mouse_area[0] = true
 
 	if not Global.efectos:
@@ -545,7 +545,7 @@ func _on_area_2d_mouse_exited() -> void:
 # ============================================================
 
 func _on_area_2d_2_mouse_entered() -> void:
-
+	$AudioStreamPlayer3.play()
 	mouse_area[1] = true
 
 	if not Global.efectos:
@@ -567,7 +567,7 @@ func _on_area_2d_2_mouse_exited() -> void:
 # ============================================================
 
 func _on_area_2d_3_mouse_entered() -> void:
-
+	$AudioStreamPlayer3.play()
 	mouse_area[2] = true
 
 	if not Global.efectos:
@@ -589,7 +589,7 @@ func _on_area_2d_3_mouse_exited() -> void:
 # ============================================================
 
 func _on_area_2d_4_mouse_entered() -> void:
-
+	$AudioStreamPlayer3.play()
 	mouse_area[3] = true
 
 	if not Global.efectos:
@@ -621,6 +621,7 @@ func _on_area_tu_dinero_mouse_exited() -> void:
 
 
 func entrando_flecha() -> void:
+	$AudioStreamPlayer3.play()
 	$Sprite2D.material.set_shader_parameter(
 		"glow_strength",
 		1.5

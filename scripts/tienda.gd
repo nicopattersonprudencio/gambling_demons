@@ -1,5 +1,7 @@
 extends Node2D
 
+var duracion_animacion: float = 1.0
+
 # Indica si cada objeto de la tienda ha sido comprado
 var vendido = [false, false, false]
 
@@ -47,6 +49,7 @@ var item_tienda = [
 
 """regadera"""
 var cantidad_flores = 0
+var cantidad_regaderas = 0
 
 # ============================================================
 # CONFIGURACIÓN DE TODOS LOS ITEMS
@@ -99,38 +102,68 @@ func comprar_item(indice: int) -> void:
 
 	# Comprobar que tenemos suficiente dinero
 	if Global.dinero < precio:
-		print("No tienes suficiente dinero.")
+		$AudioStreamPlayer2.play()
 		return
 
 	# Restar dinero
 	Global.dinero -= precio
-
+	$AudioStreamPlayer.play()
 	# Marcar como vendido
 	vendido[indice] = true
 
 	# Actualizar el dinero mostrado
-	$Label2.text = str(Global.dinero) + "$"
+	var dinero_inicial = int($Label2.text.replace("$", ""))
+	var dinero_final = Global.dinero
+	
+	var audio = $AudioStreamPlayer6
+	var frecuencia_base = 0.8
+	var incremento_frecuencia = 0.08
+	
+	var tween_dinero = create_tween()
+	tween_dinero.tween_method(
+	func(valor: int):
+		var valor_actual = int($Label2.text.replace("$", ""))
 
-	# Mostrar X en el precio correspondiente
+		if valor != valor_actual:
+			# Aumentar el tono al ganar dinero y reducirlo al perderlo
+			if dinero_final > dinero_inicial:
+				audio.pitch_scale = min(
+					frecuencia_base + abs(valor - dinero_inicial) * incremento_frecuencia / max(abs(dinero_final - dinero_inicial), 1),
+					1.5
+				)
+			elif dinero_final < dinero_inicial:
+				audio.pitch_scale = max(
+					frecuencia_base - abs(valor - dinero_inicial) * incremento_frecuencia / max(abs(dinero_final - dinero_inicial), 1),
+					0.5
+				)
+
+			audio.play()
+
+			var giro = create_tween()
+			giro.tween_property($Label2, "rotation_degrees", 20.0, 0.1)
+			giro.tween_property($Label2, "rotation_degrees", 0.0, 0.15)
+
+		$Label2.text = str(valor) + "$",
+	dinero_inicial,
+	dinero_final,
+	duracion_animacion
+).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+	# Mostrar X en rojo en el precio correspondiente
 	if indice == 0:
-		$Label.text = "X"
+		$Label.text = " X"
+		$Label.add_theme_color_override("font_color", Color.RED)
 
 	elif indice == 1:
-		$Label3.text = "X"
+		$Label3.text = " X"
+		$Label3.add_theme_color_override("font_color", Color.RED)
 
 	elif indice == 2:
-		$Label4.text = "X"
+		$Label4.text = " X"
+		$Label4.add_theme_color_override("font_color", Color.RED)
 
 	# Quitar el brillo
 	Global.brillo[indice] = false
-
-	print(
-		"Objeto de tienda ",
-		indice,
-		" comprado por ",
-		precio,
-		"$"
-	)
 
 # ============================================================
 # APLICAR LAS PROPIEDADES DE UN ITEM
@@ -207,7 +240,6 @@ func intercambiar_item_tienda_con_inventario(
 	var indice_tienda = item_tienda_obj.get_meta("indice_tienda")
 
 	if not vendido[indice_tienda]:
-		print("Este objeto todavía no ha sido comprado.")
 		return
 
 
@@ -221,11 +253,6 @@ func intercambiar_item_tienda_con_inventario(
 	if tipo_tienda == "" or tipo_inventario == "":
 		print("ERROR: Uno de los items no tiene tipo.")
 		return
-
-	print("INTERCAMBIO:")
-	print("Tienda: ", tipo_tienda)
-	print("Inventario: ", tipo_inventario)
-
 
 	# ========================================================
 	# GUARDAR VISIBILIDAD
@@ -298,7 +325,25 @@ func crear_items_inventario() -> void:
 				tipo
 			)
 
+func flotar_vendedor() -> void:
+	var posicion_original = $Vendedor.position
+
+	var tween = create_tween()
+	tween.set_loops()
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_IN_OUT)
+
+	tween.tween_property($Vendedor, "position:y", posicion_original.y + 50, 2)
+	tween.tween_property($Vendedor, "position:y", posicion_original.y, 3)
+
 func _ready() -> void:
+	"""animacion del vendedor"""
+	flotar_vendedor()
+	
+	"""contar regaderas"""
+	for it in range(Global.item.size()):
+		if Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/regadera.png") and Global.item[it].visible:
+			cantidad_regaderas += 1
 	
 	"""modificar descipción de regadera_dinero"""
 	for it in range(Global.item.size()):
@@ -356,14 +401,6 @@ func _ready() -> void:
 
 		add_child(item_tienda[i])
 
-		print(
-			"Item tienda ",
-			i,
-			": ",
-			item_seleccionado
-		)
-
-
 # ============================================================
 # BRILLO DE LOS ITEMS DE LA TIENDA
 # ============================================================
@@ -376,6 +413,18 @@ func _process(delta):
 			cantidad_flores2 += 1
 	if cantidad_flores != cantidad_flores2:
 		cantidad_flores = cantidad_flores2
+		for ite in range(Global.item.size()):
+			if Global.item[ite].get_node("Sprite2D").texture == preload("res://sprites/regadera.png"):
+				Global.item[ite].get_node("Label").text = "Toda vez que ganes\nuna apuesta, gana 1$\nadicional por cada flor\nequipada. Actualmente: "+str(cantidad_flores)+"$"
+				Global.item[ite].get_node("Label").text = colorear_numeros(Global.item[ite].get_node("Label").text)
+	
+	"""comprobar si se agrega una regadera nueva"""
+	var cantidad_regaderas2 = 0
+	for it in range(Global.item.size()):
+		if Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/regadera.png") and Global.item[it].visible:
+			cantidad_regaderas2 += 1
+	if cantidad_regaderas != cantidad_regaderas2:
+		cantidad_regaderas = cantidad_regaderas2
 		for ite in range(Global.item.size()):
 			if Global.item[ite].get_node("Sprite2D").texture == preload("res://sprites/regadera.png"):
 				Global.item[ite].get_node("Label").text = "Toda vez que ganes\nuna apuesta, gana 1$\nadicional por cada flor\nequipada. Actualmente: "+str(cantidad_flores)+"$"
@@ -563,7 +612,7 @@ func _on_area_2d_3_area_exited(area: Area2D) -> void:
 
 
 func _on_area_2d_4_area_entered(area: Area2D) -> void:
-
+	
 	for i in range(Global.item.size()):
 		if area == Global.item[i]:
 			objeto_inventario[i][0] = true
@@ -581,7 +630,7 @@ func _on_area_2d_4_area_exited(area: Area2D) -> void:
 # ============================================================
 
 func _on_area_2d_mouse_entered() -> void:
-
+	$AudioStreamPlayer3.play()
 	mouse_area[0] = true
 
 	if not Global.efectos:
@@ -589,7 +638,6 @@ func _on_area_2d_mouse_entered() -> void:
 
 
 func _on_area_2d_mouse_exited() -> void:
-
 	mouse_area[0] = false
 
 	if not Global.efectos:
@@ -597,7 +645,7 @@ func _on_area_2d_mouse_exited() -> void:
 
 
 func _on_area_2d_2_mouse_entered() -> void:
-
+	$AudioStreamPlayer3.play()
 	mouse_area[1] = true
 
 	if not Global.efectos:
@@ -613,7 +661,7 @@ func _on_area_2d_2_mouse_exited() -> void:
 
 
 func _on_area_2d_3_mouse_entered() -> void:
-
+	$AudioStreamPlayer3.play()
 	mouse_area[2] = true
 
 	if not Global.efectos:
@@ -629,7 +677,7 @@ func _on_area_2d_3_mouse_exited() -> void:
 
 
 func _on_area_2d_4_mouse_entered() -> void:
-
+	$AudioStreamPlayer3.play()
 	mouse_area[3] = true
 
 	if not Global.efectos:
@@ -662,13 +710,14 @@ func input_flecha(viewport,
 		if event.button_index == MOUSE_BUTTON_LEFT:
 
 			if event.pressed:
-
+				$AudioStreamPlayer4.play()
 				get_tree().change_scene_to_file(
 					"res://scenes/mapa.tscn"
 				)
 				Global.nivel += 1
 
 func entrando_flecha() -> void:
+	$AudioStreamPlayer3.play()
 	$Sprite2D.material.set_shader_parameter(
 		"glow_strength",
 		1.5

@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://d1ofhd8lwqp8m"]
+[gd_scene load_steps=10 format=3 uid="uid://d1ofhd8lwqp8m"]
 
 [ext_resource type="Shader" uid="uid://c1wk4m3axp30c" path="res://shaders/items.gdshader" id="1_dcu48"]
 [ext_resource type="Script" uid="uid://70cwbljv1cmo" path="res://scripts/item_tienda.gd" id="1_sls0n"]
 [ext_resource type="Texture2D" uid="uid://do8jpylfblbwa" path="res://sprites/candado.png" id="2_sls0n"]
 [ext_resource type="FontFile" uid="uid://c4y6jiklmpvld" path="res://fuentes/InterVariable.ttf" id="4_bw7pf"]
+[ext_resource type="AudioStream" uid="uid://dlcegdheto5to" path="res://sound effects/casillas_items.wav" id="5_4lkbb"]
+[ext_resource type="AudioStream" uid="uid://e87ypj23j67l" path="res://sound effects/casillas_items2.wav" id="6_lwjtv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bw7pf"]
 shader = ExtResource("1_dcu48")
@@ -61,6 +63,14 @@ text = "Cambia una casilla
 aleatoria al rojo."
 fit_content = true
 scroll_active = false
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_4lkbb")
+pitch_scale = 1.4
+
+[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_lwjtv")
+pitch_scale = 1.2
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

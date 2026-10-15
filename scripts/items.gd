@@ -33,14 +33,19 @@ func _input(event):
 				$Button.visible = false
 			if mouse_encima:
 				if event.pressed and not Global.efectos:
+					print("ha llegado aqui")
 					if self.name == "Node2D":
 						Global.arrastrando[0] = true
+						print("se arrastra")
 					if self.name == "@Area2D@2":
 						Global.arrastrando[1] = true
+						print("se arrastra")
 					if self.name == "@Area2D@3":
 						Global.arrastrando[2] = true
+						print("se arrastra")
 					if self.name == "@Area2D@4":
 						Global.arrastrando[3] = true
+						print("se arrastra")
 					moverse = true
 					offset = global_position - get_global_mouse_position()
 					manteniendo_click = true

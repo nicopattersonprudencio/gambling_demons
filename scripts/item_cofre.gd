@@ -58,6 +58,7 @@ func _on_mouse_entered() -> void:
 		"glow_strength",
 		0.5
 	)
+	$AudioStreamPlayer3.play()
 
 
 # ============================================================
@@ -108,7 +109,7 @@ func _input(event):
 			# =================================================
 
 			if event.pressed:
-
+				$AudioStreamPlayer4.play()
 				# =============================================
 				# BLOQUEAR BRILLO PARA SIEMPRE
 				# =============================================

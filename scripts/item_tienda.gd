@@ -22,7 +22,7 @@ func _ready() -> void:
 
 
 func _on_mouse_entered() -> void:
-
+	$AudioStreamPlayer3.play()
 	mouse_encima = true
 
 	# =================================================
@@ -111,7 +111,7 @@ func _input(event):
 					# No empezamos a arrastrarlo en este click.
 					brillo_bloqueado = true
 					Global.brillo[indice] = false
-
+					$AudioStreamPlayer4.play()
 					return
 
 
