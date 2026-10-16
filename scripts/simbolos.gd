@@ -1,6 +1,5 @@
 extends Sprite2D
 
-
 # ============================================================
 # ESTADO
 # ============================================================
@@ -94,21 +93,26 @@ func _input(event):
 			match tipo:
 
 				"cofre":
-
+					Transicion.transition()
+					await Transicion.on_transition_finished
+					
 					get_tree().change_scene_to_file(
 						"res://scenes/cofre.tscn"
 					)
 
-
 				"demonio":
-
+					Transicion.transition()
+					await Transicion.on_transition_finished
+					
 					get_tree().change_scene_to_file(
 						"res://scenes/combate.tscn"
 					)
 
 
 				"dinero":
-
+					Transicion.transition()
+					await Transicion.on_transition_finished
+					
 					get_tree().change_scene_to_file(
 						"res://scenes/tienda.tscn"
 					)

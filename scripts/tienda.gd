@@ -75,7 +75,7 @@ var datos_items = {
 		"texture": preload("res://sprites/candado.png"),
 		"scale": Vector2(0.3, 0.3),
 		"collision_size": Vector2(69, 92),
-		"descripcion": "Tiene una probabilidad\ndel 33% de anular\nuna habilidad cualquiera\ndel enemigo cada turno."
+		"descripcion":  "Tiene una probabilidad\ndel 33% de anular\nuna habilidad cualquiera\ndel enemigo cada turno."
 	},
 
 	"boton_reinicio": {
@@ -333,7 +333,7 @@ func flotar_vendedor() -> void:
 	tween.set_trans(Tween.TRANS_SINE)
 	tween.set_ease(Tween.EASE_IN_OUT)
 
-	tween.tween_property($Vendedor, "position:y", posicion_original.y + 50, 2)
+	tween.tween_property($Vendedor, "position:y", posicion_original.y + 50, 2.5)
 	tween.tween_property($Vendedor, "position:y", posicion_original.y, 3)
 
 func _ready() -> void:
@@ -711,6 +711,8 @@ func input_flecha(viewport,
 
 			if event.pressed:
 				$AudioStreamPlayer4.play()
+				Transicion.transition()
+				await Transicion.on_transition_finished
 				get_tree().change_scene_to_file(
 					"res://scenes/mapa.tscn"
 				)

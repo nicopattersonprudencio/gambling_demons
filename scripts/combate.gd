@@ -1619,6 +1619,8 @@ func input_flecha(viewport,
 
 			if event.pressed:
 				$AudioStreamPlayer2.play()
+				Transicion.transition()
+				await Transicion.on_transition_finished
 				get_tree().change_scene_to_file(
 					"res://scenes/mapa.tscn"
 				)

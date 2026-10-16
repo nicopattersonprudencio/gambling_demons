@@ -8,6 +8,7 @@ var manteniendo_click = false
 var mouse_boton = false
 
 func _ready() -> void:
+	print(self.name)
 	$Label.visible = false
 	$Button.visible = false
 
@@ -34,16 +35,17 @@ func _input(event):
 			if mouse_encima:
 				if event.pressed and not Global.efectos:
 					print("ha llegado aqui")
-					if self.name == "Node2D":
+					print(self.name)
+					if self.name == "item-1":
 						Global.arrastrando[0] = true
 						print("se arrastra")
-					if self.name == "@Area2D@2":
+					if self.name == "item00":
 						Global.arrastrando[1] = true
 						print("se arrastra")
-					if self.name == "@Area2D@3":
+					if self.name == "item01":
 						Global.arrastrando[2] = true
 						print("se arrastra")
-					if self.name == "@Area2D@4":
+					if self.name == "item02":
 						Global.arrastrando[3] = true
 						print("se arrastra")
 					moverse = true
@@ -51,13 +53,13 @@ func _input(event):
 					manteniendo_click = true
 					tiempo_pulsado = 0.0
 			if not event.pressed:
-				if self.name == "Node2D":
+				if self.name == "item-1":
 					Global.arrastrando[0] = false
-				if self.name == "@Area2D@2":
+				if self.name == "item00":
 					Global.arrastrando[1] = false
-				if self.name == "@Area2D@3":
+				if self.name == "item01":
 					Global.arrastrando[2] = false
-				if self.name == "@Area2D@4":
+				if self.name == "item02":
 					Global.arrastrando[3] = false
 				if tiempo_pulsado < 0.2 and mouse_encima:
 					$Button.visible = true

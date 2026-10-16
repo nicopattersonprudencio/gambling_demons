@@ -23,13 +23,11 @@ var brillo = [false,false,false]
 # ============================================================
 
 func _ready() -> void:
-
 	for i in range(item.size()):
+		item[i].name = ["item-1", "item00", "item01", "item02"][i]
 
 		add_child(item[i])
-
 		item[i].visible = false
-
 
 	item[0].set_meta("tipo_item", "rosa_roja")
 	item[1].set_meta("tipo_item", "rosa_azul")

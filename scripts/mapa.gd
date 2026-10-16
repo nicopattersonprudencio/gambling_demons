@@ -97,6 +97,9 @@ var mouse_area = [
 
 var intercambio = false
 
+"""regadera"""
+var cantidad_flores = 0
+var cantidad_regaderas = 0
 
 # ============================================================
 # DATOS DE LOS ITEMS
@@ -293,14 +296,6 @@ func _ready() -> void:
 		add_child(simbolo)
 
 
-		print(
-			"Símbolo ",
-			i,
-			": ",
-			tipo_seleccionado
-		)
-
-
 	# ========================================================
 	# REPRODUCIR ANIMACIÓN
 	# ========================================================
@@ -321,9 +316,55 @@ func _ready() -> void:
 		if is_instance_valid(simbolo):
 
 			simbolo.visible = true
-	
-func _process(delta):
 
+func colorear_numeros(texto: String) -> String:
+	var regex = RegEx.new()
+	regex.compile(r"\$-?\d+(?:[.,]\d+)?|-?\d+(?:[.,]\d+)?\$|-?\d+(?:[.,]\d+)?%")
+
+	var resultado = ""
+	var posicion = 0
+
+	for coincidencia in regex.search_all(texto):
+		resultado += texto.substr(posicion, coincidencia.get_start() - posicion)
+
+		var fragmento = coincidencia.get_string()
+
+		if fragmento.begins_with("$") or fragmento.ends_with("$"):
+			resultado += "[color=#228B22]" + fragmento + "[/color]"
+		else:
+			resultado += "[color=#0000FF]" + fragmento + "[/color]"
+
+		posicion = coincidencia.get_end()
+
+	resultado += texto.substr(posicion)
+
+	return resultado
+
+func _process(delta):
+	"""comproabar si una flor se ha eliminado"""
+	var cantidad_flores2 = 0
+	for it in range(Global.item.size()):
+		if (Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/rosa_roja.png") or Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/rosa_azul.png")) and Global.item[it].visible:
+			cantidad_flores2 += 1
+	if cantidad_flores != cantidad_flores2:
+		cantidad_flores = cantidad_flores2
+		for ite in range(Global.item.size()):
+			if Global.item[ite].get_node("Sprite2D").texture == preload("res://sprites/regadera.png"):
+				Global.item[ite].get_node("Label").text = "Toda vez que ganes\nuna apuesta, gana 1$\nadicional por cada flor\nequipada. Actualmente: "+str(cantidad_flores)+"$"
+				Global.item[ite].get_node("Label").text = colorear_numeros(Global.item[ite].get_node("Label").text)
+	
+	"""comprobar si se agrega una regadera nueva"""
+	var cantidad_regaderas2 = 0
+	for it in range(Global.item.size()):
+		if Global.item[it].get_node("Sprite2D").texture == preload("res://sprites/regadera.png") and Global.item[it].visible:
+			cantidad_regaderas2 += 1
+	if cantidad_regaderas != cantidad_regaderas2:
+		cantidad_regaderas = cantidad_regaderas2
+		for ite in range(Global.item.size()):
+			if Global.item[ite].get_node("Sprite2D").texture == preload("res://sprites/regadera.png"):
+				Global.item[ite].get_node("Label").text = "Toda vez que ganes\nuna apuesta, gana 1$\nadicional por cada flor\nequipada. Actualmente: "+str(cantidad_flores)+"$"
+				Global.item[ite].get_node("Label").text = colorear_numeros(Global.item[ite].get_node("Label").text)
+	
 	# ========================================================
 	# POSICIONES ANTERIORES
 	# ========================================================
