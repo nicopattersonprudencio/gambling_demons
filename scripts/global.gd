@@ -2,6 +2,7 @@ extends Node
  
 var dinero = 12
 var nivel = 1
+var tutorial_jugado = false
 
 #items
 var arrastrando = [false,false,false,false]

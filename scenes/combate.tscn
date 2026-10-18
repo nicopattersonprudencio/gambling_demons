@@ -643,6 +643,7 @@ position = Vector2(-120, 147)
 position = Vector2(-30, 188)
 
 [node name="posicion_burbuja11" type="Node2D" parent="Sprite2D"]
+visible = false
 position = Vector2(65, 177)
 
 [node name="posicion_burbuja12" type="Node2D" parent="Sprite2D"]

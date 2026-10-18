@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://0sjj0wj6ydx"]
+
+[ext_resource type="Texture2D" uid="uid://bn0r3xoojje5a" path="res://sprites/34692631545_66513c5f5c_c.jpg" id="1_auhge"]
+
+[node name="spawn" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -2
+scale = Vector2(2.65, 2.65)
+texture = ExtResource("1_auhge")
+
+[node name="Camera2D" type="Camera2D" parent="."]

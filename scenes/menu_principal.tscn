@@ -1,0 +1,1270 @@
+[gd_scene load_steps=35 format=3 uid="uid://bniu31ylgf6yq"]
+
+[ext_resource type="Script" uid="uid://bjn2tdbrgt06q" path="res://scripts/menu_principal.gd" id="1_2xgxd"]
+[ext_resource type="Texture2D" uid="uid://cuh6315ep8byw" path="res://sprites/menu_fondo.png" id="1_i85hu"]
+[ext_resource type="FontFile" uid="uid://c4y6jiklmpvld" path="res://fuentes/InterVariable.ttf" id="2_mk4g1"]
+[ext_resource type="Texture2D" uid="uid://dhahcw75awqvl" path="res://sprites/cola_demonio.png" id="3_lgh5n"]
+[ext_resource type="Texture2D" uid="uid://b3r04glxkdqpn" path="res://sprites/RULETA.png" id="3_nxt0m"]
+[ext_resource type="Texture2D" uid="uid://en0wfq3yhx3y" path="res://sprites/casilla_roja.png" id="4_2xgxd"]
+[ext_resource type="Texture2D" uid="uid://c7b1vrh5v1nxg" path="res://sprites/casilla_azul.png" id="5_8k4fm"]
+[ext_resource type="Texture2D" uid="uid://cfbr2tuk2wbne" path="res://sprites/persona.png" id="6_lgh5n"]
+[ext_resource type="Texture2D" uid="uid://bkcbq76147lo1" path="res://sprites/demonio.png" id="7_jaljy"]
+[ext_resource type="Texture2D" uid="uid://xc2tfux47n2p" path="res://sprites/cuernos.png" id="9_8k4fm"]
+[ext_resource type="AudioStream" uid="uid://dlcegdheto5to" path="res://sound effects/casillas_items.wav" id="11_hucf5"]
+[ext_resource type="AudioStream" uid="uid://e87ypj23j67l" path="res://sound effects/casillas_items2.wav" id="12_qswqd"]
+[ext_resource type="AudioStream" uid="uid://2xrag73plq7v" path="res://musica/cancion_menu.wav" id="13_qswqd"]
+[ext_resource type="Script" uid="uid://3oevg4j0l402" path="res://scripts/h_slider.gd" id="14_u72up"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mk4g1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iep14"]
+bg_color = Color(0.864675, 0.864675, 0.864675, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_486ty"]
+bg_color = Color(0.637843, 0.637843, 0.637843, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w5ui5"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="Curve" id="Curve_2xgxd"]
+_data = [Vector2(0.0268817, 0.483146), 0.0, 0.0, 0, 0, Vector2(1, 0.146068), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_hucf5"]
+a = Vector2(0.39093, -1.04008)
+b = Vector2(-1.72025, 153.665)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_qswqd"]
+a = Vector2(242.188, -172.222)
+b = Vector2(123.884, -268.889)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_u72up"]
+a = Vector2(-29.0179, -293.333)
+b = Vector2(122.768, -270)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_tpt6j"]
+a = Vector2(-30.1339, -293.333)
+b = Vector2(-175.223, -238.889)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_kodgl"]
+a = Vector2(-270.089, -120)
+b = Vector2(-176.339, -237.778)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_icrni"]
+a = Vector2(-271.205, -118.889)
+b = Vector2(-294.643, 28.8889)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_shudv"]
+a = Vector2(-294.643, 30)
+b = Vector2(-242.188, 171.111)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_xrwco"]
+a = Vector2(-241.071, 172.222)
+b = Vector2(-122.768, 268.889)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_bhlg0"]
+a = Vector2(25.6696, 294.444)
+b = Vector2(-121.652, 270)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_5nshh"]
+a = Vector2(26.7857, 294.444)
+b = Vector2(170.759, 242.222)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_i0mma"]
+a = Vector2(171.875, 241.111)
+b = Vector2(268.973, 125.556)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_ajcyp"]
+a = Vector2(296.875, -25.5556)
+b = Vector2(270.089, 124.444)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_qswqd"]
+color = Color(1, 1, 1, 1)
+thickness = 8
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_u72up"]
+color = Color(0, 0, 1, 1)
+thickness = 8
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_tpt6j"]
+color = Color(0, 0, 1, 1)
+thickness = 8
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_2xgxd")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="MenuFondo" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(0, 28)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("1_i85hu")
+
+[node name="ColaDemonio" type="Sprite2D" parent="."]
+position = Vector2(-878, -189)
+rotation = -1.6408
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("3_lgh5n")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -918.0
+offset_top = -538.0
+offset_right = 815.0
+offset_bottom = -49.0
+theme_override_colors/font_color = Color(0, 0, 1, 1)
+theme_override_constants/outline_size = 20
+theme_override_constants/shadow_outline_size = 30
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 150
+text = "Gambling
+ "
+
+[node name="Label2" type="Label" parent="."]
+offset_left = -918.0
+offset_top = -538.0
+offset_right = 815.0
+offset_bottom = -49.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_constants/shadow_outline_size = 30
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 150
+text = "
+ Demons"
+
+[node name="Button5" type="Button" parent="."]
+offset_left = -897.0
+offset_top = -98.0
+offset_right = -693.0
+offset_bottom = -6.0
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 75
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mk4g1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iep14")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_486ty")
+theme_override_styles/normal = SubResource("StyleBoxFlat_w5ui5")
+text = "Jugar"
+
+[node name="Button6" type="Button" parent="."]
+offset_left = -897.0
+offset_top = 52.0
+offset_right = -636.0
+offset_bottom = 144.0
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 75
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mk4g1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iep14")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_486ty")
+theme_override_styles/normal = SubResource("StyleBoxFlat_w5ui5")
+text = "Opciones"
+
+[node name="Button7" type="Button" parent="."]
+offset_left = -894.0
+offset_top = 208.0
+offset_right = -690.0
+offset_bottom = 300.0
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 75
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mk4g1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iep14")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_486ty")
+theme_override_styles/normal = SubResource("StyleBoxFlat_w5ui5")
+text = "Salir"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-504, -246)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("3_nxt0m")
+
+[node name="CasillaRoja" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(252.826, 51.0228)
+rotation = 1.59709
+scale = Vector2(1.00475, 1.03577)
+skew = -0.000233173
+texture = ExtResource("4_2xgxd")
+
+[node name="rosa_roja2" type="CPUParticles2D" parent="Sprite2D/CasillaRoja"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(1, 0, 0, 1)
+
+[node name="rosa_azul2" type="CPUParticles2D" parent="Sprite2D/CasillaRoja"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(0, 0, 1, 1)
+
+[node name="casilla2D" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(243.242, -81.2172)
+rotation = 1.0472
+scale = Vector2(0.998419, 1)
+texture = ExtResource("5_8k4fm")
+
+[node name="rosa_roja2" type="CPUParticles2D" parent="Sprite2D/casilla2D"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(1, 0, 0, 1)
+
+[node name="rosa_azul2" type="CPUParticles2D" parent="Sprite2D/casilla2D"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(0, 0, 1, 1)
+
+[node name="casilla2D2" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(166.295, -192.222)
+rotation = 0.541052
+texture = ExtResource("5_8k4fm")
+
+[node name="rosa_roja2" type="CPUParticles2D" parent="Sprite2D/casilla2D2"]
+z_index = 1
+scale = Vector2(1, 1)
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(1, 0, 0, 1)
+
+[node name="rosa_azul2" type="CPUParticles2D" parent="Sprite2D/casilla2D2"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(0, 0, 1, 1)
+
+[node name="casilla2D3" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(46.5625, -249.306)
+scale = Vector2(1.00403, 1.00794)
+texture = ExtResource("4_2xgxd")
+
+[node name="rosa_roja2" type="CPUParticles2D" parent="Sprite2D/casilla2D3"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(1, 0, 0, 1)
+
+[node name="rosa_azul2" type="CPUParticles2D" parent="Sprite2D/casilla2D3"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(0, 0, 1, 1)
+
+[node name="casilla2D4" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(-85.1539, -240.054)
+rotation = -0.523599
+scale = Vector2(0.997902, 1.02514)
+texture = ExtResource("4_2xgxd")
+
+[node name="rosa_roja2" type="CPUParticles2D" parent="Sprite2D/casilla2D4"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(1, 0, 0, 1)
+
+[node name="rosa_azul2" type="CPUParticles2D" parent="Sprite2D/casilla2D4"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(0, 0, 1, 1)
+
+[node name="casilla2D5" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(-194.849, -165.267)
+rotation = -1.05767
+scale = Vector2(0.985719, 1.02514)
+texture = ExtResource("5_8k4fm")
+
+[node name="rosa_roja2" type="CPUParticles2D" parent="Sprite2D/casilla2D5"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(1, 0, 0, 1)
+
+[node name="rosa_azul2" type="CPUParticles2D" parent="Sprite2D/casilla2D5"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(0, 0, 1, 1)
+
+[node name="casilla2D6" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(-253.348, -46.4433)
+rotation = -1.5708
+scale = Vector2(0.974264, 1.02514)
+texture = ExtResource("5_8k4fm")
+
+[node name="rosa_roja2" type="CPUParticles2D" parent="Sprite2D/casilla2D6"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(1, 0, 0, 1)
+
+[node name="rosa_azul2" type="CPUParticles2D" parent="Sprite2D/casilla2D6"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(0, 0, 1, 1)
+
+[node name="casilla2D7" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(-244.222, 85.8985)
+rotation = -2.0944
+scale = Vector2(0.979374, 1.02514)
+texture = ExtResource("4_2xgxd")
+
+[node name="rosa_roja2" type="CPUParticles2D" parent="Sprite2D/casilla2D7"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(1, 0, 0, 1)
+
+[node name="rosa_azul2" type="CPUParticles2D" parent="Sprite2D/casilla2D7"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(0, 0, 1, 1)
+
+[node name="casilla2D8" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(-169.643, 195.556)
+rotation = -2.61799
+scale = Vector2(0.979374, 1.02514)
+texture = ExtResource("4_2xgxd")
+
+[node name="rosa_roja2" type="CPUParticles2D" parent="Sprite2D/casilla2D8"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(1, 0, 0, 1)
+
+[node name="rosa_azul2" type="CPUParticles2D" parent="Sprite2D/casilla2D8"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(0, 0, 1, 1)
+
+[node name="casilla2D9" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(-49.1071, 254.444)
+rotation = -3.14159
+scale = Vector2(0.979374, 1.02514)
+texture = ExtResource("5_8k4fm")
+
+[node name="rosa_roja2" type="CPUParticles2D" parent="Sprite2D/casilla2D9"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(1, 0, 0, 1)
+
+[node name="rosa_azul2" type="CPUParticles2D" parent="Sprite2D/casilla2D9"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(0, 0, 1, 1)
+
+[node name="casilla2D10" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(82.5893, 243.333)
+rotation = 2.61799
+scale = Vector2(0.979374, 1.02514)
+texture = ExtResource("5_8k4fm")
+
+[node name="rosa_roja2" type="CPUParticles2D" parent="Sprite2D/casilla2D10"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(1, 0, 0, 1)
+
+[node name="rosa_azul2" type="CPUParticles2D" parent="Sprite2D/casilla2D10"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(0, 0, 1, 1)
+
+[node name="casilla2D11" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(193.374, 170.602)
+rotation = 2.0944
+scale = Vector2(0.986958, 1.02514)
+texture = ExtResource("4_2xgxd")
+
+[node name="rosa_roja2" type="CPUParticles2D" parent="Sprite2D/casilla2D11"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(1, 0, 0, 1)
+
+[node name="rosa_azul2" type="CPUParticles2D" parent="Sprite2D/casilla2D11"]
+z_index = 1
+emitting = false
+amount = 30
+lifetime = 0.3
+randomness = 1.0
+direction = Vector2(1000, -10)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 242.42
+linear_accel_min = 23.23
+linear_accel_max = 100.0
+angle_min = -530.9
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_2xgxd")
+color = Color(0, 0, 1, 1)
+
+[node name="Area2D" type="Area2D" parent="Sprite2D"]
+
+[node name="3" type="CollisionShape2D" parent="Sprite2D/Area2D"]
+position = Vector2(243.304, -171.111)
+rotation = -0.359538
+shape = SubResource("SegmentShape2D_hucf5")
+
+[node name="Area2D2" type="Area2D" parent="Sprite2D"]
+
+[node name="2" type="CollisionShape2D" parent="Sprite2D/Area2D2"]
+position = Vector2(0, -1.11111)
+shape = SubResource("SegmentShape2D_qswqd")
+
+[node name="Area2D3" type="Area2D" parent="Sprite2D"]
+
+[node name="1" type="CollisionShape2D" parent="Sprite2D/Area2D3"]
+shape = SubResource("SegmentShape2D_u72up")
+
+[node name="Area2D4" type="Area2D" parent="Sprite2D"]
+
+[node name="12" type="CollisionShape2D" parent="Sprite2D/Area2D4"]
+shape = SubResource("SegmentShape2D_tpt6j")
+
+[node name="Area2D5" type="Area2D" parent="Sprite2D"]
+
+[node name="11" type="CollisionShape2D" parent="Sprite2D/Area2D5"]
+shape = SubResource("SegmentShape2D_kodgl")
+
+[node name="Area2D6" type="Area2D" parent="Sprite2D"]
+
+[node name="10" type="CollisionShape2D" parent="Sprite2D/Area2D6"]
+shape = SubResource("SegmentShape2D_icrni")
+
+[node name="Area2D7" type="Area2D" parent="Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D7"]
+shape = SubResource("SegmentShape2D_shudv")
+
+[node name="Area2D8" type="Area2D" parent="Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D8"]
+shape = SubResource("SegmentShape2D_xrwco")
+
+[node name="Area2D9" type="Area2D" parent="Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D9"]
+shape = SubResource("SegmentShape2D_bhlg0")
+
+[node name="Area2D10" type="Area2D" parent="Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D10"]
+shape = SubResource("SegmentShape2D_5nshh")
+
+[node name="Area2D11" type="Area2D" parent="Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D11"]
+shape = SubResource("SegmentShape2D_i0mma")
+
+[node name="Area2D12" type="Area2D" parent="Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D12"]
+shape = SubResource("SegmentShape2D_ajcyp")
+
+[node name="Label" type="Label" parent="Sprite2D"]
+visible = false
+offset_left = 272.321
+offset_top = -112.222
+offset_right = 312.321
+offset_bottom = -29.2222
+rotation = 1.22173
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 60
+text = "3"
+
+[node name="Label2" type="Label" parent="Sprite2D"]
+visible = false
+offset_left = 176.339
+offset_top = -233.333
+offset_right = 216.339
+offset_bottom = -150.333
+rotation = 0.733038
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 60
+text = "2"
+
+[node name="Label3" type="Label" parent="Sprite2D"]
+visible = false
+offset_left = 30.1339
+offset_top = -287.778
+offset_right = 70.1339
+offset_bottom = -204.778
+rotation = 0.179769
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 60
+text = "1"
+
+[node name="Label4" type="Label" parent="Sprite2D"]
+visible = false
+offset_left = -133.929
+offset_top = -262.222
+offset_right = -64.9286
+offset_bottom = -179.222
+rotation = -0.331613
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 60
+text = "12"
+
+[node name="Label5" type="Label" parent="Sprite2D"]
+visible = false
+offset_left = -248.884
+offset_top = -160.0
+offset_right = -179.884
+offset_bottom = -77.0
+rotation = -0.855211
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 60
+text = "11"
+
+[node name="Label6" type="Label" parent="Sprite2D"]
+visible = false
+offset_left = -296.875
+offset_top = -13.3333
+offset_right = -227.875
+offset_bottom = 69.6667
+rotation = -1.39452
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 60
+text = "10"
+
+[node name="Label7" type="Label" parent="Sprite2D"]
+visible = false
+offset_left = -271.205
+offset_top = 118.889
+offset_right = -202.205
+offset_bottom = 201.889
+rotation = -1.93557
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 60
+text = "9"
+
+[node name="Label8" type="Label" parent="Sprite2D"]
+visible = false
+offset_left = -175.223
+offset_top = 238.889
+offset_right = -106.223
+offset_bottom = 321.889
+rotation = -2.40855
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 60
+text = "8"
+
+[node name="Label9" type="Label" parent="Sprite2D"]
+visible = false
+offset_left = -30.1339
+offset_top = 296.667
+offset_right = 38.8661
+offset_bottom = 379.667
+rotation = -3.00197
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 60
+text = "7"
+
+[node name="Label10" type="Label" parent="Sprite2D"]
+visible = false
+offset_left = 125.0
+offset_top = 265.556
+offset_right = 194.0
+offset_bottom = 348.556
+rotation = -3.57792
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 60
+text = "6"
+
+[node name="Label11" type="Label" parent="Sprite2D"]
+visible = false
+offset_left = 241.071
+offset_top = 177.778
+offset_right = 310.071
+offset_bottom = 260.778
+rotation = -3.98284
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 60
+text = "5"
+
+[node name="Label12" type="Label" parent="Sprite2D"]
+visible = false
+offset_left = 295.759
+offset_top = 34.4445
+offset_right = 364.759
+offset_bottom = 117.444
+rotation = -4.52389
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 60
+text = "4"
+
+[node name="Sprite2D" type="Sprite2D" parent="Sprite2D"]
+visible = false
+position = Vector2(232.933, -80.148)
+rotation = 1.23918
+scale = Vector2(0.121937, 0.111953)
+texture = ExtResource("6_lgh5n")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Sprite2D"]
+visible = false
+position = Vector2(39.4384, -242.91)
+rotation = 0.162316
+scale = Vector2(0.121937, 0.111953)
+texture = ExtResource("6_lgh5n")
+
+[node name="Sprite2D5" type="Sprite2D" parent="Sprite2D"]
+visible = false
+position = Vector2(-191.03, -157.83)
+rotation = -0.872665
+scale = Vector2(0.121937, 0.111953)
+texture = ExtResource("6_lgh5n")
+
+[node name="Sprite2D7" type="Sprite2D" parent="Sprite2D"]
+visible = false
+position = Vector2(-235.398, 85.0801)
+rotation = -1.94953
+scale = Vector2(0.121937, 0.111953)
+texture = ExtResource("6_lgh5n")
+
+[node name="Sprite2D9" type="Sprite2D" parent="Sprite2D"]
+visible = false
+position = Vector2(-38.206, 247.842)
+rotation = -2.98451
+scale = Vector2(0.121937, 0.111953)
+texture = ExtResource("6_lgh5n")
+
+[node name="Sprite2D11" type="Sprite2D" parent="Sprite2D"]
+visible = false
+position = Vector2(191.03, 159.063)
+rotation = -4.03171
+scale = Vector2(0.121937, 0.111953)
+texture = ExtResource("6_lgh5n")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Sprite2D"]
+visible = false
+position = Vector2(156.521, -188.656)
+rotation = 0.71733
+scale = Vector2(0.397286, 0.344787)
+texture = ExtResource("7_jaljy")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Sprite2D"]
+visible = false
+position = Vector2(-86.2715, -230.58)
+rotation = -0.359538
+scale = Vector2(0.397286, 0.344787)
+texture = ExtResource("7_jaljy")
+
+[node name="Sprite2D6" type="Sprite2D" parent="Sprite2D"]
+visible = false
+position = Vector2(-245.258, -40.6905)
+rotation = -1.43815
+scale = Vector2(0.397286, 0.344787)
+texture = ExtResource("7_jaljy")
+
+[node name="Sprite2D8" type="Sprite2D" parent="Sprite2D"]
+visible = false
+position = Vector2(-160.218, 192.355)
+rotation = -2.39634
+scale = Vector2(0.397286, 0.344787)
+texture = ExtResource("7_jaljy")
+
+[node name="Sprite2D10" type="Sprite2D" parent="Sprite2D"]
+visible = false
+position = Vector2(94.8987, 231.813)
+rotation = -3.59189
+scale = Vector2(0.397286, 0.344787)
+texture = ExtResource("7_jaljy")
+
+[node name="Sprite2D12" type="Sprite2D" parent="Sprite2D"]
+visible = false
+position = Vector2(244.025, 40.6905)
+rotation = -4.55007
+scale = Vector2(0.397286, 0.344787)
+texture = ExtResource("7_jaljy")
+
+[node name="posicion_burbuja" type="Node2D" parent="Sprite2D"]
+position = Vector2(182, 32)
+
+[node name="posicion_burbuja2" type="Node2D" parent="Sprite2D"]
+position = Vector2(176, -64)
+
+[node name="posicion_burbuja3" type="Node2D" parent="Sprite2D"]
+position = Vector2(120, -144)
+
+[node name="posicion_burbuja4" type="Node2D" parent="Sprite2D"]
+position = Vector2(32, -186)
+
+[node name="posicion_burbuja5" type="Node2D" parent="Sprite2D"]
+position = Vector2(-67, -173)
+
+[node name="posicion_burbuja6" type="Node2D" parent="Sprite2D"]
+position = Vector2(-146, -119)
+
+[node name="posicion_burbuja7" type="Node2D" parent="Sprite2D"]
+position = Vector2(-187, -29)
+
+[node name="posicion_burbuja8" type="Node2D" parent="Sprite2D"]
+position = Vector2(-177, 69)
+
+[node name="posicion_burbuja9" type="Node2D" parent="Sprite2D"]
+position = Vector2(-120, 147)
+
+[node name="posicion_burbuja10" type="Node2D" parent="Sprite2D"]
+position = Vector2(-30, 188)
+
+[node name="posicion_burbuja11" type="Node2D" parent="Sprite2D"]
+visible = false
+position = Vector2(65, 177)
+
+[node name="posicion_burbuja12" type="Node2D" parent="Sprite2D"]
+position = Vector2(143, 120)
+
+[node name="Cuernos" type="Sprite2D" parent="."]
+position = Vector2(-883, -294)
+rotation = -1.52958
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("9_8k4fm")
+
+[node name="Cuernos2" type="Sprite2D" parent="."]
+position = Vector2(-843, -335)
+rotation = -0.0542894
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("9_8k4fm")
+flip_h = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_hucf5")
+pitch_scale = 1.4
+bus = &"Efectos_sonido"
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_qswqd")
+pitch_scale = 1.2
+bus = &"Efectos_sonido"
+
+[node name="Panel" type="Panel" parent="."]
+visible = false
+offset_left = -981.0
+offset_top = -722.0
+offset_right = -489.0
+offset_bottom = -361.0
+scale = Vector2(4, 4)
+
+[node name="Label3" type="Label" parent="."]
+visible = false
+offset_left = -168.0
+offset_top = -373.0
+offset_right = 169.0
+offset_bottom = -281.0
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 75
+text = "Opciones"
+
+[node name="Label7" type="Label" parent="."]
+visible = false
+offset_left = -267.0
+offset_top = -373.0
+offset_right = 268.0
+offset_bottom = -281.0
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 75
+text = "¿Estas seguro?"
+
+[node name="Label8" type="Label" parent="."]
+visible = false
+offset_left = -259.0
+offset_top = -259.0
+offset_right = 366.0
+offset_bottom = -183.0
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 50
+text = "El progreso no se gurdará."
+
+[node name="Button8" type="Button" parent="."]
+visible = false
+offset_left = -111.0
+offset_top = 330.0
+offset_right = 113.0
+offset_bottom = 422.0
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 75
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mk4g1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iep14")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_486ty")
+theme_override_styles/normal = SubResource("StyleBoxFlat_w5ui5")
+text = "Volver"
+
+[node name="Button9" type="Button" parent="."]
+visible = false
+offset_left = -253.0
+offset_top = -45.0
+offset_right = -141.0
+offset_bottom = 47.0
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 75
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mk4g1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iep14")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_486ty")
+theme_override_styles/normal = SubResource("StyleBoxFlat_w5ui5")
+text = "SI"
+
+[node name="Button10" type="Button" parent="."]
+visible = false
+offset_left = 142.0
+offset_top = -45.0
+offset_right = 256.0
+offset_bottom = 47.0
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 75
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mk4g1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iep14")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_486ty")
+theme_override_styles/normal = SubResource("StyleBoxFlat_w5ui5")
+text = "NO"
+
+[node name="Label4" type="Label" parent="."]
+visible = false
+offset_left = -543.0
+offset_top = -186.0
+offset_right = -206.0
+offset_bottom = -94.0
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 65
+text = "General"
+
+[node name="Label5" type="Label" parent="."]
+visible = false
+offset_left = -539.0
+offset_top = -45.0
+offset_right = -202.0
+offset_bottom = 47.0
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 65
+text = "Musica"
+
+[node name="Label6" type="Label" parent="."]
+visible = false
+offset_left = -539.0
+offset_top = 114.0
+offset_right = -202.0
+offset_bottom = 206.0
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("2_mk4g1")
+theme_override_font_sizes/font_size = 65
+text = "Efectos de sonido"
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_qswqd")
+volume_db = -3.0
+autoplay = true
+bus = &"Musica"
+
+[node name="HSlider" type="HSlider" parent="."]
+visible = false
+offset_left = -245.0
+offset_top = -147.0
+offset_right = 45.0
+offset_bottom = -131.0
+theme_override_styles/slider = SubResource("StyleBoxLine_qswqd")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_u72up")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_tpt6j")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("14_u72up")
+audio_bus_name = "Master"
+
+[node name="HSlider2" type="HSlider" parent="."]
+visible = false
+offset_left = -255.0
+offset_top = -7.0
+offset_right = 35.0
+offset_bottom = 9.0
+theme_override_styles/slider = SubResource("StyleBoxLine_qswqd")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_u72up")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_tpt6j")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("14_u72up")
+audio_bus_name = "Musica"
+
+[node name="HSlider3" type="HSlider" parent="."]
+visible = false
+offset_left = 68.0
+offset_top = 152.0
+offset_right = 358.0
+offset_bottom = 168.0
+theme_override_styles/slider = SubResource("StyleBoxLine_qswqd")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_u72up")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_tpt6j")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("14_u72up")
+audio_bus_name = "Efectos_sonido"
+
+[connection signal="mouse_entered" from="Button5" to="." method="_on_button_5_mouse_entered"]
+[connection signal="pressed" from="Button5" to="." method="_on_button_5_pressed"]
+[connection signal="mouse_entered" from="Button6" to="." method="_on_button_6_mouse_entered"]
+[connection signal="pressed" from="Button6" to="." method="_on_button_6_pressed"]
+[connection signal="mouse_entered" from="Button7" to="." method="_on_button_7_mouse_entered"]
+[connection signal="pressed" from="Button7" to="." method="_on_button_7_pressed"]
+[connection signal="mouse_entered" from="Button8" to="." method="_on_button_8_mouse_entered"]
+[connection signal="pressed" from="Button8" to="." method="_on_button_8_pressed"]
+[connection signal="mouse_entered" from="Button9" to="." method="_on_button_9_mouse_entered"]
+[connection signal="pressed" from="Button9" to="." method="_on_button_9_pressed"]
+[connection signal="mouse_entered" from="Button10" to="." method="_on_button_10_mouse_entered"]
+[connection signal="pressed" from="Button10" to="." method="_on_button_10_pressed"]
+[connection signal="value_changed" from="HSlider" to="HSlider" method="_on_value_changed"]
+[connection signal="value_changed" from="HSlider2" to="HSlider2" method="_on_value_changed"]
+[connection signal="value_changed" from="HSlider3" to="HSlider3" method="_on_value_changed"]

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bo822efphfuoa"]
+
+[ext_resource type="Texture2D" uid="uid://do8jpylfblbwa" path="res://sprites/candado.png" id="1_jtv0x"]
+
+[node name="Node2D" type="Sprite2D"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+texture = ExtResource("1_jtv0x")
