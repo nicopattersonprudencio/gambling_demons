@@ -1,12 +1,247 @@
-[gd_scene load_steps=2 format=3 uid="uid://0sjj0wj6ydx"]
+[gd_scene load_steps=19 format=3 uid="uid://0sjj0wj6ydx"]
 
+[ext_resource type="Script" uid="uid://dr5ehqex717rx" path="res://scripts/spawn.gd" id="1_0bbp8"]
 [ext_resource type="Texture2D" uid="uid://bn0r3xoojje5a" path="res://sprites/34692631545_66513c5f5c_c.jpg" id="1_auhge"]
+[ext_resource type="FontFile" uid="uid://c4y6jiklmpvld" path="res://fuentes/InterVariable.ttf" id="2_48w1d"]
+[ext_resource type="Texture2D" uid="uid://cl6chuvv2s5ea" path="res://sprites/camion.png" id="4_q0eb6"]
+[ext_resource type="AudioStream" uid="uid://dw5llhprm7ftc" path="res://sound effects/sueño.wav" id="5_yubdn"]
+[ext_resource type="AudioStream" uid="uid://bmg0pxyp2ghik" path="res://sound effects/naturaleza.wav" id="6_2cgt8"]
+[ext_resource type="AudioStream" uid="uid://5rijytqn8431" path="res://sound effects/burbuja_explotando.wav" id="7_s22mh"]
+[ext_resource type="AudioStream" uid="uid://dlcegdheto5to" path="res://sound effects/casillas_items.wav" id="8_h0ox8"]
+[ext_resource type="AudioStream" uid="uid://e87ypj23j67l" path="res://sound effects/casillas_items2.wav" id="9_eilec"]
+[ext_resource type="AudioStream" uid="uid://dauwtlvumjdpt" path="res://musica/perdido.wav" id="10_eilec"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0bbp8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q0eb6"]
+bg_color = Color(0.864675, 0.864675, 0.864675, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yubdn"]
+bg_color = Color(0.637843, 0.637843, 0.637843, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cgt8"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="Animation" id="Animation_yubdn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camion:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.025, 0.025)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camion:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 966)]
+}
+
+[sub_resource type="Animation" id="Animation_q0eb6"]
+resource_name = "atropellar"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camion:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.025, 0.025), Vector2(24, 24)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camion:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 1036)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yubdn"]
+_data = {
+&"RESET": SubResource("Animation_yubdn"),
+&"atropellar": SubResource("Animation_q0eb6")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eilec"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 20
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+shadow_color = Color(1, 1, 1, 0.6)
+anti_aliasing = false
+anti_aliasing_size = 10.0
 
 [node name="spawn" type="Node2D"]
+script = ExtResource("1_0bbp8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
 z_index = -2
 scale = Vector2(2.65, 2.65)
 texture = ExtResource("1_auhge")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Button5" type="Button" parent="."]
+visible = false
+offset_left = -212.0
+offset_top = 136.0
+offset_right = 213.0
+offset_bottom = 218.0
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_48w1d")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0bbp8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_q0eb6")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_yubdn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_2cgt8")
+text = "¿Donde estoy?"
+
+[node name="Button6" type="Button" parent="."]
+visible = false
+offset_left = -276.0
+offset_top = 136.0
+offset_right = 276.0
+offset_bottom = 218.0
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_48w1d")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0bbp8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_q0eb6")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_yubdn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_2cgt8")
+text = "¿Era eso un sueño?"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="Camion" type="Sprite2D" parent="."]
+position = Vector2(0, 966)
+scale = Vector2(0.025, 0.025)
+texture = ExtResource("4_q0eb6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_yubdn")
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_yubdn")
+
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 6.0
+one_shot = true
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_2cgt8")
+volume_db = 5.0
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_s22mh")
+volume_db = -5.0
+
+[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_h0ox8")
+pitch_scale = 1.4
+bus = &"Efectos_sonido"
+
+[node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_eilec")
+pitch_scale = 1.2
+bus = &"Efectos_sonido"
+
+[node name="AudioStreamPlayer6" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_eilec")
+volume_db = 5.0
+
+[node name="Timer3" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="Timer4" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="Label" type="RichTextLabel" parent="."]
+visible = false
+z_index = 1
+offset_left = -206.0
+offset_top = -65.0
+offset_right = 207.0
+offset_bottom = 66.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = ExtResource("2_48w1d")
+theme_override_font_sizes/normal_font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_eilec")
+bbcode_enabled = true
+text = "Vaya, has despertado."
+fit_content = true
+scroll_active = false
+
+[connection signal="mouse_entered" from="Button5" to="." method="_on_button_5_mouse_entered"]
+[connection signal="pressed" from="Button5" to="." method="_on_button_5_pressed"]
+[connection signal="mouse_entered" from="Button6" to="." method="_on_button_6_mouse_entered"]
+[connection signal="pressed" from="Button6" to="." method="_on_button_6_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]
+[connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]
+[connection signal="timeout" from="Timer3" to="." method="_on_timer_3_timeout"]
+[connection signal="timeout" from="Timer4" to="." method="_on_timer_4_timeout"]

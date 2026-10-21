@@ -1,5 +1,7 @@
 extends Node2D
 
+var boton_pulsado = false
+
 var duracion_animacion: float = 1.0
 
 # Indica si cada objeto de la tienda ha sido comprado
@@ -709,7 +711,8 @@ func input_flecha(viewport,
 
 		if event.button_index == MOUSE_BUTTON_LEFT:
 
-			if event.pressed:
+			if event.pressed and not boton_pulsado:
+				boton_pulsado = true
 				$AudioStreamPlayer4.play()
 				Transicion.transition()
 				await Transicion.on_transition_finished

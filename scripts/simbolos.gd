@@ -1,5 +1,6 @@
 extends Sprite2D
 
+var boton_pulsado = false
 # ============================================================
 # ESTADO
 # ============================================================
@@ -63,7 +64,7 @@ func _input(event):
 
 	if event is InputEventMouseButton:
 
-		if event.button_index == MOUSE_BUTTON_LEFT:
+		if event.button_index == MOUSE_BUTTON_LEFT and not boton_pulsado:
 
 			if not event.pressed:
 				return
@@ -89,7 +90,7 @@ func _input(event):
 			# =================================================
 			# CAMBIAR DE ESCENA
 			# =================================================
-
+			boton_pulsado = true
 			match tipo:
 
 				"cofre":

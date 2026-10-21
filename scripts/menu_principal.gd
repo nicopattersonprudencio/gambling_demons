@@ -1,6 +1,8 @@
 
 extends Node2D
 
+var boton_pulsado = false
+
 """General"""
 
 var cantidad_efectos = 0
@@ -246,17 +248,19 @@ func _on_button_5_mouse_entered() -> void:
 	$AudioStreamPlayer.play()
 
 func _on_button_5_pressed() -> void:
-	$AudioStreamPlayer2.play()
-	Transicion.transition()
-	await Transicion.on_transition_finished
-	if not Global.tutorial_jugado:
-		get_tree().change_scene_to_file(
-						"res://scenes/spawn.tscn"
-					)
-	else:
-		get_tree().change_scene_to_file(
-						"res://scenes/mapa.tscn"
-					)
+	if not boton_pulsado:
+		boton_pulsado = true
+		$AudioStreamPlayer2.play()
+		Transicion.transition()
+		await Transicion.on_transition_finished
+		if not Global.tutorial_jugado:
+			get_tree().change_scene_to_file(
+							"res://scenes/spawn.tscn"
+						)
+		else:
+			get_tree().change_scene_to_file(
+							"res://scenes/mapa.tscn"
+						)
 
 func _on_button_6_mouse_entered() -> void:
 	$AudioStreamPlayer.play()

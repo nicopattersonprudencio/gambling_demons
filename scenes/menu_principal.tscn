@@ -303,7 +303,6 @@ texture = ExtResource("5_8k4fm")
 
 [node name="rosa_roja2" type="CPUParticles2D" parent="Sprite2D/casilla2D2"]
 z_index = 1
-scale = Vector2(1, 1)
 emitting = false
 amount = 30
 lifetime = 0.3

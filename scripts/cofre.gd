@@ -1,5 +1,6 @@
 extends Node2D
 
+var boton_pulsado = false
 
 # ============================================================
 # ITEM DEL COFRE
@@ -687,11 +688,13 @@ func _on_area_2d_input_event(
 
 		if event.button_index == MOUSE_BUTTON_LEFT:
 
-			if event.pressed:
+			if event.pressed and not boton_pulsado:
+				boton_pulsado = true
 				$AudioStreamPlayer4.play()
+
+				Global.nivel += 1
+
 				Transicion.transition()
 				await Transicion.on_transition_finished
-				get_tree().change_scene_to_file(
-					"res://scenes/mapa.tscn"
-				)
-				Global.nivel += 1
+
+				get_tree().change_scene_to_file("res://scenes/mapa.tscn")

@@ -1,5 +1,7 @@
 extends Node2D
 
+var boton_pulsado = false
+
 """general"""
 var monedas_demonio = 5
 var ruleta_girada = false
@@ -1090,43 +1092,97 @@ func _on_timer_timeout() -> void:
 	var frecuencia_base = 0.8
 	var incremento_frecuencia = 0.08
 
+	# Guardar la escala original del Label2
+	var escala_original = $Label2.scale
+
 	var tween_dinero = create_tween()
+
 	tween_dinero.tween_method(
 	func(valor: int):
 		var valor_actual = int($Label2.text.replace("$", ""))
 
 		if valor != valor_actual:
-			# Aumentar el tono al ganar dinero y reducirlo al perderlo
+
+			# Aumentar el tamaño solo cuando sube el dinero
+			if dinero_final > dinero_inicial and valor > dinero_inicial:
+				var incrementos = valor - dinero_inicial
+				$Label2.scale = escala_original + Vector2(0.1, 0.1) * incrementos
+				print($Label2.scale)
+
+			# Aumentar o reducir el tono según el dinero
 			if dinero_final > dinero_inicial:
 				audio.pitch_scale = min(
-					frecuencia_base + abs(valor - dinero_inicial) * incremento_frecuencia / max(abs(dinero_final - dinero_inicial), 1),
+					frecuencia_base
+					+ abs(valor - dinero_inicial)
+					* incremento_frecuencia
+					/ max(abs(dinero_final - dinero_inicial), 1),
 					1.5
 				)
 			elif dinero_final < dinero_inicial:
 				audio.pitch_scale = max(
-					frecuencia_base - abs(valor - dinero_inicial) * incremento_frecuencia / max(abs(dinero_final - dinero_inicial), 1),
+					frecuencia_base
+					- abs(valor - dinero_inicial)
+					* incremento_frecuencia
+					/ max(abs(dinero_final - dinero_inicial), 1),
 					0.5
 				)
 
 			audio.play()
 
+			# Animación de giro
 			var giro = create_tween()
-			giro.tween_property($Label2, "rotation_degrees", 20.0, 0.1)
-			giro.tween_property($Label2, "rotation_degrees", 0.0, 0.15)
+			giro.tween_property(
+				$Label2,
+				"rotation_degrees",
+				20.0,
+				0.1
+			)
+			giro.tween_property(
+				$Label2,
+				"rotation_degrees",
+				0.0,
+				0.15
+			)
 
+		# Actualizar el texto
 		$Label2.text = str(valor) + "$",
 	dinero_inicial,
 	dinero_final,
 	duracion_animacion
 ).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
+
+# Al terminar el contador, devolver el tamaño original
+	tween_dinero.finished.connect(func():
+		var tween_retorno = create_tween()
+
+		tween_retorno.tween_property(
+		$Label2,
+		"scale",
+		escala_original,
+		0.25
+	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+)
+
+
 	var tween_monedas = create_tween()
+
 	tween_monedas.tween_method(
 	func(valor: int):
 		if valor != int($Label5.text.replace("$", "")):
 			var giro = create_tween()
-			giro.tween_property($Label5, "rotation_degrees", 20.0, 0.1)
-			giro.tween_property($Label5, "rotation_degrees", 0.0, 0.15)
+			giro.tween_property(
+				$Label5,
+				"rotation_degrees",
+				20.0,
+				0.1
+			)
+			giro.tween_property(
+				$Label5,
+				"rotation_degrees",
+				0.0,
+				0.15
+			)
 
 		$Label5.text = str(valor) + "$",
 	monedas_iniciales,
@@ -1617,7 +1673,8 @@ func input_flecha(viewport,
 
 		if event.button_index == MOUSE_BUTTON_LEFT:
 
-			if event.pressed:
+			if event.pressed and not boton_pulsado:
+				boton_pulsado = true
 				$AudioStreamPlayer2.play()
 				Transicion.transition()
 				await Transicion.on_transition_finished
