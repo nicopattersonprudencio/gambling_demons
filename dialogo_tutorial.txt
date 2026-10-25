@@ -18,7 +18,7 @@ aparece la criatura y aparece una musica estilo blus o jass con un toque picaro.
 
 Se apaga la musica y procede a hablar un poco mas lento
 
-- Por que estarás aquí durante toda la eternidad.
+- Por que estarás aquí mucho tiempo.
 
 Se reanuda la musica y su tono voz normal
 
@@ -28,9 +28,9 @@ Se reanuda la musica y su tono voz normal
 
 - Y estos cuestan muyyyyyyyyy caros
 
-- Existen muchas formas de conseguir dinero
+- Existen muchas formas de conseguir dinero por aquí.
 
-- Pero solo una de esas formas lo puedes lograr en poco tiempo.
+- Pero en solo una lo puedes lograr en poco tiempo.
 
 La musica se cambia por una de suspense
 
@@ -44,7 +44,7 @@ Se dispara confeti y suena un sonido de premio, se vuelve a reanudar la musica p
 
 Desaparece el demonio y aparece el símbolo de combate
 
-- Solo dale al icono de arriba para continuar
+- Solo dale a este ícono para continuar
 
 
 

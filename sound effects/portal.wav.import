@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b4yhmdh87qsyr"
+path="res://.godot/imported/portal.wav-c1c3f834fc428dd2a2315eeee8a93def.sample"
+
+[deps]
+
+source_file="res://sound effects/portal.wav"
+dest_files=["res://.godot/imported/portal.wav-c1c3f834fc428dd2a2315eeee8a93def.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

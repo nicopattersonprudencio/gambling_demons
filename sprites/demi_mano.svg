@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="8.546217mm"
+   height="9.4186716mm"
+   viewBox="0 0 8.5462169 9.4186717"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="demonio.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="8.546217"
+       height="9.4186716"
+       id="page1"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-66.779115,-154.60228)">
+    <ellipse
+       style="fill:#ff0000;stroke:#000000;stroke-width:0.830001;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:none"
+       id="path19"
+       cx="71.052223"
+       cy="159.31161"
+       rx="3.8581078"
+       ry="4.2943344" />
+  </g>
+</svg>

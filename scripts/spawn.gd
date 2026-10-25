@@ -1,5 +1,96 @@
 extends Node2D
 
+var texto_terminado = false
+var una_vez = [true,true,true,true,true,true,true,true,true,true,true,true,true,true,true]
+# Tiempo entre cada letra en segundos
+@export var velocidad_texto: float = 0.05
+
+# Pausas de puntuación
+@export var pausa_coma: float = 0.25
+@export var pausa_punto: float = 0.6
+
+var temblando: bool = false
+var posicion_original: Vector2
+
+
+func iniciar_temblor() -> void:
+	if temblando:
+		return
+
+	temblando = true
+	posicion_original = $Label.position
+
+	while temblando:
+		var desplazamiento = Vector2(
+			randf_range(-2.0, 2.0),
+			randf_range(-2.0, 2.0)
+		)
+
+		var tween = create_tween()
+		tween.tween_property(
+			$Label,
+			"position",
+			posicion_original + desplazamiento,
+			0.03
+		)
+
+		await tween.finished
+
+
+func detener_temblor() -> void:
+	temblando = false
+	$Label.position = posicion_original
+
+func reproducir_texto(texto: String, colores: Dictionary = {}) -> void:
+	texto_terminado = false
+
+	var texto_bbcode := ""
+	var i := 0
+
+	# Construir el texto con sus colores
+	while i < texto.length():
+		var encontrado := false
+
+		# Buscar si empieza alguna parte coloreada en esta posición
+		for parte in colores:
+			if texto.substr(i, parte.length()) == parte:
+				var color: Color = colores[parte]
+				texto_bbcode += "[color=#" + color.to_html(false) + "]"
+				texto_bbcode += parte
+				texto_bbcode += "[/color]"
+
+				i += parte.length()
+				encontrado = true
+				break
+
+		if not encontrado:
+			texto_bbcode += texto[i]
+			i += 1
+
+	# Preparar el RichTextLabel
+	$Label.clear()
+	$Label.bbcode_enabled = true
+	$Label.append_text(texto_bbcode)
+	$Label.visible_characters = 0
+
+	# Mostrar el texto letra por letra
+	for indice in range(texto.length()):
+		$Label.visible_characters = indice + 1
+
+		# Reproducir el sonido por cada letra
+		if texto[indice] != " " and texto[indice] != "\n":
+			$AudioStreamPlayer7.play()
+
+		# Pausas según la puntuación
+		if texto[indice] == ",":
+			await get_tree().create_timer(pausa_coma).timeout
+		elif texto[indice] == ".":
+			await get_tree().create_timer(pausa_punto).timeout
+		else:
+			await get_tree().create_timer(velocidad_texto).timeout
+
+	texto_terminado = true
+
 func _ready() -> void:
 	$Timer.start()
 
@@ -41,3 +132,108 @@ func _on_button_6_pressed() -> void:
 func _on_timer_4_timeout() -> void:
 	$AudioStreamPlayer2.stop()
 	$AudioStreamPlayer6.stop()
+	$Label.visible = true
+	reproducir_texto("Vaya, has despertado.")
+
+func _input(event: InputEvent) -> void:
+	if event.is_pressed() and texto_terminado and una_vez[0]:
+		texto_terminado = false
+		$Label.visible = false
+		$AudioStreamPlayer8.play()
+		una_vez[0] = false
+		$rosa_roja2.emitting = true
+		$Timer5.start()
+		$AudioStreamPlayer9.play()
+	elif event.is_pressed() and texto_terminado and una_vez[1]:
+		una_vez[1] = false
+		texto_terminado = false
+		$AnimationPlayer2.play("RESET")
+		$AnimationPlayer2.play("negar")
+		reproducir_texto("No hace falta que\nme digas tu nombre.")
+	elif event.is_pressed() and texto_terminado and una_vez[2]:
+		una_vez[2] = false
+		texto_terminado = false
+		$AnimationPlayer2.play("RESET")
+		$AnimationPlayer2.play("idle")
+		reproducir_texto("Todo aquel que llega aquí\nse le olvida igualmente.")
+	elif event.is_pressed() and texto_terminado and una_vez[3]:
+		una_vez[3] = false
+		texto_terminado = false
+		reproducir_texto("Mira, seré breve.")
+	elif event.is_pressed() and texto_terminado and una_vez[4]:
+		una_vez[4] = false
+		texto_terminado = false
+		reproducir_texto("Has muerto y te encuentras\nen el inframundo.")
+	elif event.is_pressed() and texto_terminado and una_vez[5]:
+		una_vez[5] = false
+		texto_terminado = false
+		reproducir_texto("Así que es mejor que\nte vayas acostumbrando\na este sitio.")
+	elif event.is_pressed() and texto_terminado and una_vez[6]:
+		una_vez[6] = false
+		texto_terminado = false
+		$AudioStreamPlayer8.stop()
+		velocidad_texto = 0.1
+		pausa_coma = 0.5
+		pausa_punto = 1.2
+		$Sprite2D.modulate = Color("000000")
+		$AudioStreamPlayer10.play()
+		$AnimationPlayer2.play("modo_oscuro")
+		$AudioStreamPlayer7.pitch_scale = 0.5
+		iniciar_temblor()
+		reproducir_texto("Por que estarás aquí\nmucho tiempo.")
+	elif event.is_pressed() and texto_terminado and una_vez[7]:
+		una_vez[7] = false
+		texto_terminado = false
+		$AudioStreamPlayer8.play()
+		velocidad_texto = 0.05
+		pausa_coma = 0.25
+		pausa_punto = 0.6
+		$Sprite2D.modulate = Color("ffffff")
+		$AudioStreamPlayer10.stop()
+		$AnimationPlayer2.play("idle")
+		$AudioStreamPlayer7.pitch_scale = 1.0
+		detener_temblor()
+		reproducir_texto("A menos claro, que asciendas.",
+			{
+			"asciendas": Color("#ffcc00")
+			}
+		
+		)
+	elif event.is_pressed() and texto_terminado and una_vez[8]:
+		una_vez[8] = false
+		texto_terminado = false
+		reproducir_texto("Para ascender debes comprar\nun ticket para ir al cielo...",
+			{
+			"ascender": Color("#ffcc00")
+			}
+		
+		)
+	elif event.is_pressed() and texto_terminado and una_vez[9]:
+		una_vez[9] = false
+		texto_terminado = false
+		$character_container/body/cabeza/ojo_derecho.visible = false
+		$character_container/body/cabeza/ojo_izquierdo.visible = false
+		$character_container/body/cabeza/Label2.visible = true
+		$character_container/body/cabeza/Label3.visible = true
+		$AudioStreamPlayer11.play()
+		reproducir_texto("Y estos son\nmuyyyyyyyyyyyyyyyyyyyyyyyyy\ncaros.")
+	elif event.is_pressed() and texto_terminado and una_vez[10]:
+		una_vez[10] = false
+		texto_terminado = false
+		$character_container/body/cabeza/ojo_derecho.visible = true
+		$character_container/body/cabeza/ojo_izquierdo.visible = true
+		$character_container/body/cabeza/Label2.visible = false
+		$character_container/body/cabeza/Label3.visible = false
+		reproducir_texto("Existen muchas formas\nde conseguir dinero\npor aquí.")
+	elif event.is_pressed() and texto_terminado and una_vez[11]:
+		una_vez[11] = false
+		texto_terminado = false
+		reproducir_texto("Pero en solo una lo puedes\nlograr en poco tiempo.")
+	
+func _on_timer_5_timeout() -> void:
+	$rosa_roja2.emitting = false
+	$character_container.visible = true
+	$AnimationPlayer2.play("RESET")
+	$AnimationPlayer2.play("saludo")
+	$Label.visible = true
+	reproducir_texto("Saludos, soy Demi.")
