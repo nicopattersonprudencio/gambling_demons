@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dkoovf7trtps0"
+path="res://.godot/imported/silbido_fiestero.wav-4b6a804116fe0d85a504922b54ad2c83.sample"
+
+[deps]
+
+source_file="res://sound effects/silbido_fiestero.wav"
+dest_files=["res://.godot/imported/silbido_fiestero.wav-4b6a804116fe0d85a504922b54ad2c83.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

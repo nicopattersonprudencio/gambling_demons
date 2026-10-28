@@ -1,7 +1,8 @@
 extends Node2D
 
+var boton_pulsado = false
 var texto_terminado = false
-var una_vez = [true,true,true,true,true,true,true,true,true,true,true,true,true,true,true]
+var una_vez = [true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true]
 # Tiempo entre cada letra en segundos
 @export var velocidad_texto: float = 0.05
 
@@ -228,8 +229,46 @@ func _input(event: InputEvent) -> void:
 	elif event.is_pressed() and texto_terminado and una_vez[11]:
 		una_vez[11] = false
 		texto_terminado = false
-		reproducir_texto("Pero en solo una lo puedes\nlograr en poco tiempo.")
-	
+		reproducir_texto("Pero en solo una puedes\nlograr mucho en poco tiempo.")
+	elif event.is_pressed() and texto_terminado and una_vez[12]:
+		una_vez[12] = false
+		texto_terminado = false
+		$AudioStreamPlayer8.stop()
+		$AudioStreamPlayer12.play()
+		$character_container/Tambor.visible = true
+		$character_container/body/mano_izquierda/Baqueta2.visible = true
+		$character_container/body/Node2D/mano_derecha/Baqueta.visible = true
+		$AnimationPlayer2.play("ritmo")
+		reproducir_texto("Y la respuesta es...")
+	elif event.is_pressed() and texto_terminado and una_vez[13]:
+		una_vez[13] = false
+		texto_terminado = false
+		$AudioStreamPlayer12.stop()
+		$AudioStreamPlayer8.play()
+		$character_container/Tambor.visible = false
+		$character_container/body/mano_izquierda/Baqueta2.visible = false
+		$character_container/body/Node2D/mano_derecha/Baqueta.visible = false
+		$character_container/body/cabeza/Skeleton2D.visible = true
+		$character_container/body/cabeza/boca.visible = false
+		$"character_container/body/cabeza/SombreroCumpleaños".visible = true
+		$AudioStreamPlayer13.play()
+		$AudioStreamPlayer14.play()
+		$AnimationPlayer2.play("silbato")
+		reproducir_texto("Jugando a la ruleta")
+	elif event.is_pressed() and texto_terminado and una_vez[14]:
+		una_vez[14] = false
+		texto_terminado = false
+		$character_container/body/cabeza/Skeleton2D.visible = false
+		$character_container/body/cabeza/boca.visible = true
+		$"character_container/body/cabeza/SombreroCumpleaños".visible = false
+		$AudioStreamPlayer13.stop()
+		$AudioStreamPlayer14.stop()
+		$AnimationPlayer2.play("idle")
+		$rosa_roja2.emitting = true
+		$AudioStreamPlayer9.play()
+		reproducir_texto("Mira, deja que te enseñe.")
+		$Timer6.start()
+		
 func _on_timer_5_timeout() -> void:
 	$rosa_roja2.emitting = false
 	$character_container.visible = true
@@ -237,3 +276,46 @@ func _on_timer_5_timeout() -> void:
 	$AnimationPlayer2.play("saludo")
 	$Label.visible = true
 	reproducir_texto("Saludos, soy Demi.")
+
+func _on_timer_6_timeout() -> void:
+	$rosa_roja2.emitting = false
+	$character_container.visible = false
+	$Label.visible = false
+	$Timer7.start()
+
+func _on_timer_7_timeout() -> void:
+	$Circumferencia.visible = true
+	$AudioStreamPlayer3.play()
+	$Timer8.start()
+
+func _on_timer_8_timeout() -> void:
+	$AnimationPlayer2.play("inicio")
+
+func _on_area_2d_mouse_entered_combate() -> void:
+	print("deberia brillar")
+	$AudioStreamPlayer4.play()
+	if $Sprite2D2.material:
+		$Sprite2D2.material.set_shader_parameter(
+			"glow_strength",
+			1.5
+		)
+
+func _on_area_2d_mouse_exited_combate() -> void:
+	if $Sprite2D2.material:
+		$Sprite2D2.material.set_shader_parameter(
+			"glow_strength",
+			0.0
+		)
+
+func _on_area_2d_input_event_combate(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed and not boton_pulsado:
+				boton_pulsado = true
+				print("ha entrado en input")
+				$AudioStreamPlayer5.play()
+				Transicion.transition()
+				await Transicion.on_transition_finished
+				get_tree().change_scene_to_file(
+				"res://scenes/combate.tscn"
+			)
